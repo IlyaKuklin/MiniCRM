@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserAuthResponseDto } from 'src/api/rest/api';
+import { Role, UserAuthResponseDto } from 'src/api/rest/api';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
@@ -25,6 +25,10 @@ export class ToolbarComponent implements OnInit {
 
   get userName(): string | null | undefined {
     return this.userData ? this.userData.name : '';
+  }
+
+  get isAdmin(): boolean {
+    return this.userData != null && this.userData.role == Role.NUMBER_2;
   }
 
   goToLogin() {
