@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MiniCRMCore.Areas.Auth;
 using MiniCRMCore.Areas.Auth.Models;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MiniCRMServer.Controllers
@@ -37,12 +38,37 @@ namespace MiniCRMServer.Controllers
 			return this.Ok(result);
 		}
 
-		[HttpGet("managers")]
+		[HttpGet("manager")]
 		[ProducesResponseType(typeof(User.Dto), 200)]
+		public async Task<IActionResult> GetManager([FromQuery] int id)
+		{
+			var result = await _authService.GetManagerAsync(id);
+			return this.Ok(result);
+		}
+
+		[HttpGet("managers")]
+		[ProducesResponseType(typeof(List<User.Dto>), 200)]
 		public async Task<IActionResult> GetManagers()
 		{
 			var result = await _authService.GetManagersAsync();
 			return this.Ok(result);
 		}
+
+		[HttpPatch("manager/update")]
+		[ProducesResponseType(typeof(User.Dto), 200)]
+		public async Task<IActionResult> UpdateManager([FromBody] User.Dto updateDto)
+		{
+			var result = await _authService.UpdateManagerAsync(updateDto);
+			return this.Ok(result);
+		}
+
+		[HttpDelete("manager/delete")]
+		[ProducesResponseType(204)]
+		public async Task<IActionResult> DeleteManager([FromQuery] int id)
+		{
+			await _authService.DeleteManagerAsync(id);
+			return this.Ok(204);
+		}
+
 	}
 }

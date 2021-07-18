@@ -102,11 +102,46 @@ namespace MiniCRMCore.Areas.Auth
 			return result;
 		}
 
+		public async Task<User.Dto> GetManagerAsync(int id)
+		{
+			var manager = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+			if (manager == null)
+				throw new ApiException($"Не найден менеджер с ID {id}");
+
+			var dto = _mapper.Map<User.Dto>(manager);
+			return dto;
+		}
+
 		public async Task<List<User.Dto>> GetManagersAsync()
 		{
 			var managers = await _context.Users.Where(x => x.Role == Role.Manager).ToListAsync();
 			var dto = _mapper.Map<List<User.Dto>>(managers);
 			return dto;
+		}
+
+		public async Task<User.Dto> UpdateManagerAsync(User.Dto updateDto)
+		{
+			var manager = await _context.Users.FirstOrDefaultAsync(x => x.Id == updateDto.Id);
+			if (manager == null)
+				throw new ApiException($"Не найден менеджер с ID {updateDto.Id}");
+
+			manager.Name = updateDto.Name;
+			manager.Login = updateDto.Login;
+
+			await _context.SaveChangesAsync();
+
+			var dto = _mapper.Map<User.Dto>(manager);
+			return dto;
+		}
+
+		public async Task DeleteManagerAsync(int id)
+		{
+			var manager = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+			if (manager == null)
+				throw new ApiException($"Не найден менеджер с ID {id}");
+
+			_context.Users.Remove(manager);
+			await _context.SaveChangesAsync();
 		}
 	}
 }

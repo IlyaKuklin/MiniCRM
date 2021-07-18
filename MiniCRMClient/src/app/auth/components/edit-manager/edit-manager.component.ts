@@ -17,11 +17,14 @@ export class EditManagerComponent implements OnInit {
   ) {}
 
   @ViewChild('managerForm') managerForm!: NgForm;
-  isLoading: boolean = false; 
+  isLoading: boolean = false;
 
   model: UserDto = {};
   password: string = '';
   isEdit: boolean = false;
+
+  private originalName: string = '';
+  private originalLogin: string = '';
 
   errorStateMatcher = new ManagerErrorStateMatcher();
 
@@ -29,23 +32,67 @@ export class EditManagerComponent implements OnInit {
     this.route.params.subscribe((params) => {
       if (params.id) {
         this.isEdit = true;
+        this.isLoading = true;
+
+        this.authApiService
+          .apiAuthManagerGet(params.id)
+          .subscribe((response) => {
+            this.model = response;
+            this.originalLogin = <string>response.login;
+            this.originalName = <string>response.name;
+            this.isLoading = false;
+          });
       }
     });
+  }
+
+  get modelChanged(): boolean {
+    return (
+      this.isEdit &&
+      (this.originalLogin !== this.model.login ||
+        this.originalName !== this.model.name)
+    );
   }
 
   submit(): void {
     if (!this.managerForm.valid) return;
     this.isLoading = true;
 
-    this.authApiService.apiAuthRegisterPost({
-      login: this.model.login,
-      name: this.model.name,
-      password: this.password,
-    }).subscribe(response => {
-      this.isLoading = false;
-      alert('Менеджер создан');
-      this.router.navigate([`/managers/edit/${response.id}`]);
-    });
+    this.authApiService
+      .apiAuthRegisterPost({
+        login: this.model.login,
+        name: this.model.name,
+        password: this.password,
+      })
+      .subscribe((response) => {
+        this.isLoading = false;
+        alert('Менеджер создан');
+        this.router.navigate([`/managers/edit/${response.id}`]);
+      });
+  }
+
+  update(): void {
+    this.isLoading = true;
+    this.authApiService
+      .apiAuthManagerUpdatePatch(this.model)
+      .subscribe((response) => {
+        this.model = response;
+        this.originalName = <string>response.name;
+        this.originalLogin = <string>response.login;
+        alert('Данные обновлены');
+        this.isLoading = false;
+      });
+  }
+
+  delete(): void {
+    this.isLoading = true;
+    this.authApiService
+      .apiAuthManagerDeleteDelete(this.model.id)
+      .subscribe((response) => {
+        alert('Менеджер удалён');
+        this.isLoading = false;
+        this.router.navigate(['/managers']);
+      });
   }
 }
 
