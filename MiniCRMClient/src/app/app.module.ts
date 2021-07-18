@@ -5,6 +5,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './shared/shared.module';
+import { AuthModule } from './auth/auth.module';
+import { BASE_PATH } from 'src/api/rest/api';
+import { environment } from 'src/environments/environment';
+import { httpInterceptorProviders } from './shared/_http-interceptors';
 
 @NgModule({
   declarations: [
@@ -14,9 +18,10 @@ import { SharedModule } from './shared/shared.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ],
-  providers: [],
+  providers: [ { provide: BASE_PATH, useValue: environment.basePath }, httpInterceptorProviders ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
