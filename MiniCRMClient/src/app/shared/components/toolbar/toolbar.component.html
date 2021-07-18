@@ -1,10 +1,25 @@
 <div>
   <mat-toolbar color="primary" style="font-size: 1em">
     <div *ngIf="isLoggedIn()">
-      <span *ngIf="isAdmin" class="routerItem" routerLink="/managers" routerLinkActive="routerItem_active">Список
-        менеджеров</span>
-      <span class="routerItem" routerLink="/clients" routerLinkActive="routerItem_active">Список клиентов</span>
-      <span class="routerItem" routerLink="/offers" routerLinkActive="routerItem_active">Список КП</span>
+      <span
+        *ngIf="isAdmin"
+        class="routerItem clickable"
+        routerLink="/managers"
+        routerLinkActive="routerItem_active"
+        >Список менеджеров</span
+      >
+      <span
+        class="routerItem clickable"
+        routerLink="/clients"
+        routerLinkActive="routerItem_active"
+        >Список клиентов</span
+      >
+      <span
+        class="routerItem clickable"
+        routerLink="/offers"
+        routerLinkActive="routerItem_active"
+        >Список КП</span
+      >
     </div>
 
     <div style="flex: 1"></div>
