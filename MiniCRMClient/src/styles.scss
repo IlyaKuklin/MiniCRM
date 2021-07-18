@@ -19,3 +19,11 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
