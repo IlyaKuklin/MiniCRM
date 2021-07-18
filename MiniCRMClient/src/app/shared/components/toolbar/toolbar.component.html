@@ -1,0 +1,19 @@
+<div>
+  <mat-toolbar color="primary" style="font-size: 1em">
+    <div *ngIf="isLoggedIn()">
+      <span class="routerItem" (click)="goTo('list')">Список клиентов</span>
+      <span class="routerItem" (click)="goTo('/')">Список КП</span>
+    </div>
+
+    <div style="flex: 1"></div>
+    <div *ngIf="isLoggedIn()">{{ userName }}</div>
+
+    <button *ngIf="!isLoggedIn()" mat-icon-button (click)="goToLogin()">
+      Вход
+    </button>
+
+    <button *ngIf="isLoggedIn()" mat-button (click)="logout()" color="accent">
+      Выйти из системы
+    </button>
+  </mat-toolbar>
+</div>

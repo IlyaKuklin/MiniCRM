@@ -9,15 +9,14 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'mcrm-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   constructor(
     private readonly authApiService: AuthApiService,
     private readonly authService: AuthService,
     private readonly router: Router
-  ) { }
+  ) {}
 
   @ViewChild('loginForm') loginForm!: NgForm;
 
@@ -25,33 +24,37 @@ export class LoginComponent implements OnInit {
 
   loginModel: UserAuthDto = {
     login: '',
-    password: ''
+    password: '',
   };
 
-  ngOnInit(): void {
-  }
+  isLoading: boolean = false;
+
+  ngOnInit(): void {}
 
   loginClick(): void {
     if (!this.loginForm.valid) return;
+    this.isLoading = true;
     this.authApiService.apiAuthLoginPost(this.loginModel).subscribe(
       (response) => {
+        this.isLoading = false;
         this.authService.setUserData(response);
         this.router.navigate(['/']);
       },
       (error: HttpErrorResponse) => {
+        this.isLoading = false;
         if (error.error.Message) {
           alert(error.error.Message);
-        }
-        else
-          alert(error.message);
+        } else alert(error.message);
       }
     );
   }
-
 }
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+  isErrorState(
+    control: FormControl | null,
+    form: FormGroupDirective | NgForm | null
+  ): boolean {
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.touched || isSubmitted));
   }
