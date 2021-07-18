@@ -16,10 +16,12 @@ import { httpInterceptorProviders } from './shared/_http-interceptors';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+
+    
+    AppRoutingModule,
   ],
   providers: [ { provide: BASE_PATH, useValue: environment.basePath }, httpInterceptorProviders ],
   bootstrap: [AppComponent]
