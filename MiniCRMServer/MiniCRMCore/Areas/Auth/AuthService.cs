@@ -30,7 +30,8 @@ namespace MiniCRMCore.Areas.Auth
 			var user = new User
 			{
 				Login = registerDto.Login,
-				Role = Role.Administrator
+				Role = Role.Administrator,
+				Name = registerDto.Name
 			};
 
 			user.SetPassword(registerDto.Password, Guid.NewGuid());
@@ -88,7 +89,8 @@ namespace MiniCRMCore.Areas.Auth
 					Token = new JwtSecurityTokenHandler().WriteToken(token),
 					Login = user.Login,
 					Id = user.Id,
-					Role = user.Role
+					Role = user.Role,
+					Name = user.Name
 				};
 			});
 

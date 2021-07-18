@@ -16,6 +16,8 @@ namespace MiniCRMCore.Areas.Auth.Models
 
 		public Role Role { get; set; }
 
+		public string Name { get; set; }
+
 		public void SetPassword(string password, Guid salt)
 		{
 			this.Salt = salt;
@@ -87,6 +89,8 @@ namespace MiniCRMCore.Areas.Auth.Models
 			/// Роль пользователя.
 			/// </summary>
 			public Role Role { get; set; }
+
+			public string Name { get; set; }
 		}
 
 		/// <summary>

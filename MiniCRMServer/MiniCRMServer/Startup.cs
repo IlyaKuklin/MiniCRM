@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,9 +14,7 @@ using MiniCRMServer.Middleware;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace MiniCRMServer
 {
@@ -134,8 +131,8 @@ namespace MiniCRMServer
 			options.SwaggerDoc("v1", new OpenApiInfo
 			{
 				Version = "v1",
-				Title = "Books API",
-				Description = "Books API Reference"
+				Title = "CRM API",
+				Description = "CRM API Reference"
 			});
 
 			options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
