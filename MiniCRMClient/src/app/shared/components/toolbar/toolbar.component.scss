@@ -1,4 +1,9 @@
 .routerItem {
   margin: 0 1em;
   cursor: pointer;
+
+  &_active {
+    opacity: 0.75;
+    cursor: default;
+  }
 }

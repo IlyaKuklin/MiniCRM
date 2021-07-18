@@ -30,7 +30,7 @@ namespace MiniCRMCore.Areas.Auth
 			var user = new User
 			{
 				Login = registerDto.Login,
-				Role = Role.Administrator,
+				Role = Role.Manager,
 				Name = registerDto.Name
 			};
 
