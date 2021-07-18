@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'mcrm-managers-list',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManagersListComponent implements OnInit {
 
-  constructor() { }
+  constructor(private readonly router: Router) { }
 
   ngOnInit(): void {
   }
+
 
 }

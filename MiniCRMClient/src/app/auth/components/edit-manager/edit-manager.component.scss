@@ -1,0 +1,19 @@
+:host {
+    margin: auto;
+  }
+  
+  .manager {
+    width: 30em;
+  
+    &_form {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+      height: 20em;
+  
+      &__field {
+        width: 100%;
+      }
+    }
+  }
+  

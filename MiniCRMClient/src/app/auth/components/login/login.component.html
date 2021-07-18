@@ -1,47 +1,41 @@
 <div class="login">
   <form class="login_form" #loginForm="ngForm" (ngSubmit)="loginClick()">
-    <div>
-      <mat-form-field class="login_form__field">
-        <mat-label>Логин</mat-label>
-        <input
-          matInput
-          required
-          [errorStateMatcher]="errorStateMatcher"
-          type="text"
-          [(ngModel)]="loginModel.login"
-          name="text"
-          #login="ngModel"
-        />
-        <mat-error *ngIf="login.hasError('required')">
-          Поля <strong>обязательно</strong> для заполнения
-        </mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field class="login_form__field">
+      <mat-label>Логин</mat-label>
+      <input
+        matInput
+        required
+        [errorStateMatcher]="errorStateMatcher"
+        type="text"
+        [(ngModel)]="loginModel.login"
+        name="text"
+        #login="ngModel"
+      />
+      <mat-error *ngIf="login.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
 
     <!-- Password -->
-    <div>
-      <mat-form-field class="login_form__field">
-        <mat-label>Пароль</mat-label>
-        <input
-          matInput
-          required
-          minlength="4"
-          [errorStateMatcher]="errorStateMatcher"
-          type="password"
-          [(ngModel)]="loginModel.password"
-          name="password"
-          #passwordLogin="ngModel"
-        />
-        <mat-error *ngIf="passwordLogin.hasError('required')">
-          Поля <strong>обязательно</strong> для заполнения
-        </mat-error>
-      </mat-form-field>
-    </div>
+    <mat-form-field class="login_form__field">
+      <mat-label>Пароль</mat-label>
+      <input
+        matInput
+        required
+        minlength="4"
+        [errorStateMatcher]="errorStateMatcher"
+        type="password"
+        [(ngModel)]="loginModel.password"
+        name="password"
+        #passwordLogin="ngModel"
+      />
+      <mat-error *ngIf="passwordLogin.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
 
     <!-- Login buttons -->
-    <div class="login_form__buttons">
-      <button mat-raised-button type="submit" color="primary">Вход</button>
-    </div>
+    <button mat-raised-button type="submit" color="primary">Вход</button>
   </form>
 </div>
 

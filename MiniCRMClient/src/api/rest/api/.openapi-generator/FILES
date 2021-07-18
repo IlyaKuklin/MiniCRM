@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -12,5 +11,6 @@ model/models.ts
 model/role.ts
 model/user-auth-dto.ts
 model/user-auth-response-dto.ts
+model/user-dto.ts
 model/user-register-dto.ts
 variables.ts

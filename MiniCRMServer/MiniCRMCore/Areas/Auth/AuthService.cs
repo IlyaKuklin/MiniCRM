@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MiniCRMCore.Areas.Auth.Models;
@@ -6,6 +7,7 @@ using MiniCRMCore.Utilities.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +18,16 @@ namespace MiniCRMCore.Areas.Auth
 	{
 		private readonly ApplicationContext _context;
 		private readonly IConfiguration _configuration;
+		private readonly IMapper _mapper;
 
 		public AuthService(
 			ApplicationContext context,
-			IConfiguration configuration)
+			IConfiguration configuration,
+			IMapper mapper)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
 		public async Task<User.AuthResponseDto> RegisterAsync(User.RegisterDto registerDto)
@@ -95,6 +100,13 @@ namespace MiniCRMCore.Areas.Auth
 			});
 
 			return result;
+		}
+
+		public async Task<List<User.Dto>> GetManagersAsync()
+		{
+			var managers = await _context.Users.Where(x => x.Role == Role.Manager).ToListAsync();
+			var dto = _mapper.Map<List<User.Dto>>(managers);
+			return dto;
 		}
 	}
 }

@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MiniCRMCore;
 using MiniCRMCore.Areas.Auth;
+using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMServer.Middleware;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -178,17 +179,18 @@ namespace MiniCRMServer
 		{
 			var profiles = new List<Type>
 			{
-				typeof(BooksMappingProfile)
+				typeof(AuthMappingProfile)
 			};
 
 			services.AddAutoMapper(profiles.ToArray());
 		}
 	}
 
-	public class BooksMappingProfile : AutoMapper.Profile
+	public class AuthMappingProfile : AutoMapper.Profile
 	{
-		public BooksMappingProfile()
+		public AuthMappingProfile()
 		{
+			this.CreateMap<User, User.Dto>();
 		}
 	}
 }

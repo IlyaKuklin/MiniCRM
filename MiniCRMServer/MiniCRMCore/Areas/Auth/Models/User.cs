@@ -31,6 +31,21 @@ namespace MiniCRMCore.Areas.Auth.Models
 				: this.PasswordHash == Hasher.ComputeHash(password, this.Salt);
 		}
 
+		public class Dto
+		{
+			public int Id { get; set; }
+
+			/// <summary>
+			/// Имя пользователя.
+			/// </summary>
+			public string Name { get; set; }
+
+			/// <summary>
+			/// Адрес электронной почты.
+			/// </summary>
+			public string Login { get; set; }
+		}
+
 		/// <summary>
 		/// Модель регистрации пользователя.
 		/// </summary>

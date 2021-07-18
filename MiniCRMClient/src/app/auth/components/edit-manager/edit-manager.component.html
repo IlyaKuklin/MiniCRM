@@ -1,1 +1,56 @@
-<p>edit-manager works!</p>
+<div class="manager">
+  <form class="manager_form" #managerForm="ngForm" (ngSubmit)="submit()">
+    <mat-form-field class="manager_form__field">
+      <mat-label>Имя</mat-label>
+      <input
+        matInput
+        required
+        [errorStateMatcher]="errorStateMatcher"
+        type="text"
+        [(ngModel)]="model.name"
+        name="name"
+        #name="ngModel"
+      />
+      <mat-error *ngIf="name.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="manager_form__field">
+      <mat-label>Логин</mat-label>
+      <input
+        matInput
+        required
+        [errorStateMatcher]="errorStateMatcher"
+        type="text"
+        [(ngModel)]="model.login"
+        name="login"
+        #login="ngModel"
+      />
+      <mat-error *ngIf="login.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Password -->
+    <mat-form-field class="login_form__field">
+      <mat-label>Пароль</mat-label>
+      <input
+        matInput
+        required
+        minlength="4"
+        [errorStateMatcher]="errorStateMatcher"
+        type="password"
+        [(ngModel)]="password"
+        name="password"
+        #passwordLogin="ngModel"
+      />
+      <mat-error *ngIf="passwordLogin.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary">Создать</button>
+
+  </form>
+</div>

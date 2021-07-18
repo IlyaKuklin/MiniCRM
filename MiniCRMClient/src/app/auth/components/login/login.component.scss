@@ -6,7 +6,6 @@
   width: 30em;
 
   &_form {
-
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -14,12 +13,6 @@
 
     &__field {
       width: 100%;
-    }
-
-    &__buttons {
-      > button {
-          width: 100%;
-      }
     }
   }
 }

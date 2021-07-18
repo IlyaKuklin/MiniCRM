@@ -10,7 +10,7 @@ namespace MiniCRMServer.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+	[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
 	public class AuthController : ControllerBase
 	{
 		private readonly AuthService _authService;
@@ -22,7 +22,6 @@ namespace MiniCRMServer.Controllers
 
 		[HttpPost("register")]
 		[ProducesResponseType(typeof(User.AuthResponseDto), 200)]
-		[Authorize(Roles = "Administrator")]
 		public async Task<IActionResult> Register([FromBody] User.RegisterDto registerDto)
 		{
 			var result = await _authService.RegisterAsync(registerDto);
@@ -35,6 +34,14 @@ namespace MiniCRMServer.Controllers
 		public async Task<IActionResult> Login([FromBody] User.AuthDto authDto)
 		{
 			var result = await _authService.LoginAsync(authDto);
+			return this.Ok(result);
+		}
+
+		[HttpGet("managers")]
+		[ProducesResponseType(typeof(User.Dto), 200)]
+		public async Task<IActionResult> GetManagers()
+		{
+			var result = await _authService.GetManagersAsync();
 			return this.Ok(result);
 		}
 	}
