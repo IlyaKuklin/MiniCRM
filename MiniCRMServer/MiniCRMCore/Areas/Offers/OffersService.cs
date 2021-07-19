@@ -46,7 +46,7 @@ namespace MiniCRMCore.Areas.Offers
 		public async Task<Offer.Dto> EditAsync(Offer.EditDto dto)
 		{
 			Offer offer;
-			if (dto.Id != -1)
+			if (dto.Id > 0)
 			{
 				offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == dto.Id);
 				if (offer == null)

@@ -1,1 +1,47 @@
-<p>edit-client works!</p>
+<div class="client">
+  <form class="client_form" #clientForm="ngForm" (ngSubmit)="submit()">
+    <mat-form-field class="client_form__field">
+      <mat-label>Название</mat-label>
+      <input
+        matInput
+        required
+        [errorStateMatcher]="errorStateMatcher"
+        type="text"
+        [(ngModel)]="model.name"
+        name="name"
+        #name="ngModel"
+      />
+      <mat-error *ngIf="name.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
+      Создать
+    </button>
+
+    <div *ngIf="isEdit && !isLoading" class="client_form__buttons">
+      <button
+        mat-raised-button
+        color="primary"
+        class="client_form__buttons-button"
+        [disabled]="!modelChanged"
+        (click)="update()"
+      >
+        Обновить
+      </button>
+      <button
+        mat-raised-button
+        color="warn"
+        class="client_form__buttons-button"
+        (click)="delete()"
+      >
+        Удалить
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="loader" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

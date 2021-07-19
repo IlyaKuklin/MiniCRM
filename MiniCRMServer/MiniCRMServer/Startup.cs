@@ -210,8 +210,10 @@ namespace MiniCRMServer
 		public ClientsMappingProfile()
 		{
 			this.CreateMap<Client, Client.Dto>()
+				.ForMember(x => x.Offers, opt => opt.MapFrom(src => src.Offers))
 				.ReverseMap()
-				.ForMember(x => x.Id, opt => opt.Ignore());
+				.ForMember(x => x.Id, opt => opt.Ignore())
+				.ForMember(x => x.Offers, opt => opt.Ignore());
 		}
 	}
 

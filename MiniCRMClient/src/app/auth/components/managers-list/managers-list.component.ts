@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { AuthApiService, UserDto } from 'src/api/rest/api';
 
 @Component({
@@ -11,7 +10,6 @@ import { AuthApiService, UserDto } from 'src/api/rest/api';
 })
 export class ManagersListComponent implements OnInit {
   constructor(
-    private readonly router: Router,
     private readonly authApiService: AuthApiService
   ) {}
 

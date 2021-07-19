@@ -46,7 +46,7 @@ namespace MiniCRMCore.Areas.Clients
 		public async Task<Client.Dto> EditAsync(Client.Dto dto)
 		{
 			Client client;
-			if (dto.Id != -1)
+			if (dto.Id > 0)
 			{
 				client = await _context.Clients
 					.Include(x => x.Offers)

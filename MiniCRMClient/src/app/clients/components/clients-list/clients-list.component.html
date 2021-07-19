@@ -1,1 +1,69 @@
-<p>clients-list works!</p>
+<div>
+  <h2>Список клиентов</h2>
+
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      [routerLink]="['/clients/edit', '']"
+    >
+      Добавить
+    </button>
+  </div>
+
+  <div class="table-container">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      class="example-table"
+      matSort
+      matSortActive="created"
+      matSortDisableClear
+      matSortDirection="desc"
+    >
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          class="clickable"
+          [routerLink]="['/clients/edit', row.id]"
+        >
+          {{ row.id }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Название</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          class="clickable"
+          [routerLink]="['/clients/edit', row.id]"
+        >
+          {{ row.name }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="del">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon
+            style="cursor: pointer"
+            color="warn"
+            aria-hidden="false"
+            (click)="delete(row.id)"
+            >delete</mat-icon
+          >
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>
+
+<div class="loader" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
