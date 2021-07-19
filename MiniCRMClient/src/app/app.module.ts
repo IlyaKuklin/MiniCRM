@@ -9,21 +9,25 @@ import { AuthModule } from './auth/auth.module';
 import { BASE_PATH } from 'src/api/rest/api';
 import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './shared/_http-interceptors';
+import { ClientsModule } from './clients/clients.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     SharedModule,
     AuthModule,
 
-    
+    ClientsModule,
+
+    //Всегда последний
     AppRoutingModule,
   ],
-  providers: [ { provide: BASE_PATH, useValue: environment.basePath }, httpInterceptorProviders ],
-  bootstrap: [AppComponent]
+  providers: [
+    { provide: BASE_PATH, useValue: environment.basePath },
+    httpInterceptorProviders,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
