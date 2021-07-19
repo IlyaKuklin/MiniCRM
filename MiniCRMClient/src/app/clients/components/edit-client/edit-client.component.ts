@@ -26,6 +26,10 @@ export class EditClientComponent implements OnInit {
 
   errorStateMatcher = new ClientErrorStateMatcher();
 
+  get modelChanged(): boolean {
+    return this.isEdit && this.originalModel.name != this.model.name;
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (params.id) {
@@ -42,10 +46,6 @@ export class EditClientComponent implements OnInit {
           });
       }
     });
-  }
-
-  get modelChanged(): boolean {
-    return this.isEdit && this.originalModel.name != this.model.name;
   }
 
   submit(): void {

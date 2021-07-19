@@ -4,6 +4,7 @@ using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MiniCRMCore.Areas.Offers
@@ -54,7 +55,10 @@ namespace MiniCRMCore.Areas.Offers
 			}
 			else
 			{
-				offer = new Offer();
+				offer = new Offer { Number = 777 };
+				var lastOffer = await _context.Offers.OrderBy(x => x.Id).AsNoTracking().LastOrDefaultAsync();
+				if (lastOffer != null)
+					offer.Number = lastOffer.Number + 1;
 				await _context.Offers.AddAsync(offer);
 			}
 

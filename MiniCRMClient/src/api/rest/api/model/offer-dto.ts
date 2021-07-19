@@ -17,7 +17,7 @@ export interface OfferDto {
     number?: number;
     productSystemType?: string | null;
     briefIndustryDescription?: string | null;
-    _case?: string | null;
+    offerCase?: string | null;
     client?: ClientDto;
     clientId?: number;
 }

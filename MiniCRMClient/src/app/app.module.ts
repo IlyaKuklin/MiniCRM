@@ -10,6 +10,7 @@ import { BASE_PATH } from 'src/api/rest/api';
 import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './shared/_http-interceptors';
 import { ClientsModule } from './clients/clients.module';
+import { OffersModule } from './offers/offers.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,6 +21,7 @@ import { ClientsModule } from './clients/clients.module';
     AuthModule,
 
     ClientsModule,
+    OffersModule,
 
     //Всегда последний
     AppRoutingModule,

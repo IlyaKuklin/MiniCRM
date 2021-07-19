@@ -15,7 +15,7 @@ export interface OfferEditDto {
     id?: number;
     productSystemType?: string | null;
     briefIndustryDescription?: string | null;
-    _case?: string | null;
+    offerCase?: string | null;
     clientId?: number;
 }
 

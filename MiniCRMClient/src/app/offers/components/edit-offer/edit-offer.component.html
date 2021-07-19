@@ -1,0 +1,101 @@
+<mat-card style="display: flex" *ngIf="model.id">
+  <mat-card-title>Номер КП: {{ model.number }}</mat-card-title>
+  <div style="flex: 1"></div>
+  <mat-card-title>Клиент: {{ model.client!.name }}</mat-card-title>
+</mat-card>
+
+<mat-card style="margin-top: 4em">
+  <div class="offer">
+    <form class="offer_form" #offerForm="ngForm" (ngSubmit)="submit()">
+      <mat-form-field *ngIf="!isEdit">
+        <mat-label>Клиент</mat-label>
+        <mat-select [(value)]="model.clientId">
+          <mat-option></mat-option>
+          <mat-option [value]="option.id" *ngFor="let option of clients">{{
+            option.name
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="offer_form__field">
+        <mat-label>Тип системы/продукта</mat-label>
+        <input
+          matInput
+          required
+          [errorStateMatcher]="errorStateMatcher"
+          type="text"
+          [(ngModel)]="model.productSystemType"
+          name="productSystemType"
+          #productSystemType="ngModel"
+        />
+        <mat-error *ngIf="productSystemType.hasError('required')">
+          Поля <strong>обязательно</strong> для заполнения
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="offer_form__field">
+        <mat-label>Краткое описание отрасли клиента</mat-label>
+        <textarea
+          style="resize: none"
+          rows="4"
+          matInput
+          required
+          [errorStateMatcher]="errorStateMatcher"
+          type="text"
+          [(ngModel)]="model.briefIndustryDescription"
+          name="briefIndustryDescription"
+          #briefIndustryDescription="ngModel"
+        ></textarea>
+        <mat-error *ngIf="briefIndustryDescription.hasError('required')">
+          Поля <strong>обязательно</strong> для заполнения
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="offer_form__field">
+        <mat-label>Кейс</mat-label>
+        <textarea
+          style="resize: none"
+          rows="4"
+          matInput
+          required
+          [errorStateMatcher]="errorStateMatcher"
+          type="text"
+          [(ngModel)]="model.offerCase"
+          name="offerCase"
+          #offerCase="ngModel"
+        ></textarea>
+        <mat-error *ngIf="offerCase.hasError('required')">
+          Поля <strong>обязательно</strong> для заполнения
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
+        Создать
+      </button>
+
+      <div *ngIf="isEdit && !isLoading" class="offer_form__buttons">
+        <button
+          mat-raised-button
+          color="primary"
+          class="offer_form__buttons-button"
+          [disabled]="!modelChanged"
+          (click)="update()"
+        >
+          Обновить
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="offer_form__buttons-button"
+          (click)="delete()"
+        >
+          Удалить
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-card>
+
+<div class="loader" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
