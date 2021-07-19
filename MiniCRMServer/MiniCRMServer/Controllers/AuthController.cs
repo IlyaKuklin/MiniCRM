@@ -69,6 +69,5 @@ namespace MiniCRMServer.Controllers
 			await _authService.DeleteManagerAsync(id);
 			return this.Ok(204);
 		}
-
 	}
 }

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,10 @@ using Microsoft.OpenApi.Models;
 using MiniCRMCore;
 using MiniCRMCore.Areas.Auth;
 using MiniCRMCore.Areas.Auth.Models;
+using MiniCRMCore.Areas.Clients;
+using MiniCRMCore.Areas.Clients.Models;
+using MiniCRMCore.Areas.Offers;
+using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMServer.Middleware;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -74,8 +79,12 @@ namespace MiniCRMServer
 			services.AddAutoMapperProfiles();
 
 			services.AddScoped<AuthService>();
+			services.AddScoped<ClientsService>();
+			services.AddScoped<OffersService>();
 
-			services.AddControllers().AddNewtonsoftJson();
+			services.AddControllers()
+				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
 			services.AddSwaggerGen(SwaggerGenApiExtentions.Configure);
 		}
 
@@ -179,18 +188,40 @@ namespace MiniCRMServer
 		{
 			var profiles = new List<Type>
 			{
-				typeof(AuthMappingProfile)
+				typeof(AuthMappingProfile),
+				typeof(ClientsMappingProfile),
+				typeof(OffersMappingProfile)
 			};
 
 			services.AddAutoMapper(profiles.ToArray());
 		}
 	}
 
-	public class AuthMappingProfile : AutoMapper.Profile
+	public class AuthMappingProfile : Profile
 	{
 		public AuthMappingProfile()
 		{
 			this.CreateMap<User, User.Dto>();
+		}
+	}
+
+	public class ClientsMappingProfile : Profile
+	{
+		public ClientsMappingProfile()
+		{
+			this.CreateMap<Client, Client.Dto>()
+				.ReverseMap()
+				.ForMember(x => x.Id, opt => opt.Ignore());
+		}
+	}
+
+	public class OffersMappingProfile : Profile
+	{
+		public OffersMappingProfile()
+		{
+			this.CreateMap<Offer, Offer.Dto>();
+			this.CreateMap<Offer.EditDto, Offer>()
+				.ForMember(x => x.Id, opt => opt.Ignore());
 		}
 	}
 }
