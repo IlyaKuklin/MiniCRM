@@ -40,6 +40,14 @@
       </button>
     </div>
   </form>
+  <div *ngIf="model.offers?.length">
+    <h3>КП клиента</h3>
+    <ul>
+      <li *ngFor="let offer of model.offers">
+        <a [routerLink]="getOfferLink(offer)" >{{offer.number}}</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
 <div class="loader" *ngIf="isLoading">

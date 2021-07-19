@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientDto, ClientsApiService } from 'src/api/rest/api';
+import { ClientDto, ClientsApiService, OfferDto } from 'src/api/rest/api';
 
 @Component({
   selector: 'mcrm-edit-client',
@@ -81,6 +81,10 @@ export class EditClientComponent implements OnInit {
         this.isLoading = false;
         this.router.navigate(['/clients']);
       });
+  }
+
+  getOfferLink(offer: OfferDto): string {
+    return `/offers/edit/${offer.id}`;
   }
 }
 
