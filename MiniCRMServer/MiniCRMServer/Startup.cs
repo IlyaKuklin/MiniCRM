@@ -58,8 +58,8 @@ namespace MiniCRMServer
 				o.MemoryBufferThreshold = int.MaxValue;
 			});
 
-			var connectionString = "Host=vm469442.eurodir.ru;Database=CRMData;Username=postgres;Password=books1";
-			//var connectionString = "Host=localhost;Database=CRMData;Username=postgres;Password=books1";
+			//var connectionString = "Host=vm469442.eurodir.ru;Database=CRMData;Username=postgres;Password=books1";
+			var connectionString = "Host=localhost;Database=CRMData;Username=postgres;Password=books1";
 			services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
 
 			services
