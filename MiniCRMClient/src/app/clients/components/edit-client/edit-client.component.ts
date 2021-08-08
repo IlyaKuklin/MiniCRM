@@ -27,7 +27,15 @@ export class EditClientComponent implements OnInit {
   errorStateMatcher = new ClientErrorStateMatcher();
 
   get modelChanged(): boolean {
-    return this.isEdit && this.originalModel.name != this.model.name;
+    return (
+      this.isEdit &&
+      (this.originalModel.name != this.model.name ||
+        this.originalModel.legalEntitiesNames !=
+          this.model.legalEntitiesNames ||
+        this.originalModel.contact != this.model.contact ||
+        this.originalModel.diagnostics != this.model.diagnostics ||
+        this.originalModel.domainNames != this.model.domainNames)
+    );
   }
 
   ngOnInit(): void {
@@ -67,6 +75,7 @@ export class EditClientComponent implements OnInit {
       .apiClientsEditPost(this.model)
       .subscribe((response) => {
         this.model = response;
+        this.originalModel = { ...response };
         alert('Данные обновлены');
         this.isLoading = false;
       });

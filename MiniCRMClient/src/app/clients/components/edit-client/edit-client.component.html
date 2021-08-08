@@ -16,6 +16,62 @@
       </mat-error>
     </mat-form-field>
 
+    <mat-form-field class="client_form__field" appearance="fill">
+      <mat-label>Названия юрлиц</mat-label>
+      <textarea
+        rows="3"
+        matInput
+        [cdkTextareaAutosize]
+        [errorStateMatcher]="errorStateMatcher"
+        [(ngModel)]="model.legalEntitiesNames"
+        name="legalEntitiesNames"
+        #legalEntitiesNames="ngModel"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field class="client_form__field" appearance="fill">
+      <mat-label>Названия сайтов и доменов</mat-label>
+      <textarea
+        rows="3"
+        matInput
+        [cdkTextareaAutosize]
+        [errorStateMatcher]="errorStateMatcher"
+        [(ngModel)]="model.domainNames"
+        name="domainNames"
+        #domainNames="ngModel"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field class="client_form__field" appearance="fill">
+      <mat-label>Контактное лицо</mat-label>
+      <textarea
+        rows="1"
+        matInput
+        [cdkTextareaAutosize]
+        [errorStateMatcher]="errorStateMatcher"
+        [(ngModel)]="model.contact"
+        name="contact"
+        #contact="ngModel"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <mat-form-field class="client_form__field" appearance="fill">
+      <mat-label>Диагностика клиента</mat-label>
+      <textarea
+        rows="3"
+        matInput
+        [cdkTextareaAutosize]
+        [errorStateMatcher]="errorStateMatcher"
+        [(ngModel)]="model.diagnostics"
+        name="diagnostics"
+        #diagnostics="ngModel"
+      >
+      </textarea>
+    </mat-form-field>
+
     <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
       Создать
     </button>
