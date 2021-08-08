@@ -1,5 +1,9 @@
 .client {
-  // width: 100%;
+  width: 100%;
+
+  &_card {
+    height: 100%;
+  }
 
   &_form {
     display: flex;
@@ -11,12 +15,20 @@
     }
 
     &__buttons {
-      display: flex;
-      justify-content: space-between;
+      margin-top: 3em;
+      &-edit {
+        display: flex;
+        justify-content: space-between;
+      }
 
       &-button {
         width: 40%;
       }
     }
   }
+}
+
+.mat-card-title {
+  font-size: 1.25em;
+  padding-bottom: 1em;
 }

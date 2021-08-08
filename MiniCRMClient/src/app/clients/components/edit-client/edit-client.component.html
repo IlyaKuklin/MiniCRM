@@ -1,115 +1,124 @@
 <div class="client">
+  <div class="row">
+    <div class="col-8">
+      <mat-card class="client_card">
+        <mat-card-title>Данные клиента</mat-card-title>
+        <form class="client_form" #clientForm="ngForm" (ngSubmit)="submit()">
+          <mat-form-field class="client_form__field" appearance="outline">
+            <mat-label>Название</mat-label>
+            <input
+              matInput
+              required
+              [errorStateMatcher]="errorStateMatcher"
+              type="text"
+              [(ngModel)]="model.name"
+              name="name"
+              #name="ngModel"
+            />
+            <mat-error *ngIf="name.hasError('required')">
+              Поля <strong>обязательно</strong> для заполнения
+            </mat-error>
+          </mat-form-field>
 
+          <mat-form-field class="client_form__field" appearance="outline">
+            <mat-label>Названия юрлиц</mat-label>
+            <textarea
+              rows="3"
+              matInput
+              [cdkTextareaAutosize]
+              [errorStateMatcher]="errorStateMatcher"
+              [(ngModel)]="model.legalEntitiesNames"
+              name="legalEntitiesNames"
+              #legalEntitiesNames="ngModel"
+            >
+            </textarea>
+          </mat-form-field>
 
-  <!-- <mat-grid-list cols="2" >
-    <mat-grid-tile>123</mat-grid-tile>
-    <mat-grid-tile>555</mat-grid-tile>
-  </mat-grid-list> -->
+          <mat-form-field class="client_form__field" appearance="outline">
+            <mat-label>Названия сайтов и доменов</mat-label>
+            <textarea
+              rows="3"
+              matInput
+              [cdkTextareaAutosize]
+              [errorStateMatcher]="errorStateMatcher"
+              [(ngModel)]="model.domainNames"
+              name="domainNames"
+              #domainNames="ngModel"
+            >
+            </textarea>
+          </mat-form-field>
 
-  <form class="client_form" #clientForm="ngForm" (ngSubmit)="submit()">
-    <mat-form-field class="client_form__field" appearance="fill">
-      <mat-label>Название</mat-label>
-      <input
-        matInput
-        required
-        [errorStateMatcher]="errorStateMatcher"
-        type="text"
-        [(ngModel)]="model.name"
-        name="name"
-        #name="ngModel"
-      />
-      <mat-error *ngIf="name.hasError('required')">
-        Поля <strong>обязательно</strong> для заполнения
-      </mat-error>
-    </mat-form-field>
+          <mat-form-field class="client_form__field" appearance="outline">
+            <mat-label>Контактное лицо</mat-label>
+            <textarea
+              rows="1"
+              matInput
+              [cdkTextareaAutosize]
+              [errorStateMatcher]="errorStateMatcher"
+              [(ngModel)]="model.contact"
+              name="contact"
+              #contact="ngModel"
+            >
+            </textarea>
+          </mat-form-field>
 
-    <mat-form-field class="client_form__field" appearance="fill">
-      <mat-label>Названия юрлиц</mat-label>
-      <textarea
-        rows="3"
-        matInput
-        [cdkTextareaAutosize]
-        [errorStateMatcher]="errorStateMatcher"
-        [(ngModel)]="model.legalEntitiesNames"
-        name="legalEntitiesNames"
-        #legalEntitiesNames="ngModel"
-      >
-      </textarea>
-    </mat-form-field>
-
-    <mat-form-field class="client_form__field" appearance="fill">
-      <mat-label>Названия сайтов и доменов</mat-label>
-      <textarea
-        rows="3"
-        matInput
-        [cdkTextareaAutosize]
-        [errorStateMatcher]="errorStateMatcher"
-        [(ngModel)]="model.domainNames"
-        name="domainNames"
-        #domainNames="ngModel"
-      >
-      </textarea>
-    </mat-form-field>
-
-    <mat-form-field class="client_form__field" appearance="fill">
-      <mat-label>Контактное лицо</mat-label>
-      <textarea
-        rows="1"
-        matInput
-        [cdkTextareaAutosize]
-        [errorStateMatcher]="errorStateMatcher"
-        [(ngModel)]="model.contact"
-        name="contact"
-        #contact="ngModel"
-      >
-      </textarea>
-    </mat-form-field>
-
-    <mat-form-field class="client_form__field" appearance="fill">
-      <mat-label>Диагностика клиента</mat-label>
-      <textarea
-        rows="3"
-        matInput
-        [cdkTextareaAutosize]
-        [errorStateMatcher]="errorStateMatcher"
-        [(ngModel)]="model.diagnostics"
-        name="diagnostics"
-        #diagnostics="ngModel"
-      >
-      </textarea>
-    </mat-form-field>
-
-    <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
-      Создать
-    </button>
-
-    <div *ngIf="isEdit && !isLoading" class="client_form__buttons">
-      <button
-        mat-raised-button
-        color="primary"
-        class="client_form__buttons-button"
-        [disabled]="!modelChanged"
-        (click)="update()"
-      >
-        Обновить
-      </button>
-      <button
-        mat-raised-button
-        color="warn"
-        class="client_form__buttons-button"
-        (click)="delete()"
-      >
-        Удалить
-      </button>
+          <mat-form-field class="client_form__field" appearance="outline">
+            <mat-label>Диагностика клиента</mat-label>
+            <textarea
+              rows="3"
+              matInput
+              [cdkTextareaAutosize]
+              [errorStateMatcher]="errorStateMatcher"
+              [(ngModel)]="model.diagnostics"
+              name="diagnostics"
+              #diagnostics="ngModel"
+            >
+            </textarea>
+          </mat-form-field>
+        </form>
+      </mat-card>
     </div>
-  </form>
-  <div *ngIf="model.offers?.length">
-    <h3>КП клиента</h3>
-    <ul>
-      <li *ngFor="let offer of model.offers">
-        <a [routerLink]="getOfferLink(offer)">{{ offer.number }}</a>
-      </li>
-    </ul>
+
+    <div class="col-4">
+      <mat-card class="client_card">
+        <mat-card-title>КП клиента</mat-card-title>
+        <div *ngIf="model.offers?.length">
+          <ul>
+            <li *ngFor="let offer of model.offers">
+              <a [routerLink]="getOfferLink(offer)">{{ offer.number }}</a>
+            </li>
+          </ul>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-4 client_form__buttons">
+      <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
+        Создать
+      </button>
+
+      <div *ngIf="isEdit && !isLoading" class="client_form__buttons-edit">
+        <button
+          mat-raised-button
+          color="primary"
+          class="client_form__buttons-button"
+          [disabled]="!modelChanged"
+          (click)="update()"
+        >
+          Обновить
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          class="client_form__buttons-button"
+          (click)="delete()"
+        >
+          Удалить
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
