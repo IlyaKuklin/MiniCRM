@@ -15,6 +15,10 @@ import { OfferDto } from './offer-dto';
 export interface ClientDto { 
     id?: number;
     name?: string | null;
+    legalEntitiesNames?: string | null;
+    domainNames?: string | null;
+    contact?: string | null;
+    diagnostics?: string | null;
     offers?: Array<OfferDto> | null;
 }
 
