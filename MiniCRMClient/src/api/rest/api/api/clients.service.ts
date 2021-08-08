@@ -143,10 +143,13 @@ export class ClientsApiService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiClientsEditPost(clientDto?: ClientDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<ClientDto>;
-    public apiClientsEditPost(clientDto?: ClientDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<ClientDto>>;
-    public apiClientsEditPost(clientDto?: ClientDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<ClientDto>>;
-    public apiClientsEditPost(clientDto?: ClientDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+    public apiClientsEditPost(clientDto: ClientDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<ClientDto>;
+    public apiClientsEditPost(clientDto: ClientDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<ClientDto>>;
+    public apiClientsEditPost(clientDto: ClientDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<ClientDto>>;
+    public apiClientsEditPost(clientDto: ClientDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (clientDto === null || clientDto === undefined) {
+            throw new Error('Required parameter clientDto was null or undefined when calling apiClientsEditPost.');
+        }
 
         let headers = this.defaultHeaders;
 

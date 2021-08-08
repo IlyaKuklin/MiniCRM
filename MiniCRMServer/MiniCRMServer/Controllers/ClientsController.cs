@@ -45,7 +45,7 @@ namespace MiniCRMServer.Controllers
 		/// <returns></returns>
 		[HttpPost("edit")]
 		[ProducesResponseType(typeof(Client.Dto), 200)]
-		public async Task<IActionResult> Register([FromBody] Client.Dto dto)
+		public async Task<IActionResult> Register([FromBody][Required] Client.Dto dto)
 		{
 			var result = await _clientsService.EditAsync(dto);
 			return this.Ok(result);
