@@ -3,6 +3,7 @@ import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientDto, ClientsApiService, OfferDto } from 'src/api/rest/api';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
   selector: 'mcrm-edit-client',
@@ -13,7 +14,8 @@ export class EditClientComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly clientsApiService: ClientsApiService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly snackbarService: SnackbarService
   ) {}
 
   @ViewChild('clientForm') managerForm!: NgForm;
@@ -64,7 +66,10 @@ export class EditClientComponent implements OnInit {
       .apiClientsEditPost(this.model)
       .subscribe((response) => {
         this.isLoading = false;
-        alert('Клиент создан');
+        this.snackbarService.show({
+          message: 'Клиент создан',
+          duration: 3000,
+        });
         this.router.navigate([`/clients/edit/${response.id}`]);
       });
   }
@@ -76,7 +81,10 @@ export class EditClientComponent implements OnInit {
       .subscribe((response) => {
         this.model = response;
         this.originalModel = { ...response };
-        alert('Данные обновлены');
+        this.snackbarService.show({
+          message: 'Данные обновлены',
+          duration: 3000,
+        });
         this.isLoading = false;
       });
   }
@@ -86,7 +94,10 @@ export class EditClientComponent implements OnInit {
     this.clientsApiService
       .apiClientsDeleteDelete(this.model.id)
       .subscribe((response) => {
-        alert('Клиент удалён');
+        this.snackbarService.show({
+          message: 'Клиент удалён',
+          duration: 3000,
+        });
         this.isLoading = false;
         this.router.navigate(['/clients']);
       });

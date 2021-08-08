@@ -49,9 +49,10 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.component';
 
 @NgModule({
-  declarations: [ToolbarComponent],
+  declarations: [ToolbarComponent, InfoSnackbarComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,
