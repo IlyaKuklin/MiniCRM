@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "generateApi": "SET JAVA_OPTS=-Dio.swagger.parser.util.RemoteUrl.trustAll=true -Dio.swagger.v3.parser.util.RemoteUrl.trustAll=true && npx rimraf api/ && npx @openapitools/openapi-generator-cli generate -i https://localhost:5001/swagger/v1/swagger.json -g typescript-angular --additional-properties=ngVersion=12.1.0,fileNaming=kebab-case,providedInRoot=true,supportsES6=true,serviceSuffix=ApiService,nullSafeAdditionalProps=true -o ./src/api/rest/api"
+    "generateApi": "SET JAVA_OPTS=-Dio.swagger.parser.util.RemoteUrl.trustAll=true -Dio.swagger.v3.parser.util.RemoteUrl.trustAll=true && npx rimraf api/ && npx @openapitools/openapi-generator-cli generate -i https://localhost:5001/swagger/v1/swagger.json -g typescript-angular --additional-properties=ngVersion=12.1.0,fileNaming=kebab-case,providedInRoot=true,supportsES6=true,serviceSuffix=ApiService -o ./src/api/rest/api"
   },
   "private": true,
   "dependencies": {
