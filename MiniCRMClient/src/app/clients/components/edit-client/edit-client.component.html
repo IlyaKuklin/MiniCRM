@@ -1,6 +1,6 @@
 <div class="client">
   <form class="client_form" #clientForm="ngForm" (ngSubmit)="submit()">
-    <mat-form-field class="client_form__field">
+    <mat-form-field class="client_form__field" appearance="fill">
       <mat-label>Название</mat-label>
       <input
         matInput
@@ -44,7 +44,7 @@
     <h3>КП клиента</h3>
     <ul>
       <li *ngFor="let offer of model.offers">
-        <a [routerLink]="getOfferLink(offer)" >{{offer.number}}</a>
+        <a [routerLink]="getOfferLink(offer)">{{ offer.number }}</a>
       </li>
     </ul>
   </div>
