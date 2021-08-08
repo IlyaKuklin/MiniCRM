@@ -50,9 +50,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.component';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
+import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
-  declarations: [ToolbarComponent, InfoSnackbarComponent],
+  declarations: [ToolbarComponent, InfoSnackbarComponent, InfoDialogComponent, SelectOptionDialogComponent, ConfirmDialogComponent],
   imports: [
     CommonModule,
     SharedRoutingModule,

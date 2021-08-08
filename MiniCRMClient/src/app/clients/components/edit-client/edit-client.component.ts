@@ -3,6 +3,7 @@ import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ClientDto, ClientsApiService, OfferDto } from 'src/api/rest/api';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class EditClientComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly clientsApiService: ClientsApiService,
     private readonly router: Router,
-    private readonly snackbarService: SnackbarService
+    private readonly snackbarService: SnackbarService,
+    private readonly dialogService: DialogService
   ) {}
 
   @ViewChild('clientForm') managerForm!: NgForm;
@@ -90,16 +92,27 @@ export class EditClientComponent implements OnInit {
   }
 
   delete(): void {
-    this.isLoading = true;
-    this.clientsApiService
-      .apiClientsDeleteDelete(this.model.id)
-      .subscribe((response) => {
-        this.snackbarService.show({
-          message: 'Клиент удалён',
-          duration: 3000,
-        });
-        this.isLoading = false;
-        this.router.navigate(['/clients']);
+    this.dialogService
+      .confirmDialog({
+        header: 'Удаление клиента',
+        message: 'Вы уверены, что хотите удалить клиента?',
+      })
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.isLoading = true;
+          this.clientsApiService
+            .apiClientsDeleteDelete(this.model.id)
+            .subscribe((response) => {
+              this.snackbarService.show({
+                message: 'Клиент удалён',
+                duration: 3000,
+              });
+              this.isLoading = false;
+              this.router.navigate(['/clients']);
+            });
+        } else {
+          
+        }
       });
   }
 
