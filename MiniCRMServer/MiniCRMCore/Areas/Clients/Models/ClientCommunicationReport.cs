@@ -19,5 +19,12 @@ namespace MiniCRMCore.Areas.Clients.Models
 			public User.Dto Author { get; set; }
 			public Client.Dto Client { get; set; }
 		}
+
+		public class EditDto
+		{
+			public int Id { get; set; }
+			public string Text { get; set; }
+			public int ClientId { get; set; }
+		}
 	}
 }

@@ -14,13 +14,13 @@ import { ClientCommunicationReportDto } from './client-communication-report-dto'
 
 
 export interface ClientDto { 
-    id?: number;
+    id: number;
     name?: string | null;
     legalEntitiesNames?: string | null;
     domainNames?: string | null;
     contact?: string | null;
     diagnostics?: string | null;
     offers?: Array<OfferDto> | null;
-    communicationReports?: Array<ClientCommunicationReportDto> | null;
+    communicationReports: Array<ClientCommunicationReportDto>;
 }
 

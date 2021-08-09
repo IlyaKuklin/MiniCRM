@@ -1,4 +1,4 @@
-<div class="client">
+<div class="client" *ngIf="model">
   <div class="row">
     <div class="col-8">
       <mat-card class="client_card">
@@ -81,7 +81,12 @@
               [inset]="true"
               style="padding-bottom: 1em"
             ></mat-divider>
-            <mcrm-communication-reports-list></mcrm-communication-reports-list>
+
+            <mcrm-communication-reports-list
+              *ngIf="model.id > 0"
+              [clientId]="model.id"
+              [reports]="model.communicationReports"
+            ></mcrm-communication-reports-list>
           </div>
         </form>
       </mat-card>

@@ -1,0 +1,10 @@
+.report {
+  width: 40em;
+
+  &_form {
+      padding-top: 1em;
+    &__field {
+      width: 100%;
+    }
+  }
+}

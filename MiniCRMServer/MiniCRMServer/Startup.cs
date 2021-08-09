@@ -17,10 +17,12 @@ using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
+using MiniCRMCore.Utilities.Serialization;
 using MiniCRMServer.Middleware;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace MiniCRMServer
@@ -146,6 +148,8 @@ namespace MiniCRMServer
 				Description = "CRM API Reference"
 			});
 
+			//options.SchemaFilter<ValueTypesRequiredSchemaFilter>();
+
 			options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
 			{
 				Name = "Authorization",
@@ -226,6 +230,10 @@ namespace MiniCRMServer
 				.ForMember(x => x.Offers, opt => opt.Ignore());
 
 			this.CreateMap<ClientCommunicationReport, ClientCommunicationReport.Dto>();
+			this.CreateMap<ClientCommunicationReport.EditDto, ClientCommunicationReport>()
+				.ForMember(x => x.Id, opt => opt.Ignore())
+				.ForMember(x => x.AuthorId, opt => opt.Ignore())
+				;
 		}
 	}
 
@@ -236,6 +244,37 @@ namespace MiniCRMServer
 			this.CreateMap<Offer, Offer.Dto>();
 			this.CreateMap<Offer.EditDto, Offer>()
 				.ForMember(x => x.Id, opt => opt.Ignore());
+		}
+	}
+
+	public class ValueTypesRequiredSchemaFilter : ISchemaFilter
+	{
+		public void Apply(OpenApiSchema schema, SchemaFilterContext context)
+		{
+
+			if (context.Type.IsReferenceOrNullableType())
+			{
+				schema.Nullable = false;
+
+				var notRequiredAttributeType = typeof(NotRequiredAttribute);
+
+				var typeProperties = context.Type.GetProperties();
+				var schemaProperties = schema.Properties.Select(x => x.Key);
+
+				foreach (var property in typeProperties)
+				{
+					if (property.PropertyType == typeof(string)) continue;
+
+					var notRequired = Attribute.IsDefined(property, notRequiredAttributeType);
+					if (!notRequired)
+					{
+						var schemaProperty = schemaProperties.FirstOrDefault(x => x.ToLower() == property.Name.ToLower());
+
+						if (schemaProperty != null && !schema.Properties[schemaProperty].Nullable)
+							schema.Required.Add(schemaProperty);
+					}
+				}
+			}
 		}
 	}
 }

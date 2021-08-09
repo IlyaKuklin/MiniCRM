@@ -1,6 +1,7 @@
 ﻿using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Offers.Models;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Clients.Models
 {
@@ -18,6 +19,7 @@ namespace MiniCRMCore.Areas.Clients.Models
 
 		public class Dto
 		{
+			[Required]
 			public int Id { get; set; }
 
 			/// <summary>
@@ -50,6 +52,7 @@ namespace MiniCRMCore.Areas.Clients.Models
 			/// </summary>
 			public List<Offer.Dto> Offers { get; set; }
 
+			[Required]
 			/// <summary>
 			/// Отчёты о коммуникации с клиентом.
 			/// </summary>

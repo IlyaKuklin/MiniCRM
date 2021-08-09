@@ -1,0 +1,21 @@
+<div class="report">
+  <div>Отчёт о коммуникации с клиентом</div>
+  <form class="report_form" #form="ngForm" (ngSubmit)="submit()">
+    <mat-form-field class="report_form__field" appearance="outline">
+      <mat-label>Отчёт</mat-label>
+      <textarea
+        rows="6"
+        required
+        matInput
+        [cdkTextareaAutosize]
+        [(ngModel)]="model.text"
+        name="text"
+        #text="ngModel"
+      >
+      </textarea>
+    </mat-form-field>
+    <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
+      Добавить
+    </button>
+  </form>
+</div>

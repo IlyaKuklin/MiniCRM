@@ -2,9 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClientDto, ClientsApiService, OfferDto } from 'src/api/rest/api';
+import {
+  ClientCommunicationReportDto,
+  ClientDto,
+  ClientsApiService,
+  OfferDto,
+} from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { ClientsService } from '../../services/clients.service';
 
 @Component({
   selector: 'mcrm-edit-client',
@@ -17,16 +23,16 @@ export class EditClientComponent implements OnInit {
     private readonly clientsApiService: ClientsApiService,
     private readonly router: Router,
     private readonly snackbarService: SnackbarService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly clientsService: ClientsService
   ) {}
 
-  @ViewChild('clientForm') managerForm!: NgForm;
+  @ViewChild('clientForm') clientForm!: NgForm;
   isLoading: boolean = false;
 
-  model: ClientDto = {};
+  model!: ClientDto;
+  originalModel!: ClientDto;
   isEdit: boolean = false;
-
-  originalModel: ClientDto = {};
 
   errorStateMatcher = new ClientErrorStateMatcher();
 
@@ -53,15 +59,16 @@ export class EditClientComponent implements OnInit {
           .subscribe((response) => {
             this.model = response;
             this.originalModel = { ...response };
-
             this.isLoading = false;
           });
+      } else {
+        this.model = { id: 0, communicationReports: [] };
       }
     });
   }
 
   submit(): void {
-    if (!this.managerForm.valid) return;
+    if (!this.clientForm.valid) return;
     this.isLoading = true;
 
     this.clientsApiService
@@ -111,7 +118,6 @@ export class EditClientComponent implements OnInit {
               this.router.navigate(['/clients']);
             });
         } else {
-          
         }
       });
   }

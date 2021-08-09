@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MiniCRMCore.Areas.Auth;
 using MiniCRMCore.Areas.Clients;
 using MiniCRMCore.Areas.Clients.Models;
 using System;
@@ -21,6 +22,8 @@ namespace MiniCRMServer.Controllers
 		{
 			_clientsService = clientsService ?? throw new ArgumentNullException(nameof(clientsService));
 		}
+
+		public int CurrentUserId => this.User.GetUserId();
 
 		[HttpGet("")]
 		[ProducesResponseType(typeof(Client.Dto), 200)]
@@ -45,7 +48,7 @@ namespace MiniCRMServer.Controllers
 		/// <returns></returns>
 		[HttpPost("edit")]
 		[ProducesResponseType(typeof(Client.Dto), 200)]
-		public async Task<IActionResult> Register([FromBody][Required] Client.Dto dto)
+		public async Task<IActionResult> Edit([FromBody][Required] Client.Dto dto)
 		{
 			var result = await _clientsService.EditAsync(dto);
 			return this.Ok(result);
@@ -58,5 +61,17 @@ namespace MiniCRMServer.Controllers
 			await _clientsService.DeleteAsync(id);
 			return this.Ok(204);
 		}
+
+		#region CommunicationReports
+
+		[HttpPost("communicationReports/edit")]
+		[ProducesResponseType(typeof(ClientCommunicationReport.Dto), 201)]
+		public async Task<IActionResult> EditCommunicationReport([Required]ClientCommunicationReport.EditDto dto)
+		{
+			var result = await _clientsService.EditCommunicationReportAsync(dto, this.CurrentUserId);
+			return this.Ok(result);
+		}
+
+		#endregion CommunicationReports
 	}
 }

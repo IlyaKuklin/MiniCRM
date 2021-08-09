@@ -1,4 +1,5 @@
 export * from './client-communication-report-dto';
+export * from './client-communication-report-edit-dto';
 export * from './client-dto';
 export * from './offer-dto';
 export * from './offer-edit-dto';
