@@ -9,6 +9,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/client-communication-report-dto.ts
 model/client-dto.ts
 model/models.ts
 model/offer-dto.ts

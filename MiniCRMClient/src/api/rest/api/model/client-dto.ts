@@ -10,6 +10,7 @@
  * Do not edit the class manually.
  */
 import { OfferDto } from './offer-dto';
+import { ClientCommunicationReportDto } from './client-communication-report-dto';
 
 
 export interface ClientDto { 
@@ -20,5 +21,6 @@ export interface ClientDto {
     contact?: string | null;
     diagnostics?: string | null;
     offers?: Array<OfferDto> | null;
+    communicationReports?: Array<ClientCommunicationReportDto> | null;
 }
 

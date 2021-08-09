@@ -14,6 +14,7 @@ using MiniCRMCore.Areas.Auth;
 using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Clients;
 using MiniCRMCore.Areas.Clients.Models;
+using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMServer.Middleware;
@@ -188,12 +189,21 @@ namespace MiniCRMServer
 		{
 			var profiles = new List<Type>
 			{
+				typeof(BaseMappingProfile),
 				typeof(AuthMappingProfile),
 				typeof(ClientsMappingProfile),
 				typeof(OffersMappingProfile)
 			};
 
 			services.AddAutoMapper(profiles.ToArray());
+		}
+	}
+
+	public class BaseMappingProfile : Profile
+	{
+		public BaseMappingProfile()
+		{
+			this.CreateMap<BaseEntity, BaseEntity.BaseDto>();
 		}
 	}
 
@@ -214,6 +224,8 @@ namespace MiniCRMServer
 				.ReverseMap()
 				.ForMember(x => x.Id, opt => opt.Ignore())
 				.ForMember(x => x.Offers, opt => opt.Ignore());
+
+			this.CreateMap<ClientCommunicationReport, ClientCommunicationReport.Dto>();
 		}
 	}
 

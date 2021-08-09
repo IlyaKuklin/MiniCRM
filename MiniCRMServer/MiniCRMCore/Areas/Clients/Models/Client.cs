@@ -1,6 +1,5 @@
 ﻿using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Offers.Models;
-using System;
 using System.Collections.Generic;
 
 namespace MiniCRMCore.Areas.Clients.Models
@@ -13,7 +12,7 @@ namespace MiniCRMCore.Areas.Clients.Models
 		public string DomainNames { get; set; }
 		public string Contact { get; set; }
 		public string Diagnostics { get; set; }
-		
+
 		public virtual List<Offer> Offers { get; set; }
 		public virtual List<ClientCommunicationReport> CommunicationReports { get; set; }
 
@@ -50,6 +49,11 @@ namespace MiniCRMCore.Areas.Clients.Models
 			/// Список КП клиента.
 			/// </summary>
 			public List<Offer.Dto> Offers { get; set; }
+
+			/// <summary>
+			/// Отчёты о коммуникации с клиентом.
+			/// </summary>
+			public List<ClientCommunicationReport.Dto> CommunicationReports { get; set; }
 		}
 	}
 }
