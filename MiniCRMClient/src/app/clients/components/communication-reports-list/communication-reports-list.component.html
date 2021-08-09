@@ -6,11 +6,7 @@
     </button>
   </div>
   <div class="table-container">
-    <table 
-      mat-table
-      [dataSource]="dataSource"
-      class="reportsTable"
-    >
+    <table mat-table matSort [dataSource]="dataSource" class="reportsTable">
       <ng-container matColumnDef="date">
         <th mat-header-cell *matHeaderCellDef>Дата создания</th>
         <td
@@ -63,10 +59,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator
-      [pageSizeOptions]="[5]"
-      showFirstLastButtons
-    >
+    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons>
     </mat-paginator>
   </div>
 </div>

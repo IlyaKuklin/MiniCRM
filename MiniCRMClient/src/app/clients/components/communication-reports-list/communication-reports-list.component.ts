@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   ClientCommunicationReportDto,
@@ -40,6 +41,7 @@ export class CommunicationReportsListComponent
   displayedColumns: string[] = ['date', 'author', 'text', 'del'];
   dataSource!: MatTableDataSource<ClientCommunicationReportDto>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
     this.refreshDataSource();
@@ -51,6 +53,7 @@ export class CommunicationReportsListComponent
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   onEdit(dto: ClientCommunicationReportDto): void {
