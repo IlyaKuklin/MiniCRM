@@ -1,11 +1,12 @@
-﻿using MiniCRMCore.Areas.Offers.Models;
+﻿using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Offers.Models;
+using System;
 using System.Collections.Generic;
 
 namespace MiniCRMCore.Areas.Clients.Models
 {
-	public class Client
+	public class Client : BaseEntity
 	{
-		public int Id { get; set; }
 		public string Name { get; set; }
 
 		public string LegalEntitiesNames { get; set; }
@@ -49,5 +50,10 @@ namespace MiniCRMCore.Areas.Clients.Models
 			/// </summary>
 			public List<Offer.Dto> Offers { get; set; }
 		}
+	}
+
+	public class ClientCommunicationReport
+	{
+		public int Id { get; set; }
 	}
 }
