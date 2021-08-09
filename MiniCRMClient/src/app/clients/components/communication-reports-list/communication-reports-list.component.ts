@@ -27,7 +27,7 @@ export class CommunicationReportsListComponent implements OnInit {
 
   @Input('clientId') clientId!: number;
   @Input('reports') model: ClientCommunicationReportDto[] = [];
-  displayedColumns: string[] = ['text', 'date', 'del'];
+  displayedColumns: string[] = ['text', 'author', 'date', 'del'];
   dataSource!: MatTableDataSource<ClientCommunicationReportDto>;
 
   ngOnInit(): void {
@@ -40,11 +40,13 @@ export class CommunicationReportsListComponent implements OnInit {
 
   onEdit(dto: ClientCommunicationReportDto): void {
     this.matDialog.closeAll();
-    const report = this.model.find((x) => x.id == dto.id);
+    let report = this.model.find((x) => x.id == dto.id);
     if (!report) {
       this.model.push(dto);
-      this.refreshDataSource();
+    } else {
+      report.text = dto.text;
     }
+    this.refreshDataSource();
   }
 
   addClick(): void {
@@ -55,6 +57,17 @@ export class CommunicationReportsListComponent implements OnInit {
     };
     const dialogRef = this.matDialog.open(EditCommunicationReportComponent, {
       data: newReportEdit,
+    });
+  }
+
+  editClick(report: ClientCommunicationReportDto): void {
+    const editDto: ClientCommunicationReportEditDto = {
+      clientId: this.clientId,
+      id: report.id,
+      text: report.text,
+    };
+    this.matDialog.open(EditCommunicationReportComponent, {
+      data: editDto,
     });
   }
 

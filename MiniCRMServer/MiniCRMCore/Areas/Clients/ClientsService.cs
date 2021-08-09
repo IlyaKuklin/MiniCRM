@@ -24,6 +24,7 @@ namespace MiniCRMCore.Areas.Clients
 			var client = await _context.Clients
 				.Include(x => x.Offers)
 				.Include(x => x.CommunicationReports)
+					.ThenInclude(x => x.Author)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (client == null)

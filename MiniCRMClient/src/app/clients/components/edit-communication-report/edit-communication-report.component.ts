@@ -37,10 +37,9 @@ export class EditCommunicationReportComponent implements OnInit {
   errorStateMatcher = new ClientErrorStateMatcher();
 
   ngOnInit(): void {
-    this.model = this.data;
+    console.log(this.data)
+    this.model = {...this.data};
     this.isEdit = <ClientCommunicationReportEditDto>this.model.id > 0;
-
-    console.log(this.model);
   }
 
   submit(): void {
