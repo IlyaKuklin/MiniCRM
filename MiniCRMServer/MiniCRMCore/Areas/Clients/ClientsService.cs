@@ -110,6 +110,16 @@ namespace MiniCRMCore.Areas.Clients
 			return returnDto;
 		}
 
+		public async Task DeleteCommunicationReportAsync(int id)
+		{
+			var report = await _context.ClientCommunicationReports.FirstOrDefaultAsync(x => x.Id == id);
+			if (report == null)
+				throw new ApiException($"Не найден отчёт с ID {id}");
+
+			_context.ClientCommunicationReports.Remove(report);
+			await _context.SaveChangesAsync();
+		}
+
 		#endregion CommunicationReports
 	}
 }

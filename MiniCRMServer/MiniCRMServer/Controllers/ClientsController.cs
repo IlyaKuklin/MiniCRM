@@ -66,10 +66,18 @@ namespace MiniCRMServer.Controllers
 
 		[HttpPost("communicationReports/edit")]
 		[ProducesResponseType(typeof(ClientCommunicationReport.Dto), 201)]
-		public async Task<IActionResult> EditCommunicationReport([Required]ClientCommunicationReport.EditDto dto)
+		public async Task<IActionResult> EditCommunicationReport([Required] ClientCommunicationReport.EditDto dto)
 		{
 			var result = await _clientsService.EditCommunicationReportAsync(dto, this.CurrentUserId);
 			return this.Ok(result);
+		}
+
+		[HttpDelete("communicationReports/delete")]
+		[ProducesResponseType(201)]
+		public async Task<IActionResult> DeleteCommunicationReport([FromQuery][Required] int id)
+		{
+			await _clientsService.DeleteCommunicationReportAsync(id);
+			return this.Ok(204);
 		}
 
 		#endregion CommunicationReports

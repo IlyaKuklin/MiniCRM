@@ -23,8 +23,7 @@ export class EditClientComponent implements OnInit {
     private readonly clientsApiService: ClientsApiService,
     private readonly router: Router,
     private readonly snackbarService: SnackbarService,
-    private readonly dialogService: DialogService,
-    private readonly clientsService: ClientsService
+    private readonly dialogService: DialogService
   ) {}
 
   @ViewChild('clientForm') clientForm!: NgForm;

@@ -1,7 +1,9 @@
 <div>
   <div style="font-size: 1.25em">Отчёты о коммуникации с клиентом</div>
   <div style="padding-top: 1em">
-    <button mat-raised-button (click)="addClick(); $event.preventDefault();">Добавить</button>
+    <button mat-raised-button (click)="addClick(); $event.preventDefault()">
+      Добавить
+    </button>
   </div>
   <div class="table-container">
     <table
@@ -30,7 +32,11 @@
       <ng-container matColumnDef="del">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let row">
-          <mat-icon style="cursor: pointer" color="warn" aria-hidden="false"
+          <mat-icon
+            style="cursor: pointer"
+            color="warn"
+            aria-hidden="false"
+            (click)="delete(row.id)"
             >delete</mat-icon
           >
         </td>
