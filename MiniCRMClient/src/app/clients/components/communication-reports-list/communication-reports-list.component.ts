@@ -27,7 +27,7 @@ export class CommunicationReportsListComponent implements OnInit {
 
   @Input('clientId') clientId!: number;
   @Input('reports') model: ClientCommunicationReportDto[] = [];
-  displayedColumns: string[] = ['text', 'author', 'date', 'del'];
+  displayedColumns: string[] = ['date', 'author', 'text', 'del'];
   dataSource!: MatTableDataSource<ClientCommunicationReportDto>;
 
   ngOnInit(): void {
@@ -91,6 +91,11 @@ export class CommunicationReportsListComponent implements OnInit {
             });
         }
       });
+  }
+
+  getText(report: ClientCommunicationReportDto) {
+    if (report.text && report.text?.length <= 150) return report.text;
+    return `${report.text?.substring(0, 150)}...`;
   }
 
   private refreshDataSource() {
