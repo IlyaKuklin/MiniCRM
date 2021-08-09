@@ -30,7 +30,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -53,6 +53,7 @@ import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.
 import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { getRussianPaginatorIntl } from './intl/russian-paginator-intl';
 
 @NgModule({
   declarations: [ToolbarComponent, InfoSnackbarComponent, InfoDialogComponent, SelectOptionDialogComponent, ConfirmDialogComponent],
@@ -161,5 +162,9 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     // Components
     ToolbarComponent,
   ],
+
+  providers: [
+    { provide: MatPaginatorIntl, useValue: getRussianPaginatorIntl() }
+  ]
 })
 export class SharedModule {}

@@ -1,5 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import {
   ClientCommunicationReportDto,
@@ -16,7 +23,9 @@ import { EditCommunicationReportComponent } from '../edit-communication-report/e
   templateUrl: './communication-reports-list.component.html',
   styleUrls: ['./communication-reports-list.component.scss'],
 })
-export class CommunicationReportsListComponent implements OnInit {
+export class CommunicationReportsListComponent
+  implements OnInit, AfterViewInit
+{
   constructor(
     private readonly matDialog: MatDialog,
     private readonly clientsApiService: ClientsApiService,
@@ -27,8 +36,10 @@ export class CommunicationReportsListComponent implements OnInit {
 
   @Input('clientId') clientId!: number;
   @Input('reports') model: ClientCommunicationReportDto[] = [];
+
   displayedColumns: string[] = ['date', 'author', 'text', 'del'];
   dataSource!: MatTableDataSource<ClientCommunicationReportDto>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
     this.refreshDataSource();
@@ -36,6 +47,10 @@ export class CommunicationReportsListComponent implements OnInit {
     this.clientsService.communicationReportSubject.subscribe((reportDto) => {
       this.onEdit(reportDto);
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
   }
 
   onEdit(dto: ClientCommunicationReportDto): void {
@@ -102,5 +117,6 @@ export class CommunicationReportsListComponent implements OnInit {
     this.dataSource = new MatTableDataSource<ClientCommunicationReportDto>(
       this.model
     );
+    this.dataSource.paginator = this.paginator;
   }
 }
