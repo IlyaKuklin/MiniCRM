@@ -15,6 +15,7 @@ namespace MiniCRMCore.Areas.Clients.Models
 		public string Diagnostics { get; set; }
 		
 		public virtual List<Offer> Offers { get; set; }
+		public virtual List<ClientCommunicationReport> CommunicationReports { get; set; }
 
 		public class Dto
 		{
@@ -50,10 +51,5 @@ namespace MiniCRMCore.Areas.Clients.Models
 			/// </summary>
 			public List<Offer.Dto> Offers { get; set; }
 		}
-	}
-
-	public class ClientCommunicationReport
-	{
-		public int Id { get; set; }
 	}
 }

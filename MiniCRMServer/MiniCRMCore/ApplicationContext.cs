@@ -19,6 +19,7 @@ namespace MiniCRMCore
 		public DbSet<User> Users { get; set; }
 
 		public DbSet<Client> Clients { get; set; }
+		public DbSet<ClientCommunicationReport> ClientCommunicationReports { get; set; }
 
 		public DbSet<Offer> Offers { get; set; }
 
@@ -30,6 +31,7 @@ namespace MiniCRMCore
 			{
 				e.HasKey(x => x.Id);
 				e.HasMany(x => x.Offers).WithOne(x => x.Client).OnDelete(DeleteBehavior.Cascade);
+				e.HasMany(x => x.CommunicationReports).WithOne(x => x.Client).OnDelete(DeleteBehavior.Cascade);
 			});
 
 			modelBuilder.Entity<Offer>(e =>
