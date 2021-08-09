@@ -108,7 +108,7 @@
 
   <div class="row justify-content-end">
     <div class="col-4 client_form__buttons">
-      <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
+      <button mat-raised-button (click)="submit()" color="primary" *ngIf="!isEdit">
         Создать
       </button>
 

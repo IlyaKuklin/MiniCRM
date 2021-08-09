@@ -35,9 +35,9 @@ namespace MiniCRMServer.Controllers
 
 		[HttpGet("list")]
 		[ProducesResponseType(typeof(List<Client.Dto>), 200)]
-		public async Task<IActionResult> GetList()
+		public async Task<IActionResult> GetList(string filter)
 		{
-			var result = await _clientsService.GetListAsync();
+			var result = await _clientsService.GetListAsync(filter);
 			return this.Ok(result);
 		}
 

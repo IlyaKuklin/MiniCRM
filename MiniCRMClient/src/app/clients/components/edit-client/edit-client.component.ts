@@ -83,6 +83,8 @@ export class EditClientComponent implements OnInit {
   }
 
   update(): void {
+    if (!this.clientForm.valid) return;
+
     this.isLoading = true;
     this.clientsApiService
       .apiClientsEditPost(this.model)

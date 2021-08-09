@@ -4,6 +4,8 @@ using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Utilities.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MiniCRMCore.Areas.Clients
@@ -34,12 +36,32 @@ namespace MiniCRMCore.Areas.Clients
 			return dto;
 		}
 
-		public async Task<List<Client.Dto>> GetListAsync()
+		public async Task<List<Client.Dto>> GetListAsync(string filter)
 		{
-			var clients = await _context.Clients
-				.Include(x => x.Offers)
-				.AsNoTracking()
-				.ToListAsync();
+			List<Client> clients;
+			if (string.IsNullOrEmpty(filter))
+			{
+				clients = await _context.Clients
+					.Include(x => x.Offers)
+					.AsNoTracking()
+					.ToListAsync();
+			}
+			else
+			{
+				Expression<Func<Client, bool>> predicate = x =>
+					x.Name.Contains(filter) ||
+					x.DomainNames.Contains(filter) ||
+					x.Contact.Contains(filter) ||
+					x.Diagnostics.Contains(filter) ||
+					x.LegalEntitiesNames.Contains(filter)
+				;
+
+				clients = await _context.Clients
+					.Include(x => x.Offers)
+					.Where(predicate)
+					.AsNoTracking()
+					.ToListAsync();
+			}
 
 			var dto = _mapper.Map<List<Client.Dto>>(clients);
 			return dto;
