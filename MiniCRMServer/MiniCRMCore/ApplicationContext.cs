@@ -18,6 +18,8 @@ namespace MiniCRMCore
 
 		public DbSet<User> Users { get; set; }
 
+		//public DbSet<FileDatum> FileData { get; set; }
+
 		public DbSet<Client> Clients { get; set; }
 		public DbSet<ClientCommunicationReport> ClientCommunicationReports { get; set; }
 
