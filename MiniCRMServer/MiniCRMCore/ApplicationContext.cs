@@ -18,12 +18,13 @@ namespace MiniCRMCore
 
 		public DbSet<User> Users { get; set; }
 
-		//public DbSet<FileDatum> FileData { get; set; }
+		public DbSet<FileDatum> FileData { get; set; }
 
 		public DbSet<Client> Clients { get; set; }
 		public DbSet<ClientCommunicationReport> ClientCommunicationReports { get; set; }
 
 		public DbSet<Offer> Offers { get; set; }
+		public DbSet<OfferFileDatum> OfferFileData { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -40,6 +41,7 @@ namespace MiniCRMCore
 			{
 				e.HasKey(x => x.Id);
 			});
+
 		}
 
 		#region override

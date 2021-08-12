@@ -246,6 +246,8 @@ namespace MiniCRMServer
 			this.CreateMap<Offer, Offer.Dto>();
 			this.CreateMap<Offer.EditDto, Offer>()
 				.ForMember(x => x.Id, opt => opt.Ignore());
+
+			this.CreateMap<OfferFileDatum, OfferFileDatum.Dto>();
 		}
 	}
 
