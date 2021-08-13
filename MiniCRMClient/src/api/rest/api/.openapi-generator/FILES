@@ -15,6 +15,9 @@ model/client-dto.ts
 model/models.ts
 model/offer-dto.ts
 model/offer-edit-dto.ts
+model/offer-file-datum-dto.ts
+model/offer-file-type.ts
+model/offer-potential.ts
 model/role.ts
 model/user-auth-dto.ts
 model/user-auth-response-dto.ts

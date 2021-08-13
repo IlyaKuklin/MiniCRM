@@ -9,16 +9,30 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OfferPotential } from './offer-potential';
+import { OfferFileDatumDto } from './offer-file-datum-dto';
 import { ClientDto } from './client-dto';
 
 
 export interface OfferDto { 
     id?: number;
+    created?: string;
+    changed?: string;
     number?: number;
     productSystemType?: string | null;
     briefIndustryDescription?: string | null;
     offerCase?: string | null;
+    description?: string | null;
+    offerPoint?: string | null;
+    recommendations?: string | null;
+    otherDocumentation?: string | null;
+    coveringLetter?: string | null;
+    similarCases?: string | null;
+    newsLinks?: string | null;
+    potential?: OfferPotential;
+    stage?: string | null;
     client?: ClientDto;
     clientId?: number;
+    fileData?: Array<OfferFileDatumDto> | null;
 }
 

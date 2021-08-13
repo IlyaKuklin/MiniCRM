@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OfferPotential } from './offer-potential';
 
 
 export interface OfferEditDto { 
@@ -16,6 +17,15 @@ export interface OfferEditDto {
     productSystemType?: string | null;
     briefIndustryDescription?: string | null;
     offerCase?: string | null;
+    description?: string | null;
+    offerPoint?: string | null;
+    recommendations?: string | null;
+    otherDocumentation?: string | null;
+    coveringLetter?: string | null;
+    similarCases?: string | null;
     clientId?: number;
+    newsLinks?: string | null;
+    potential?: OfferPotential;
+    stage?: string | null;
 }
 
