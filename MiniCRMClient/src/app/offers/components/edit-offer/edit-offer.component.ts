@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { forkJoin, pipe } from 'rxjs';
@@ -32,6 +33,8 @@ export class EditOfferComponent implements OnInit {
   clients: ClientDto[] = [];
 
   errorStateMatcher = new OfferErrorStateMatcher();
+
+  selectedFields: string[] = [];
 
   get modelChanged(): boolean {
     return true;
@@ -101,6 +104,19 @@ export class EditOfferComponent implements OnInit {
         this.isLoading = false;
         this.router.navigate(['/offers']);
       });
+  }
+
+  onFieldSelectChange(evt: MatCheckboxChange) {
+    if (evt.checked) this.selectedFields.push(<string>evt.source.name);
+    else
+      this.selectedFields = this.selectedFields.filter(
+        (x) => x !== <string>evt.source.name
+      );
+    console.log(this.selectedFields);
+  }
+
+  isFieldSelected(name: string) {
+    return this.selectedFields.indexOf(name) > -1;
   }
 }
 

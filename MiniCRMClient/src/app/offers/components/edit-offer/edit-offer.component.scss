@@ -1,27 +1,54 @@
-:host {
-    width: 100%;
-}
-
 .offer {
-    width: 30em;
-  
-    &_form {
+  width: 100%;
+  padding-bottom: 5em;
+
+  &_data {
+    padding-bottom: 2em;
+
+    &_title {
+      font-size: 1.25em;
+    }
+  }
+
+  &_card {
+    height: 100%;
+  }
+
+  &_section {
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 1em;
+    margin-bottom: 1em;
+
+    &_cb {
+      padding-right: 1em;
+    }
+
+    &__wrapper {
       display: flex;
-      flex-direction: column;
-      justify-content: space-evenly;
-  
+
       &__field {
         width: 100%;
       }
-  
-      &__buttons {
-        display: flex;
-        justify-content: space-between;
-  
-        &-button {
-          width: 40%;
-        }
-      }
     }
   }
-  
+
+  // &_form {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: space-evenly;
+
+  //   &__field {
+  //     width: 100%;
+  //   }
+
+  //   &__buttons {
+  //     display: flex;
+  //     justify-content: space-between;
+
+  //     &-button {
+  //       width: 40%;
+  //     }
+  //   }
+  // }
+}

@@ -1,79 +1,170 @@
-<mat-card style="display: flex" *ngIf="model.id">
-  <mat-card-title>Номер КП: {{ model.number }}</mat-card-title>
-  <div style="flex: 1"></div>
-  <mat-card-title>Клиент: {{ model.client!.name }}</mat-card-title>
-</mat-card>
+<div class="offer">
+  <div class="row offer_data">
+    <div class="col-12">
+      <mat-card style="display: flex" *ngIf="model.id">
+        <mat-card-title class="offer_data_title">Номер КП: {{ model.number }}</mat-card-title>
+        <div style="flex: 1"></div>
+        <mat-card-title class="offer_data_title">Клиент: {{ model.client!.name }}</mat-card-title>
+      </mat-card>
+    </div>
+  </div>
 
-<mat-card style="margin-top: 4em">
-  <div class="offer">
-    <form class="offer_form" #offerForm="ngForm" (ngSubmit)="submit()">
-      <mat-form-field *ngIf="!isEdit">
-        <mat-label>Клиент</mat-label>
-        <mat-select [(value)]="model.clientId">
-          <mat-option></mat-option>
-          <mat-option [value]="option.id" *ngFor="let option of clients">{{
-            option.name
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <div class="row">
+    <div class="col-6">
+      <mat-card class="offer_card">
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('description') }"
+            [checked]="isFieldSelected('description')"
+            (change)="onFieldSelectChange($event)"
+            name="description"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('description') }"
+            >Фотографии и описание товара</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                [disabled]="!isFieldSelected('description')"
+                rows="4"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.description"
+                name="description"
+                #description="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+          <div class="offer_fieldWrapper">
+            <input
+              type="file"
+              #audioFile
+              placeholder="Choose file"
+              style="display: none"
+              accept=".mp3"
+            />
 
-      <mat-form-field class="offer_form__field">
-        <mat-label>Тип системы/продукта</mat-label>
-        <input
-          matInput
-          required
-          [errorStateMatcher]="errorStateMatcher"
-          type="text"
-          [(ngModel)]="model.productSystemType"
-          name="productSystemType"
-          #productSystemType="ngModel"
-        />
-        <mat-error *ngIf="productSystemType.hasError('required')">
-          Поля <strong>обязательно</strong> для заполнения
-        </mat-error>
-      </mat-form-field>
+            <button
+              mat-raised-button
+              class="form_upload__fileButton-btn"
+              [disabled]="!isFieldSelected('description')"
+            >
+              Добавить фотографии
+            </button>
+          </div>
+        </div>
 
-      <mat-form-field class="offer_form__field">
-        <mat-label>Краткое описание отрасли клиента</mat-label>
-        <textarea
-          style="resize: none"
-          rows="4"
-          matInput
-          required
-          [errorStateMatcher]="errorStateMatcher"
-          type="text"
-          [(ngModel)]="model.briefIndustryDescription"
-          name="briefIndustryDescription"
-          #briefIndustryDescription="ngModel"
-        ></textarea>
-        <mat-error *ngIf="briefIndustryDescription.hasError('required')">
-          Поля <strong>обязательно</strong> для заполнения
-        </mat-error>
-      </mat-form-field>
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }"
+            [checked]="isFieldSelected('productSystemType')"
+            (change)="onFieldSelectChange($event)"
+            name="productSystemType"
+          ></mat-checkbox>
+          <mat-label
+            [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }"
+            >Тип системы/продукта</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <input
+                matInput
+                [disabled]="!isFieldSelected('productSystemType')"
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.productSystemType"
+                name="productSystemType"
+                #productSystemType="ngModel"
+              />
+            </mat-form-field>
+          </div>
+        </div>
 
-      <mat-form-field class="offer_form__field">
-        <mat-label>Кейс</mat-label>
-        <textarea
-          style="resize: none"
-          rows="4"
-          matInput
-          required
-          [errorStateMatcher]="errorStateMatcher"
-          type="text"
-          [(ngModel)]="model.offerCase"
-          name="offerCase"
-          #offerCase="ngModel"
-        ></textarea>
-        <mat-error *ngIf="offerCase.hasError('required')">
-          Поля <strong>обязательно</strong> для заполнения
-        </mat-error>
-      </mat-form-field>
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{
+              'faded-50': !isFieldSelected('briefIndustryDescription')
+            }"
+            [checked]="isFieldSelected('briefIndustryDescription')"
+            (change)="onFieldSelectChange($event)"
+            name="briefIndustryDescription"
+          ></mat-checkbox>
+          <mat-label
+            [ngClass]="{
+              'faded-50': !isFieldSelected('briefIndustryDescription')
+            }"
+            >Краткое описание отрасли клиента</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('briefIndustryDescription')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.briefIndustryDescription"
+                name="briefIndustryDescription"
+                #briefIndustryDescription="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
 
-      <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }"
+            [checked]="isFieldSelected('offerCase')"
+            (change)="onFieldSelectChange($event)"
+            name="offerCase"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }"
+            >Кейс</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('offerCase')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.offerCase"
+                name="offerCase"
+                #offerCase="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+    <!-- end col -->
+
+    <div class="col-6">
+      <mat-card class="offer_card"></mat-card>
+    </div>
+  </div>
+
+  <div class="row justify-content-end">
+    <div class="col-4 offer_form__buttons">
+      <button
+        mat-raised-button
+        (click)="submit()"
+        color="primary"
+        *ngIf="!isEdit"
+      >
         Создать
       </button>
 
-      <div *ngIf="isEdit && !isLoading" class="offer_form__buttons">
+      <div *ngIf="isEdit && !isLoading" class="offer_form__buttons-edit">
         <button
           mat-raised-button
           color="primary"
@@ -92,9 +183,9 @@
           Удалить
         </button>
       </div>
-    </form>
+    </div>
   </div>
-</mat-card>
+</div>
 
 <div class="loader" *ngIf="isLoading">
   <mat-spinner></mat-spinner>
