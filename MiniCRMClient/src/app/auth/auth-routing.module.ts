@@ -15,13 +15,13 @@ const routes: Routes = [
     path: 'managers',
     component: ManagersListComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2] },
+    data: { roles: [Role.Administrator] },
   },
   {
     path: 'managers/edit/:id',
     component: EditManagerComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2] },
+    data: { roles: [Role.Administrator] },
   },
 ];
 

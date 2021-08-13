@@ -28,7 +28,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   get isAdmin(): boolean {
-    return this.userData != null && this.userData.role == Role.NUMBER_2;
+    return this.userData != null && this.userData.role == Role.Administrator;
   }
 
   goToLogin() {

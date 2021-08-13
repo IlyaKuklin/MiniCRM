@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MiniCRMServer
 {
@@ -86,7 +87,8 @@ namespace MiniCRMServer
 			services.AddScoped<OffersService>();
 
 			services.AddControllers()
-				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+				.AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 			services.AddSwaggerGen(SwaggerGenApiExtentions.Configure);
 		}

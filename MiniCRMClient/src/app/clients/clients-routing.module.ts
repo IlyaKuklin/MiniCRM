@@ -10,13 +10,13 @@ const routes: Routes = [
     path: 'clients',
     component: ClientsListComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
+    data: { roles: [Role.Administrator, Role.Manager] },
   },
   {
     path: 'clients/edit/:id',
     component: EditClientComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
+    data: { roles: [Role.Administrator, Role.Manager] },
   },
 ];
 
