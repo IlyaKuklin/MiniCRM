@@ -41,7 +41,6 @@
           <div class="offer_fieldWrapper">
             <input
               type="file"
-              #audioFile
               placeholder="Choose file"
               style="display: none"
               accept=".mp3"
@@ -49,7 +48,7 @@
 
             <button
               mat-raised-button
-              class="form_upload__fileButton-btn"
+              class="fileButton"
               [disabled]="!isFieldSelected('description')"
             >
               Добавить фотографии
@@ -144,12 +143,242 @@
             </mat-form-field>
           </div>
         </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }"
+            [checked]="isFieldSelected('offerPoint')"
+            (change)="onFieldSelectChange($event)"
+            name="offerPoint"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }"
+            >Суть предложения</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('offerPoint')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.offerPoint"
+                name="offerPoint"
+                #offerPoint="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }"
+            [checked]="isFieldSelected('recommendations')"
+            (change)="onFieldSelectChange($event)"
+            name="recommendations"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }"
+            >Рекомендации клиенту</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('recommendations')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.recommendations"
+                name="recommendations"
+                #recommendations="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
       </mat-card>
     </div>
     <!-- end col -->
 
     <div class="col-6">
-      <mat-card class="offer_card"></mat-card>
+      <mat-card class="offer_card">
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
+            [checked]="isFieldSelected('techPassport')"
+            (change)="onFieldSelectChange($event)"
+            name="techPassport"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
+            >Технический паспорт</mat-label
+          >
+          <div class="offer_fieldWrapper">
+            <input
+              type="file"
+              placeholder="Choose file"
+              style="display: none"
+              accept=".mp3"
+            />
+
+            <button
+              mat-raised-button
+              class="fileButton"
+              [disabled]="!isFieldSelected('techPassport')"
+            >
+              Добавить изображение
+            </button>
+          </div>
+        </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
+            [checked]="isFieldSelected('certificate')"
+            (change)="onFieldSelectChange($event)"
+            name="certificate"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
+            >Сертификаты</mat-label
+          >
+          <div class="offer_fieldWrapper">
+            <input
+              type="file"
+              placeholder="Choose file"
+              style="display: none"
+              accept=".mp3"
+            />
+
+            <button
+              mat-raised-button
+              class="fileButton"
+              [disabled]="!isFieldSelected('certificate')"
+            >
+              Добавить изображение
+            </button>
+          </div>
+        </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }"
+            [checked]="isFieldSelected('otherDocumentation')"
+            (change)="onFieldSelectChange($event)"
+            name="otherDocumentation"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }"
+            >Прочая документация</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('otherDocumentation')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.otherDocumentation"
+                name="otherDocumentation"
+                #otherDocumentation="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }"
+            [checked]="isFieldSelected('coveringLetter')"
+            (change)="onFieldSelectChange($event)"
+            name="coveringLetter"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }"
+            >Сопроводительное письмо</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('coveringLetter')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.coveringLetter"
+                name="coveringLetter"
+                #coveringLetter="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }"
+            [checked]="isFieldSelected('similarCases')"
+            (change)="onFieldSelectChange($event)"
+            name="similarCases"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }"
+            >Аналогичные кейсы</mat-label
+          >
+          <div class="offer_section__wrapper">
+            <mat-form-field class="offer_section__wrapper__field">
+              <textarea
+                style="resize: none"
+                rows="4"
+                [disabled]="!isFieldSelected('similarCases')"
+                matInput
+                [errorStateMatcher]="errorStateMatcher"
+                type="text"
+                [(ngModel)]="model.similarCases"
+                name="similarCases"
+                #similarCases="ngModel"
+              ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="offer_section">
+          <mat-checkbox
+            class="offer_section_cb"
+            [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
+            [checked]="isFieldSelected('card')"
+            (change)="onFieldSelectChange($event)"
+            name="card"
+          ></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
+            >Визитка</mat-label
+          >
+          <div class="offer_fieldWrapper">
+            <input
+              type="file"
+              placeholder="Choose file"
+              style="display: none"
+              accept=".mp3"
+            />
+
+            <button
+              mat-raised-button
+              class="fileButton"
+              [disabled]="!isFieldSelected('card')"
+            >
+              Добавить изображение
+            </button>
+          </div>
+        </div>
+
+      </mat-card>
     </div>
   </div>
 
