@@ -1,6 +1,7 @@
 ﻿using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
@@ -52,6 +53,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public int ClientId { get; set; }
 
 		public List<OfferFileDatum> FileData { get; set; }
+
+		public List<string> SelectedSections { get; set; }
 
 		public class Dto : BaseDto
 		{
@@ -112,6 +115,10 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public int ClientId { get; set; }
 
 			public List<OfferFileDatum.Dto> FileData { get; set; }
+
+			[Required]
+			public List<string> SelectedSections { get; set; }
+
 		}
 
 		public class EditDto
@@ -157,6 +164,14 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			public OfferPotential Potential { get; set; }
 			public string Stage { get; set; }
+		}
+
+		public class UpdateDto
+		{
+			[Required]
+			public Dto EditDto { get; set; }
+			[Required]
+			public List<string> SelectedSections { get; set; }
 		}
 	}
 

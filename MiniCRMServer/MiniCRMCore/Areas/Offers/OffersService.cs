@@ -44,7 +44,7 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
-		public async Task<Offer.Dto> EditAsync(Offer.EditDto dto)
+		public async Task<Offer.Dto> EditAsync(Offer.Dto dto)
 		{
 			Offer offer;
 			if (dto.Id > 0)
@@ -63,10 +63,6 @@ namespace MiniCRMCore.Areas.Offers
 			}
 
 			_mapper.Map(dto, offer);
-
-			//var client = await _context.Clients.FirstOrDefaultAsync(x => x.Id == dto.ClientId);
-			//if (client == null)
-			//	throw new ApiException($"Не найден клиент с ID {dto.ClientId}");
 
 			await _context.SaveChangesAsync();
 

@@ -18,7 +18,6 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { OfferDto } from '../model/models';
-import { OfferEditDto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -140,14 +139,17 @@ export class OffersApiService {
     }
 
     /**
-     * @param offerEditDto 
+     * @param offerDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiOffersEditPost(offerEditDto?: OfferEditDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<OfferDto>;
-    public apiOffersEditPost(offerEditDto?: OfferEditDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<OfferDto>>;
-    public apiOffersEditPost(offerEditDto?: OfferEditDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<OfferDto>>;
-    public apiOffersEditPost(offerEditDto?: OfferEditDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+    public apiOffersEditPost(offerDto: OfferDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<OfferDto>;
+    public apiOffersEditPost(offerDto: OfferDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<OfferDto>>;
+    public apiOffersEditPost(offerDto: OfferDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<OfferDto>>;
+    public apiOffersEditPost(offerDto: OfferDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (offerDto === null || offerDto === undefined) {
+            throw new Error('Required parameter offerDto was null or undefined when calling apiOffersEditPost.');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -191,7 +193,7 @@ export class OffersApiService {
         }
 
         return this.httpClient.post<OfferDto>(`${this.configuration.basePath}/api/Offers/edit`,
-            offerEditDto,
+            offerDto,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

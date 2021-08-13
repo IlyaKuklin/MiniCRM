@@ -244,11 +244,14 @@ namespace MiniCRMServer
 	{
 		public OffersMappingProfile()
 		{
-			this.CreateMap<Offer, Offer.Dto>();
+			this.CreateMap<Offer, Offer.Dto>()
+				.ReverseMap()
+				.ForMember(x => x.Id, opt => opt.Ignore());
 			this.CreateMap<Offer.EditDto, Offer>()
 				.ForMember(x => x.Id, opt => opt.Ignore());
 
-			this.CreateMap<OfferFileDatum, OfferFileDatum.Dto>();
+			this.CreateMap<OfferFileDatum, OfferFileDatum.Dto>()
+				.ReverseMap();
 		}
 	}
 

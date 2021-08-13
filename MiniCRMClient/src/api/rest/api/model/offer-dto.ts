@@ -34,5 +34,6 @@ export interface OfferDto {
     client?: ClientDto;
     clientId?: number;
     fileData?: Array<OfferFileDatumDto> | null;
+    selectedSections: Array<string>;
 }
 

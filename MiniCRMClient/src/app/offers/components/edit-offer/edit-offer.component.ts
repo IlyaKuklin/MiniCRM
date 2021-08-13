@@ -27,14 +27,14 @@ export class EditOfferComponent implements OnInit {
   @ViewChild('offerForm') offerForm!: NgForm;
   isLoading: boolean = false;
 
-  model: OfferDto = {};
+  model: OfferDto = {selectedSections:[]};
   isEdit: boolean = false;
-  originalModel: OfferDto = {};
+  originalModel: OfferDto = {selectedSections:[]};
   clients: ClientDto[] = [];
 
   errorStateMatcher = new OfferErrorStateMatcher();
 
-  selectedFields: string[] = [];
+  //selectedFields: string[] = [];
 
   get modelChanged(): boolean {
     return true;
@@ -67,7 +67,6 @@ export class EditOfferComponent implements OnInit {
   }
 
   submit(): void {
-    if (!this.offerForm.valid) return;
     if (this.model.clientId == undefined) {
       alert('Не выбран клиент');
       return;
@@ -84,7 +83,6 @@ export class EditOfferComponent implements OnInit {
   }
 
   update(): void {
-    if (!this.offerForm.valid) return;
     this.isLoading = true;
     this.offersApiService
       .apiOffersEditPost(this.model)
@@ -107,16 +105,16 @@ export class EditOfferComponent implements OnInit {
   }
 
   onFieldSelectChange(evt: MatCheckboxChange) {
-    if (evt.checked) this.selectedFields.push(<string>evt.source.name);
+    if (evt.checked) this.model.selectedSections.push(<string>evt.source.name);
     else
-      this.selectedFields = this.selectedFields.filter(
+      this.model.selectedSections = this.model.selectedSections.filter(
         (x) => x !== <string>evt.source.name
       );
-    console.log(this.selectedFields);
+    console.log(this.model.selectedSections);
   }
 
   isFieldSelected(name: string) {
-    return this.selectedFields.indexOf(name) > -1;
+    return this.model.selectedSections.indexOf(name) > -1;
   }
 }
 
