@@ -11,13 +11,13 @@
  */
 
 
-export type OfferPotential = 'Undefined' | 'NotSet' | 'Cold' | 'Warm' | 'Hot';
+export type OfferPotential = 0 | 1 | 2 | 3 | 4;
 
 export const OfferPotential = {
-    Undefined: 'Undefined' as OfferPotential,
-    NotSet: 'NotSet' as OfferPotential,
-    Cold: 'Cold' as OfferPotential,
-    Warm: 'Warm' as OfferPotential,
-    Hot: 'Hot' as OfferPotential
+    NUMBER_0: 0 as OfferPotential,
+    NUMBER_1: 1 as OfferPotential,
+    NUMBER_2: 2 as OfferPotential,
+    NUMBER_3: 3 as OfferPotential,
+    NUMBER_4: 4 as OfferPotential
 };
 

@@ -10,13 +10,13 @@ const routes: Routes = [
     path: 'offers',
     component: OffersListComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.Administrator, Role.Manager] },
+    data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
   },
   {
     path: 'offers/edit/:id',
     component: EditOfferComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.Administrator, Role.Manager] },
+    data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
   },
 ];
 

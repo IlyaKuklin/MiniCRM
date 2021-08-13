@@ -87,8 +87,7 @@ namespace MiniCRMServer
 			services.AddScoped<OffersService>();
 
 			services.AddControllers()
-				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-				.AddJsonOptions(opts => opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 			services.AddSwaggerGen(SwaggerGenApiExtentions.Configure);
 		}
