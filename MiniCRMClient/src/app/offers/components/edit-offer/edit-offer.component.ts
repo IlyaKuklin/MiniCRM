@@ -14,6 +14,7 @@ import {
 } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { isDevMode } from '@angular/core';
 
 @Component({
   selector: 'mcrm-edit-offer',
@@ -46,14 +47,9 @@ export class EditOfferComponent implements OnInit {
     return true;
   }
 
-  getFiles(type: OfferFileType): OfferFileDatumDto[] {
-    if (this.model.fileData) {
-      return this.model.fileData.filter((x) => x.type == type);
-    }
-    return [];
-  }
-
   ngOnInit(): void {
+    console.log(isDevMode())
+
     this.route.params.subscribe((params) => {
       if (params.id) {
         this.isEdit = true;
@@ -70,7 +66,7 @@ export class EditOfferComponent implements OnInit {
           this.clients = response[1];
 
           // TODO: remove
-          if (this.model.fileData) {
+          if (this.model.fileData && isDevMode()) {
             this.model.fileData.forEach((x) => {
               x.path = `http:\\\\vm469442.eurodir.ru\\${x.path}`;
             });
@@ -153,6 +149,13 @@ export class EditOfferComponent implements OnInit {
 
   isFieldSelected(name: string) {
     return this.model.selectedSections.indexOf(name) > -1;
+  }
+
+  getFiles(type: OfferFileType): OfferFileDatumDto[] {
+    if (this.model.fileData) {
+      return this.model.fileData.filter((x) => x.type == type);
+    }
+    return [];
   }
 
   uploadFile(files: FileList | null, type: OfferFileType): void {
