@@ -55,6 +55,7 @@ namespace MiniCRMCore.Areas.Offers
 			if (dto.Id > 0)
 			{
 				offer = await _context.Offers
+					.Include(x => x.Client)
 					.Include(x => x.FileData)
 						.ThenInclude(x => x.FileDatum)
 					.FirstOrDefaultAsync(x => x.Id == dto.Id);
