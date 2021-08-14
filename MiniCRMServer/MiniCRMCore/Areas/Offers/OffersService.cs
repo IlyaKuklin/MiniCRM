@@ -54,7 +54,10 @@ namespace MiniCRMCore.Areas.Offers
 			Offer offer;
 			if (dto.Id > 0)
 			{
-				offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == dto.Id);
+				offer = await _context.Offers
+					.Include(x => x.FileData)
+						.ThenInclude(x => x.FileDatum)
+					.FirstOrDefaultAsync(x => x.Id == dto.Id);
 				if (offer == null)
 					throw new ApiException($"Не найдено КП с ID {dto.Id}");
 			}

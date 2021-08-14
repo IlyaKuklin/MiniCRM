@@ -12,6 +12,8 @@ import {
   OfferFileType,
   OffersApiService,
 } from 'src/api/rest/api';
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
   selector: 'mcrm-edit-offer',
@@ -23,7 +25,9 @@ export class EditOfferComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly offersApiService: OffersApiService,
     private readonly clientsApiService: ClientsApiService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly snackbarService: SnackbarService,
+    private readonly dialogService: DialogService
   ) {}
 
   @ViewChild('offerForm') offerForm!: NgForm;
@@ -93,7 +97,10 @@ export class EditOfferComponent implements OnInit {
       .apiOffersEditPost(this.model)
       .subscribe((response) => {
         this.isLoading = false;
-        alert('КП создано');
+        this.snackbarService.show({
+          message: 'КП создано',
+          duration: 3000,
+        });
         this.router.navigate([`/offers/edit/${response.id}`]);
       });
   }
@@ -104,19 +111,34 @@ export class EditOfferComponent implements OnInit {
       .apiOffersEditPost(this.model)
       .subscribe((response) => {
         this.model = response;
-        alert('Данные обновлены');
+        this.snackbarService.show({
+          message: 'Данные обновлены',
+          duration: 3000,
+        });
         this.isLoading = false;
       });
   }
 
   delete(): void {
-    this.isLoading = true;
-    this.offersApiService
-      .apiOffersDeleteDelete(this.model.id)
-      .subscribe((response) => {
-        alert('КП удалёно');
-        this.isLoading = false;
-        this.router.navigate(['/offers']);
+    this.dialogService
+      .confirmDialog({
+        header: 'Удаление',
+        message: 'Вы уверены, что хотите удалить КП?',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.isLoading = true;
+          this.offersApiService
+            .apiOffersDeleteDelete(this.model.id)
+            .subscribe((response) => {
+              this.snackbarService.show({
+                message: 'КП удалёно',
+                duration: 3000,
+              });
+              this.isLoading = false;
+              this.router.navigate(['/offers']);
+            });
+        }
       });
   }
 
@@ -157,11 +179,24 @@ export class EditOfferComponent implements OnInit {
   deleteFile(fileId: number | undefined): void {
     if (!fileId) return;
 
-    this.isLoading = true;
-    this.offersApiService.apiOffersFilesDeleteDelete(fileId).subscribe(() => {
-      this.model.fileData = this.model.fileData?.filter((x) => x.id != fileId);
-      this.isLoading = false;
-    });
+    this.dialogService
+      .confirmDialog({
+        header: 'Удаление',
+        message: 'Вы уверены, что хотите удалить файл?',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.isLoading = true;
+          this.offersApiService
+            .apiOffersFilesDeleteDelete(fileId)
+            .subscribe(() => {
+              this.model.fileData = this.model.fileData?.filter(
+                (x) => x.id != fileId
+              );
+              this.isLoading = false;
+            });
+        }
+      });
   }
 }
 

@@ -246,7 +246,10 @@ namespace MiniCRMServer
 		{
 			this.CreateMap<Offer, Offer.Dto>()
 				.ReverseMap()
-				.ForMember(x => x.Id, opt => opt.Ignore());
+				.ForMember(x => x.Id, opt => opt.Ignore())
+				.ForMember(x => x.Number, opt => opt.Ignore())
+				.ForMember(x => x.FileData, opt => opt.Ignore())
+				;
 			this.CreateMap<Offer.EditDto, Offer>()
 				.ForMember(x => x.Id, opt => opt.Ignore());
 
