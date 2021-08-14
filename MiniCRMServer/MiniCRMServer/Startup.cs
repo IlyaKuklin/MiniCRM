@@ -250,7 +250,7 @@ namespace MiniCRMServer
 				.ForMember(x => x.Number, opt => opt.Ignore())
 				.ForMember(x => x.FileData, opt => opt.Ignore())
 				.ForMember(x => x.Client, opt => opt.Ignore())
-				.ForMember(x => x.ClientId, opt => opt.Ignore())
+				//.ForMember(x => x.ClientId, opt => opt.Ignore())
 				;
 			this.CreateMap<Offer.EditDto, Offer>()
 				.ForMember(x => x.Id, opt => opt.Ignore());

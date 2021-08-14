@@ -15,6 +15,8 @@ import {
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { isDevMode } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'mcrm-edit-offer',
@@ -41,14 +43,20 @@ export class EditOfferComponent implements OnInit {
 
   errorStateMatcher = new OfferErrorStateMatcher();
 
-  //selectedFields: string[] = [];
+  clientSelectControl = new FormControl();
+  filteredClients!: Observable<ClientDto[]>;
 
   get modelChanged(): boolean {
     return true;
   }
 
   ngOnInit(): void {
-    console.log(isDevMode())
+    console.log(isDevMode());
+
+    this.filteredClients = this.clientSelectControl.valueChanges.pipe(
+      startWith(''),
+      map((value) => this._filter(value))
+    );
 
     this.route.params.subscribe((params) => {
       if (params.id) {
@@ -158,7 +166,11 @@ export class EditOfferComponent implements OnInit {
     return [];
   }
 
-  uploadFile(files: FileList | null, type: OfferFileType, replace: boolean): void {
+  uploadFile(
+    files: FileList | null,
+    type: OfferFileType,
+    replace: boolean
+  ): void {
     if (files === null || files.length === 0) {
       return;
     }
@@ -175,7 +187,9 @@ export class EditOfferComponent implements OnInit {
       .subscribe((response) => {
         console.log(response);
         if (replace)
-          this.model.fileData = this.model.fileData?.filter(x => x.type != type);
+          this.model.fileData = this.model.fileData?.filter(
+            (x) => x.type != type
+          );
         this.model.fileData?.push(...response);
         this.isLoading = false;
       });
@@ -202,6 +216,25 @@ export class EditOfferComponent implements OnInit {
             });
         }
       });
+  }
+
+  onClientSelected(evt: ClientDto) {
+    this.model.clientId = evt.id;
+  }
+
+  getClientOptionText(option: ClientDto) : string {
+    return option?.name ? option.name : '';
+  }
+
+  private _filter(value: any): ClientDto[] {
+    const isString = (value as ClientDto).legalEntitiesNames == undefined;
+    if (!isString) return [];
+
+    const filterValue = value.toLowerCase();
+    return this.clients.filter((option) => {
+      const name = <string>option.name;
+      return name.toLowerCase().includes(filterValue);
+    });
   }
 }
 
