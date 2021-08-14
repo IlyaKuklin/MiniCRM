@@ -1,37 +1,21 @@
-﻿using MiniCRMCore.Areas.Clients.Models;
+﻿using MiniCRMCore.Areas.Auth.Models;
+using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
-	public class OfferFileDatum : BaseEntity
+	public class OfferVersion : BaseEntity
 	{
-		public FileDatum FileDatum { get; set; }
-		public int FileDatumId { get; set; }
+		public int Number { get; set; }
+		public string Data { get; set; }
 
 		public Offer Offer { get; set; }
 		public int OfferId { get; set; }
 
-		public OfferFileType Type { get; set; }
-
-		public class Dto : BaseDto
-		{
-			public string Path { get; set; }
-			public string Name { get; set; }
-			public OfferFileType Type { get; set; }
-		}
-	}
-
-	public enum OfferFileType
-	{
-		Undefined = 0,
-		NotSet = 1,
-
-		Photo,
-		Certificate,
-		TechPassport,
-		Card
+		public User Author { get; set; }
+		public int AuthorId { get; set; }
 	}
 
 	public class Offer : BaseEntity
@@ -56,6 +40,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public List<OfferFileDatum> FileData { get; set; }
 
 		public List<string> SelectedSections { get; set; }
+
+		public List<OfferVersion> Versions { get; set; }
+		public int CurrentVersion { get; set; }
 
 		public class Dto : BaseDto
 		{
@@ -88,7 +75,6 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// </summary>
 			public string Recommendations { get; set; }
 
-
 			/// <summary>
 			/// Прочая документация
 			/// </summary>
@@ -119,7 +105,6 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			[Required]
 			public List<string> SelectedSections { get; set; }
-
 		}
 
 		public class EditDto
@@ -139,7 +124,6 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Рекомендации клиенту
 			/// </summary>
 			public string Recommendations { get; set; }
-
 
 			/// <summary>
 			/// Прочая документация
@@ -171,6 +155,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 		{
 			[Required]
 			public Dto EditDto { get; set; }
+
 			[Required]
 			public List<string> SelectedSections { get; set; }
 		}

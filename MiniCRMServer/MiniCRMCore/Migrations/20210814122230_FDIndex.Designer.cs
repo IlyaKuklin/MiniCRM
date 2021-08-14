@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniCRMCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
@@ -10,9 +11,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MiniCRMCore.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20210814122230_FDIndex")]
+    partial class FDIndex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,9 +162,6 @@ namespace MiniCRMCore.Migrations
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("CurrentVersion")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -238,40 +237,6 @@ namespace MiniCRMCore.Migrations
                     b.ToTable("OfferFileData");
                 });
 
-            modelBuilder.Entity("MiniCRMCore.Areas.Offers.Models.OfferVersion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("Changed")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OfferId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("OfferId");
-
-                    b.ToTable("OfferVersions");
-                });
-
             modelBuilder.Entity("MiniCRMCore.Areas.Clients.Models.ClientCommunicationReport", b =>
                 {
                     b.HasOne("MiniCRMCore.Areas.Auth.Models.User", "Author")
@@ -321,25 +286,6 @@ namespace MiniCRMCore.Migrations
                     b.Navigation("Offer");
                 });
 
-            modelBuilder.Entity("MiniCRMCore.Areas.Offers.Models.OfferVersion", b =>
-                {
-                    b.HasOne("MiniCRMCore.Areas.Auth.Models.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MiniCRMCore.Areas.Offers.Models.Offer", "Offer")
-                        .WithMany("Versions")
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("Offer");
-                });
-
             modelBuilder.Entity("MiniCRMCore.Areas.Clients.Models.Client", b =>
                 {
                     b.Navigation("CommunicationReports");
@@ -350,8 +296,6 @@ namespace MiniCRMCore.Migrations
             modelBuilder.Entity("MiniCRMCore.Areas.Offers.Models.Offer", b =>
                 {
                     b.Navigation("FileData");
-
-                    b.Navigation("Versions");
                 });
 #pragma warning restore 612, 618
         }

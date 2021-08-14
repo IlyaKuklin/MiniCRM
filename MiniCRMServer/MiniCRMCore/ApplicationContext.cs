@@ -25,6 +25,7 @@ namespace MiniCRMCore
 
 		public DbSet<Offer> Offers { get; set; }
 		public DbSet<OfferFileDatum> OfferFileData { get; set; }
+		public DbSet<OfferVersion> OfferVersions { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
