@@ -158,7 +158,7 @@ export class EditOfferComponent implements OnInit {
     return [];
   }
 
-  uploadFile(files: FileList | null, type: OfferFileType): void {
+  uploadFile(files: FileList | null, type: OfferFileType, replace: boolean): void {
     if (files === null || files.length === 0) {
       return;
     }
@@ -171,9 +171,11 @@ export class EditOfferComponent implements OnInit {
 
     this.isLoading = true;
     this.offersApiService
-      .apiOffersFilesUploadPatch(<number>this.model.id, type, false, blobs)
+      .apiOffersFilesUploadPatch(<number>this.model.id, type, replace, blobs)
       .subscribe((response) => {
         console.log(response);
+        if (replace)
+          this.model.fileData = this.model.fileData?.filter(x => x.type != type);
         this.model.fileData?.push(...response);
         this.isLoading = false;
       });

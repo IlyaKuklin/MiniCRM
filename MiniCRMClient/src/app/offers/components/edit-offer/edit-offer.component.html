@@ -26,6 +26,7 @@
   <div class="row">
     <div class="col-6">
       <mat-card class="offer_card">
+        <!-- Фотографии и описание товара -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -52,13 +53,13 @@
               ></textarea>
             </mat-form-field>
           </div>
-          <div>
+          <div [ngClass]="{ 'faded-50': !isFieldSelected('description') }">
             <input
               type="file"
               placeholder="Choose file"
               style="display: none"
-              accept=".png,.jpg"
-              (change)="uploadFile(photoFileInput.files, 2)"
+              accept="image/*"
+              (change)="uploadFile(photoFileInput.files, 2, false)"
               #photoFileInput
             />
 
@@ -77,18 +78,25 @@
                 class="offer_section__images-image"
               >
                 <div class="offer_section__images-image-fileData">
-                  {{ file.name }}<mat-icon color="warn" style="transform: scale(0.5);cursor: pointer;" (click)="deleteFile(file.id)">clear</mat-icon>
+                  <a [href]="file.path" target="_blank">{{ file.name }}</a>
+                  <mat-icon
+                    color="warn"
+                    style="transform: scale(0.5); cursor: pointer"
+                    (click)="deleteFile(file.id)"
+                    >clear</mat-icon
+                  >
                 </div>
+
                 <img
                   [src]="file.path"
                   class="offer_section__images-image-src"
                 />
               </div>
             </div>
-
           </div>
         </div>
 
+        <!-- Тип системы/продукта -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -116,6 +124,7 @@
           </div>
         </div>
 
+        <!-- Краткое описание отрасли клиента -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -149,6 +158,7 @@
           </div>
         </div>
 
+        <!-- Кейс -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -177,6 +187,7 @@
           </div>
         </div>
 
+        <!-- Суть предложения -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -205,6 +216,7 @@
           </div>
         </div>
 
+        <!-- Рекомендации клиенту -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -239,6 +251,7 @@
 
     <div class="col-6">
       <mat-card class="offer_card">
+        <!-- Технический паспорт -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -251,24 +264,52 @@
             [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
             >Технический паспорт</mat-label
           >
-          <div class="offer_fieldWrapper">
+          <div
+            class="offer_fieldWrapper"
+            [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
+          >
             <input
               type="file"
               placeholder="Choose file"
               style="display: none"
-              accept=".mp3"
+              accept="image/*"
+              (change)="uploadFile(techPassportFileInput.files, 4, true)"
+              #techPassportFileInput
             />
 
             <button
               mat-raised-button
               class="fileButton"
               [disabled]="!isFieldSelected('techPassport')"
+              (click)="techPassportFileInput.click()"
             >
               Добавить изображение
             </button>
+
+            <div class="offer_section__images">
+              <div
+                *ngFor="let file of getFiles(4)"
+                class="offer_section__images-image"
+              >
+                <div class="offer_section__images-image-fileData">
+                  <a [href]="file.path" target="_blank">{{ file.name }}</a>
+                  <mat-icon
+                    color="warn"
+                    style="transform: scale(0.5); cursor: pointer"
+                    (click)="deleteFile(file.id)"
+                    >clear</mat-icon
+                  >
+                </div>
+                <img
+                  [src]="file.path"
+                  class="offer_section__images-image-src"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Сертификаты -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -280,24 +321,52 @@
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
             >Сертификаты</mat-label
           >
-          <div class="offer_fieldWrapper">
+          <div
+            class="offer_fieldWrapper"
+            [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
+          >
             <input
               type="file"
               placeholder="Choose file"
               style="display: none"
-              accept=".mp3"
+              accept="image/*"
+              (change)="uploadFile(certificateFileInput.files, 3, false)"
+              #certificateFileInput
             />
 
             <button
               mat-raised-button
               class="fileButton"
               [disabled]="!isFieldSelected('certificate')"
+              (click)="certificateFileInput.click()"
             >
-              Добавить изображение
+              Добавить изображения
             </button>
+
+            <div class="offer_section__images">
+              <div
+                *ngFor="let file of getFiles(3)"
+                class="offer_section__images-image"
+              >
+                <div class="offer_section__images-image-fileData">
+                  <a [href]="file.path" target="_blank">{{ file.name }}</a
+                  ><mat-icon
+                    color="warn"
+                    style="transform: scale(0.5); cursor: pointer"
+                    (click)="deleteFile(file.id)"
+                    >clear</mat-icon
+                  >
+                </div>
+                <img
+                  [src]="file.path"
+                  class="offer_section__images-image-src"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
+        <!-- Прочая документация -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -327,6 +396,7 @@
           </div>
         </div>
 
+        <!-- Сопроводительное письмо -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -356,6 +426,7 @@
           </div>
         </div>
 
+        <!-- Аналогичные кейсы -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -385,6 +456,7 @@
           </div>
         </div>
 
+        <!-- Визитка -->
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -396,21 +468,48 @@
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
             >Визитка</mat-label
           >
-          <div class="offer_fieldWrapper">
+          <div
+            class="offer_fieldWrapper"
+            [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
+          >
             <input
               type="file"
               placeholder="Choose file"
               style="display: none"
-              accept=".mp3"
+              accept="image/*"
+              (change)="uploadFile(cardFileInput.files, 5, true)"
+              #cardFileInput
             />
 
             <button
               mat-raised-button
               class="fileButton"
               [disabled]="!isFieldSelected('card')"
+              (click)="cardFileInput.click()"
             >
               Добавить изображение
             </button>
+
+            <div class="offer_section__images">
+              <div
+                *ngFor="let file of getFiles(5)"
+                class="offer_section__images-image"
+              >
+                <div class="offer_section__images-image-fileData">
+                  <a [href]="file.path" target="_blank">{{ file.name }}</a
+                  ><mat-icon
+                    color="warn"
+                    style="transform: scale(0.5); cursor: pointer"
+                    (click)="deleteFile(file.id)"
+                    >clear</mat-icon
+                  >
+                </div>
+                <img
+                  [src]="file.path"
+                  class="offer_section__images-image-src"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </mat-card>

@@ -37,11 +37,16 @@
       flex-wrap: wrap;
 
       &-image {
+        max-width: 100px;
         margin: 0.5em;
 
         &-fileData {
           display: flex;
           font-size: 0.8em;
+
+          & > a{
+            color: black;
+          }
         }
 
         &-src {

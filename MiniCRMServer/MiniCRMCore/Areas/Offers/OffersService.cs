@@ -134,8 +134,20 @@ namespace MiniCRMCore.Areas.Offers
 				}
 			}
 
+			var sectionKey = string.Empty;
+			switch (type)
+			{
+
+				case OfferFileType.Photo: sectionKey = "description"; break;
+				case OfferFileType.TechPassport: sectionKey = "techPassport"; break;
+				case OfferFileType.Certificate: sectionKey = "certificate"; break;
+				case OfferFileType.Card: sectionKey = "card"; break;
+			}
+			if (!offer.SelectedSections.Contains(sectionKey))
+				offer.SelectedSections.Add(sectionKey);
+
 			await _context.SaveChangesAsync();
-			
+
 			var dto = _mapper.Map<List<OfferFileDatum>>(newOfferFiles);
 
 			return dto;
