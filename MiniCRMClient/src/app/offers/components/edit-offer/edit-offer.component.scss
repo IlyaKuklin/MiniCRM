@@ -44,7 +44,7 @@
           display: flex;
           font-size: 0.8em;
 
-          & > a{
+          & > a {
             color: black;
           }
         }
@@ -53,6 +53,18 @@
           max-width: 100px;
         }
       }
+    }
+  }
+
+  &__buttons {
+    margin-top: 3em;
+    &-edit {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-button {
+      width: 40%;
     }
   }
 }

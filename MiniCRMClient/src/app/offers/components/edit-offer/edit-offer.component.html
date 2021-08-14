@@ -517,7 +517,7 @@
   </div>
 
   <div class="row justify-content-end">
-    <div class="col-4 offer_form__buttons">
+    <div class="col-4 offer__buttons">
       <button
         mat-raised-button
         (click)="submit()"
@@ -527,11 +527,11 @@
         Создать
       </button>
 
-      <div *ngIf="isEdit && !isLoading" class="offer_form__buttons-edit">
+      <div *ngIf="isEdit && !isLoading" class="offer__buttons-edit">
         <button
           mat-raised-button
           color="primary"
-          class="offer_form__buttons-button"
+          class="offer__buttons-button"
           [disabled]="!modelChanged"
           (click)="update()"
         >
@@ -540,7 +540,7 @@
         <button
           mat-raised-button
           color="warn"
-          class="offer_form__buttons-button"
+          class="offer__buttons-button"
           (click)="delete()"
         >
           Удалить
