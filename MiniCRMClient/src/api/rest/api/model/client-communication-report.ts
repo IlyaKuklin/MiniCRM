@@ -9,15 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OfferFileType } from './offer-file-type';
+import { User } from './user';
+import { Client } from './client';
 
 
-export interface OfferFileDatumDto { 
+export interface ClientCommunicationReport { 
     id?: number;
     created?: string;
     changed?: string;
-    path?: string | null;
-    name?: string | null;
-    type?: OfferFileType;
+    text?: string | null;
+    authorId?: number;
+    author?: User;
+    clientId?: number;
+    client?: Client;
 }
 

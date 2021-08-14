@@ -9,15 +9,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OfferFileType } from './offer-file-type';
+import { Role } from './role';
 
 
-export interface OfferFileDatumDto { 
+export interface User { 
     id?: number;
-    created?: string;
-    changed?: string;
-    path?: string | null;
+    login?: string | null;
+    passwordHash?: string | null;
+    salt?: string;
+    isDeleted?: boolean;
+    role?: Role;
     name?: string | null;
-    type?: OfferFileType;
 }
 

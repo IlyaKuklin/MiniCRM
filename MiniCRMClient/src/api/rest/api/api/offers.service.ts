@@ -18,6 +18,8 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { OfferDto } from '../model/models';
+import { OfferFileDatum } from '../model/models';
+import { OfferFileType } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -47,6 +49,19 @@ export class OffersApiService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
         if (typeof value === "object" && value instanceof Date === false) {
@@ -195,6 +210,172 @@ export class OffersApiService {
         return this.httpClient.post<OfferDto>(`${this.configuration.basePath}/api/Offers/edit`,
             offerDto,
             {
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param offerFileId 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersFilesDeleteDelete(offerFileId: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public apiOffersFilesDeleteDelete(offerFileId: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public apiOffersFilesDeleteDelete(offerFileId: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public apiOffersFilesDeleteDelete(offerFileId: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (offerFileId === null || offerFileId === undefined) {
+            throw new Error('Required parameter offerFileId was null or undefined when calling apiOffersFilesDeleteDelete.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (offerFileId !== undefined && offerFileId !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>offerFileId, 'offerFileId');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/Offers/files/delete`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param offerId 
+     * @param type 
+     * @param replace 
+     * @param files 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferFileDatum>>;
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferFileDatum>>>;
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferFileDatum>>>;
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (offerId === null || offerId === undefined) {
+            throw new Error('Required parameter offerId was null or undefined when calling apiOffersFilesUploadPatch.');
+        }
+        if (type === null || type === undefined) {
+            throw new Error('Required parameter type was null or undefined when calling apiOffersFilesUploadPatch.');
+        }
+        if (replace === null || replace === undefined) {
+            throw new Error('Required parameter replace was null or undefined when calling apiOffersFilesUploadPatch.');
+        }
+        if (files === null || files === undefined) {
+            throw new Error('Required parameter files was null or undefined when calling apiOffersFilesUploadPatch.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (offerId !== undefined && offerId !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>offerId, 'offerId');
+        }
+        if (type !== undefined && type !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>type, 'type');
+        }
+        if (replace !== undefined && replace !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>replace, 'replace');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (files) {
+            if (useForm) {
+                files.forEach((element) => {
+                    formParams = formParams.append('files', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('files', files.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.patch<Array<OfferFileDatum>>(`${this.configuration.basePath}/api/Offers/files/upload`,
+            convertFormParamsToString ? formParams.toString() : formParams,
+            {
+                params: queryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

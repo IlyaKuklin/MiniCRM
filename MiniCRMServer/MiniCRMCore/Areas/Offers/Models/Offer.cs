@@ -18,6 +18,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public class Dto : BaseDto
 		{
 			public string Path { get; set; }
+			public string Name { get; set; }
 			public OfferFileType Type { get; set; }
 		}
 	}

@@ -42,6 +42,10 @@ namespace MiniCRMCore
 				e.HasKey(x => x.Id);
 			});
 
+			modelBuilder.Entity<OfferFileDatum>(e =>
+			{
+				e.HasOne(x => x.FileDatum).WithOne().OnDelete(DeleteBehavior.Cascade);
+			});
 		}
 
 		#region override

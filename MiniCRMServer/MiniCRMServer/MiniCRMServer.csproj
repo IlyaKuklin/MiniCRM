@@ -28,4 +28,8 @@
     <ProjectReference Include="..\MiniCRMCore\MiniCRMCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\files\" />
+  </ItemGroup>
+
 </Project>

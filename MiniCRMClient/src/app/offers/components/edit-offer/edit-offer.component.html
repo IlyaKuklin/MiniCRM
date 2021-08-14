@@ -2,12 +2,26 @@
   <div class="row offer_data">
     <div class="col-12">
       <mat-card style="display: flex" *ngIf="model.id">
-        <mat-card-title class="offer_data_title">Номер КП: {{ model.number }}</mat-card-title>
+        <mat-card-title class="offer_data_title"
+          >Номер КП: {{ model.number }}</mat-card-title
+        >
         <div style="flex: 1"></div>
-        <mat-card-title class="offer_data_title">Клиент: {{ model.client!.name }}</mat-card-title>
+        <mat-card-title class="offer_data_title"
+          >Клиент: {{ model.client!.name }}</mat-card-title
+        >
       </mat-card>
     </div>
   </div>
+
+  <mat-form-field *ngIf="!isEdit">
+    <mat-label>Клиент</mat-label>
+    <mat-select [(value)]="model.clientId">
+      <mat-option></mat-option>
+      <mat-option [value]="option.id" *ngFor="let option of clients">{{
+        option.name
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <div class="row">
     <div class="col-6">
@@ -38,21 +52,40 @@
               ></textarea>
             </mat-form-field>
           </div>
-          <div class="offer_fieldWrapper">
+          <div>
             <input
               type="file"
               placeholder="Choose file"
               style="display: none"
-              accept=".mp3"
+              accept=".png,.jpg"
+              (change)="uploadFile(photoFileInput.files, 2)"
+              #photoFileInput
             />
 
             <button
               mat-raised-button
               class="fileButton"
               [disabled]="!isFieldSelected('description')"
+              (click)="photoFileInput.click()"
             >
               Добавить фотографии
             </button>
+
+            <div class="offer_section__images">
+              <div
+                *ngFor="let file of getFiles(2)"
+                class="offer_section__images-image"
+              >
+                <div class="offer_section__images-image-fileData">
+                  {{ file.name }}<mat-icon color="warn" style="transform: scale(0.5);cursor: pointer;" (click)="deleteFile(file.id)">clear</mat-icon>
+                </div>
+                <img
+                  [src]="file.path"
+                  class="offer_section__images-image-src"
+                />
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -68,7 +101,7 @@
             [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }"
             >Тип системы/продукта</mat-label
           >
-          <div class="offer_section__wrapper">
+          <div>
             <mat-form-field class="offer_section__wrapper__field">
               <input
                 matInput
@@ -180,7 +213,8 @@
             (change)="onFieldSelectChange($event)"
             name="recommendations"
           ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }"
+          <mat-label
+            [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }"
             >Рекомендации клиенту</mat-label
           >
           <div class="offer_section__wrapper">
@@ -199,14 +233,12 @@
             </mat-form-field>
           </div>
         </div>
-
       </mat-card>
     </div>
     <!-- end col -->
 
     <div class="col-6">
       <mat-card class="offer_card">
-
         <div class="offer_section">
           <mat-checkbox
             class="offer_section_cb"
@@ -215,7 +247,8 @@
             (change)="onFieldSelectChange($event)"
             name="techPassport"
           ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
+          <mat-label
+            [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
             >Технический паспорт</mat-label
           >
           <div class="offer_fieldWrapper">
@@ -273,7 +306,8 @@
             (change)="onFieldSelectChange($event)"
             name="otherDocumentation"
           ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }"
+          <mat-label
+            [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }"
             >Прочая документация</mat-label
           >
           <div class="offer_section__wrapper">
@@ -301,7 +335,8 @@
             (change)="onFieldSelectChange($event)"
             name="coveringLetter"
           ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }"
+          <mat-label
+            [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }"
             >Сопроводительное письмо</mat-label
           >
           <div class="offer_section__wrapper">
@@ -329,7 +364,8 @@
             (change)="onFieldSelectChange($event)"
             name="similarCases"
           ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }"
+          <mat-label
+            [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }"
             >Аналогичные кейсы</mat-label
           >
           <div class="offer_section__wrapper">
@@ -377,7 +413,6 @@
             </button>
           </div>
         </div>
-
       </mat-card>
     </div>
   </div>

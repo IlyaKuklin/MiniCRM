@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
@@ -56,6 +57,22 @@ namespace MiniCRMServer.Controllers
 		public async Task<IActionResult> DeleteManager([FromQuery] int id)
 		{
 			await _offersService.DeleteAsync(id);
+			return this.Ok(204);
+		}
+
+		[HttpPatch("files/upload")]
+		[ProducesResponseType(typeof(List<OfferFileDatum>) ,200)]
+		public async Task<IActionResult> UploadFile([Required] List<IFormFile> files, [FromQuery][Required] int offerId, [FromQuery][Required] OfferFileType type, [FromQuery][Required] bool replace)
+		{
+			var res = await _offersService.UploadFileAsync(files, offerId, type, replace);
+			return this.Ok(res);
+		}
+
+		[HttpDelete("files/delete")]
+		[ProducesResponseType(204)]
+		public async Task<IActionResult> DeleteFile([Required] int offerFileId)
+		{
+			await _offersService.DeleteFileAsync(offerFileId);
 			return this.Ok(204);
 		}
 	}

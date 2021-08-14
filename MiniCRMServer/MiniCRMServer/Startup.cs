@@ -101,7 +101,7 @@ namespace MiniCRMServer
 
 			app.UseSwaggerApi();
 
-			app.UseDefaultFiles();
+			//app.UseDefaultFiles();
 			app.UseStaticFiles();
 
 			app.UseMiddleware<ExceptionMiddleware>();
@@ -251,7 +251,10 @@ namespace MiniCRMServer
 				.ForMember(x => x.Id, opt => opt.Ignore());
 
 			this.CreateMap<OfferFileDatum, OfferFileDatum.Dto>()
-				.ReverseMap();
+				.ForMember(x => x.Path, opt => opt.MapFrom(src => src.FileDatum.Path))
+				.ForMember(x => x.Name, opt => opt.MapFrom(src => src.FileDatum.Name))
+				.ReverseMap()
+				;
 		}
 	}
 

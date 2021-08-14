@@ -8,6 +8,8 @@ import {
   ClientDto,
   ClientsApiService,
   OfferDto,
+  OfferFileDatumDto,
+  OfferFileType,
   OffersApiService,
 } from 'src/api/rest/api';
 
@@ -27,9 +29,9 @@ export class EditOfferComponent implements OnInit {
   @ViewChild('offerForm') offerForm!: NgForm;
   isLoading: boolean = false;
 
-  model: OfferDto = {selectedSections:[]};
+  model: OfferDto = { selectedSections: [] };
   isEdit: boolean = false;
-  originalModel: OfferDto = {selectedSections:[]};
+  originalModel: OfferDto = { selectedSections: [] };
   clients: ClientDto[] = [];
 
   errorStateMatcher = new OfferErrorStateMatcher();
@@ -38,6 +40,13 @@ export class EditOfferComponent implements OnInit {
 
   get modelChanged(): boolean {
     return true;
+  }
+
+  getFiles(type: OfferFileType): OfferFileDatumDto[] {
+    if (this.model.fileData) {
+      return this.model.fileData.filter((x) => x.type == type);
+    }
+    return [];
   }
 
   ngOnInit(): void {
@@ -55,6 +64,13 @@ export class EditOfferComponent implements OnInit {
           this.model = response[0];
           this.originalModel = { ...response[0] };
           this.clients = response[1];
+
+          // TODO: remove
+          if (this.model.fileData) {
+            this.model.fileData.forEach((x) => {
+              x.path = `http:\\\\vm469442.eurodir.ru\\${x.path}`;
+            });
+          }
 
           this.isLoading = false;
         });
@@ -115,6 +131,37 @@ export class EditOfferComponent implements OnInit {
 
   isFieldSelected(name: string) {
     return this.model.selectedSections.indexOf(name) > -1;
+  }
+
+  uploadFile(files: FileList | null, type: OfferFileType): void {
+    if (files === null || files.length === 0) {
+      return;
+    }
+
+    const blobs = [];
+    for (var i = 0; i < files.length; i++) {
+      const file = files[i];
+      blobs.push(<Blob>file);
+    }
+
+    this.isLoading = true;
+    this.offersApiService
+      .apiOffersFilesUploadPatch(<number>this.model.id, type, false, blobs)
+      .subscribe((response) => {
+        console.log(response);
+        this.model.fileData?.push(...response);
+        this.isLoading = false;
+      });
+  }
+
+  deleteFile(fileId: number | undefined): void {
+    if (!fileId) return;
+
+    this.isLoading = true;
+    this.offersApiService.apiOffersFilesDeleteDelete(fileId).subscribe(() => {
+      this.model.fileData = this.model.fileData?.filter((x) => x.id != fileId);
+      this.isLoading = false;
+    });
   }
 }
 

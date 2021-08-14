@@ -9,15 +9,19 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Offer } from './offer';
+import { FileDatum } from './file-datum';
 import { OfferFileType } from './offer-file-type';
 
 
-export interface OfferFileDatumDto { 
+export interface OfferFileDatum { 
     id?: number;
     created?: string;
     changed?: string;
-    path?: string | null;
-    name?: string | null;
+    fileDatum?: FileDatum;
+    fileDatumId?: number;
+    offer?: Offer;
+    offerId?: number;
     type?: OfferFileType;
 }
 
