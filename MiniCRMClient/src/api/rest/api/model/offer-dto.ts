@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OfferPotential } from './offer-potential';
 import { OfferFileDatumDto } from './offer-file-datum-dto';
 import { ClientDto } from './client-dto';
 
@@ -29,7 +28,7 @@ export interface OfferDto {
     coveringLetter?: string | null;
     similarCases?: string | null;
     newsLinks?: string | null;
-    potential?: OfferPotential;
+    potential?: string | null;
     stage?: string | null;
     client?: ClientDto;
     clientId?: number;

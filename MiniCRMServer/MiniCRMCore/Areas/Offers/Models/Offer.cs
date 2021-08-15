@@ -31,7 +31,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public string CoveringLetter { get; set; }
 		public string SimilarCases { get; set; }
 		public string NewsLinks { get; set; }
-		public OfferPotential Potential { get; set; }
+		public string Potential { get; set; }
 		public string Stage { get; set; }
 
 		public virtual Client Client { get; set; }
@@ -41,7 +41,6 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public List<string> SelectedSections { get; set; }
 
-		public List<OfferVersion> Versions { get; set; }
 		public int CurrentVersion { get; set; }
 
 		public class Dto : BaseDto
@@ -95,7 +94,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// </summary>
 			public string NewsLinks { get; set; }
 
-			public OfferPotential Potential { get; set; }
+			public string Potential { get; set; }
 			public string Stage { get; set; }
 
 			public Client.Dto Client { get; set; }
@@ -147,7 +146,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// </summary>
 			public string NewsLinks { get; set; }
 
-			public OfferPotential Potential { get; set; }
+			public string Potential { get; set; }
 			public string Stage { get; set; }
 		}
 
@@ -159,15 +158,5 @@ namespace MiniCRMCore.Areas.Offers.Models
 			[Required]
 			public List<string> SelectedSections { get; set; }
 		}
-	}
-
-	public enum OfferPotential
-	{
-		Undefined = 0,
-		NotSet,
-
-		Cold,
-		Warm,
-		Hot
 	}
 }

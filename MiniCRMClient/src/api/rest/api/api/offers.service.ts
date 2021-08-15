@@ -18,7 +18,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { OfferDto } from '../model/models';
-import { OfferFileDatum } from '../model/models';
+import { OfferFileDatumDto } from '../model/models';
 import { OfferFileType } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -284,9 +284,9 @@ export class OffersApiService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferFileDatum>>;
-    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferFileDatum>>>;
-    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferFileDatum>>>;
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferFileDatumDto>>;
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferFileDatumDto>>>;
+    public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferFileDatumDto>>>;
     public apiOffersFilesUploadPatch(offerId: number, type: OfferFileType, replace: boolean, files: Array<Blob>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
         if (offerId === null || offerId === undefined) {
             throw new Error('Required parameter offerId was null or undefined when calling apiOffersFilesUploadPatch.');
@@ -372,7 +372,7 @@ export class OffersApiService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.patch<Array<OfferFileDatum>>(`${this.configuration.basePath}/api/Offers/files/upload`,
+        return this.httpClient.patch<Array<OfferFileDatumDto>>(`${this.configuration.basePath}/api/Offers/files/upload`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,

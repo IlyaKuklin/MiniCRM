@@ -3,17 +3,41 @@
     <div class="col-12">
       <mat-card style="display: flex" *ngIf="model.id">
         <mat-card-title class="offer_data_title"
-          >Номер КП: {{ model.number }}</mat-card-title
+          >Номер КП: {{ model.number }} ({{
+            model.client!.name
+          }})</mat-card-title
         >
         <div style="flex: 1"></div>
-        <mat-card-title class="offer_data_title"
-          >Клиент: {{ model.client!.name }}</mat-card-title
-        >
+        <div>
+          <div>
+            <mat-form-field class="offer_section__wrapper__field">
+              <mat-label>Стадия работы</mat-label>
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="model.stage"
+                name="stage"
+                #stage="ngModel"
+              />
+            </mat-form-field>
+          </div>
+          <mat-radio-group
+            [(ngModel)]="model.potential"
+            style="display: flex; gap: 1em"
+          >
+            <mat-radio-button
+              *ngFor="let potential of potentialList"
+              [value]="potential"
+            >
+              {{ potential }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
       </mat-card>
     </div>
   </div>
 
-  <mat-form-field *ngIf="!isEdit && clients.length" style="width:50%">
+  <mat-form-field *ngIf="!isEdit && clients.length" style="width: 50%">
     <mat-label>Клиент</mat-label>
 
     <input

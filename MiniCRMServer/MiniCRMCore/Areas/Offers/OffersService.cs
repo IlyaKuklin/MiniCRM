@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Exceptions;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,7 +50,7 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
-		public async Task<Offer.Dto> EditAsync(Offer.Dto dto)
+		public async Task<Offer.Dto> EditAsync(Offer.Dto dto, int currentUserId)
 		{
 			Offer offer;
 			if (dto.Id > 0)
@@ -73,6 +74,20 @@ namespace MiniCRMCore.Areas.Offers
 
 			_mapper.Map(dto, offer);
 
+			var jsonVersion = JsonConvert.SerializeObject(offer, new JsonSerializerSettings
+			{
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+			});
+			offer.CurrentVersion++;
+
+			await _context.OfferVersions.AddAsync(new OfferVersion
+			{
+				Data = jsonVersion,
+				OfferId = offer.Id,
+				Number = offer.CurrentVersion,
+				AuthorId = currentUserId
+			});
+
 			await _context.SaveChangesAsync();
 
 			var returnDto = _mapper.Map<Offer.Dto>(offer);
@@ -89,7 +104,7 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task<List<OfferFileDatum>> UploadFileAsync(List<IFormFile> files, int id, OfferFileType type, bool replace)
+		public async Task<List<OfferFileDatum.Dto>> UploadFileAsync(List<IFormFile> files, int id, OfferFileType type, bool replace)
 		{
 			var offer = await _context.Offers
 				.Include(x => x.FileData)
@@ -149,7 +164,7 @@ namespace MiniCRMCore.Areas.Offers
 
 			await _context.SaveChangesAsync();
 
-			var dto = _mapper.Map<List<OfferFileDatum>>(newOfferFiles);
+			var dto = _mapper.Map<List<OfferFileDatum.Dto>>(newOfferFiles);
 
 			return dto;
 		}

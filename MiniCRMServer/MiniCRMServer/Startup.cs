@@ -19,6 +19,7 @@ using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Serialization;
 using MiniCRMServer.Middleware;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -62,8 +63,8 @@ namespace MiniCRMServer
 				o.MemoryBufferThreshold = int.MaxValue;
 			});
 
-			var connectionString = "Host=vm469442.eurodir.ru;Database=CRMData;Username=postgres;Password=books1";
-			//var connectionString = "Host=localhost;Database=CRMData;Username=postgres;Password=books1";
+			//var connectionString = "Host=vm469442.eurodir.ru;Database=CRMData;Username=postgres;Password=books1";
+			var connectionString = "Host=localhost;Database=CRMData;Username=postgres;Password=books1";
 			services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
 
 			services
@@ -87,7 +88,7 @@ namespace MiniCRMServer
 			services.AddScoped<OffersService>();
 
 			services.AddControllers()
-				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
 			services.AddSwaggerGen(SwaggerGenApiExtentions.Configure);
 		}

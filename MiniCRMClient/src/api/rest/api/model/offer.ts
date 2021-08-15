@@ -9,8 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OfferPotential } from './offer-potential';
 import { OfferFileDatum } from './offer-file-datum';
+import { OfferVersion } from './offer-version';
 import { Client } from './client';
 
 
@@ -29,11 +29,13 @@ export interface Offer {
     coveringLetter?: string | null;
     similarCases?: string | null;
     newsLinks?: string | null;
-    potential?: OfferPotential;
+    potential?: string | null;
     stage?: string | null;
     client?: Client;
     clientId?: number;
     fileData?: Array<OfferFileDatum> | null;
     selectedSections?: Array<string> | null;
+    versions?: Array<OfferVersion> | null;
+    currentVersion?: number;
 }
 

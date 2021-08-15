@@ -46,6 +46,8 @@ export class EditOfferComponent implements OnInit {
   clientSelectControl = new FormControl();
   filteredClients!: Observable<ClientDto[]>;
 
+  potentialList: string[] = ['Холодный', 'Тёплый', 'Горячий'];
+
   get modelChanged(): boolean {
     return true;
   }
@@ -184,13 +186,22 @@ export class EditOfferComponent implements OnInit {
     this.isLoading = true;
     this.offersApiService
       .apiOffersFilesUploadPatch(<number>this.model.id, type, replace, blobs)
-      .subscribe((response) => {
+      .subscribe((response :OfferFileDatumDto[]) => {
         console.log(response);
-        if (replace)
+
+        console.log(this.model.fileData);
+
+        if (replace) {
           this.model.fileData = this.model.fileData?.filter(
             (x) => x.type != type
           );
-        this.model.fileData?.push(...response);
+        }
+        response.forEach((x) => {
+          this.model.fileData?.push(x);
+        });
+
+        console.log(this.model.fileData);
+
         this.isLoading = false;
       });
   }
@@ -222,7 +233,7 @@ export class EditOfferComponent implements OnInit {
     this.model.clientId = evt.id;
   }
 
-  getClientOptionText(option: ClientDto) : string {
+  getClientOptionText(option: ClientDto): string {
     return option?.name ? option.name : '';
   }
 

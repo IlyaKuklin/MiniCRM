@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MiniCRMCore.Areas.Auth;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
 using System;
@@ -22,6 +23,8 @@ namespace MiniCRMServer.Controllers
 		{
 			_offersService = offersService ?? throw new ArgumentNullException(nameof(offersService));
 		}
+
+		public int CurrentUserId => this.User.GetUserId();
 
 		[HttpGet("")]
 		[ProducesResponseType(typeof(Offer.Dto), 200)]
@@ -48,7 +51,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(Offer.Dto), 200)]
 		public async Task<IActionResult> Register([FromBody][Required] Offer.Dto dto)
 		{
-			var result = await _offersService.EditAsync(dto);
+			var result = await _offersService.EditAsync(dto, this.CurrentUserId);
 			return this.Ok(result);
 		}
 
@@ -61,7 +64,7 @@ namespace MiniCRMServer.Controllers
 		}
 
 		[HttpPatch("files/upload")]
-		[ProducesResponseType(typeof(List<OfferFileDatum>) ,200)]
+		[ProducesResponseType(typeof(List<OfferFileDatum.Dto>), 200)]
 		public async Task<IActionResult> UploadFile([Required] List<IFormFile> files, [FromQuery][Required] int offerId, [FromQuery][Required] OfferFileType type, [FromQuery][Required] bool replace)
 		{
 			var res = await _offersService.UploadFileAsync(files, offerId, type, replace);
