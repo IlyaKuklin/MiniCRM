@@ -79,6 +79,14 @@ namespace MiniCRMServer.Controllers
 			return this.Ok(204);
 		}
 
+		[HttpPost("newsbreaks/add")]
+		[ProducesResponseType(typeof(OfferNewsbreak.Dto), 200)]
+		public async Task<IActionResult> AddOfferNewsbreak([Required] OfferNewsbreak.AddDto addDto)
+		{
+			var result = await _offersService.AddOfferNewsbreakAsync(addDto, this.CurrentUserId);
+			return this.Ok(result);
+		}
+
 		[HttpGet("client/offer")]
 		[ProducesResponseType(typeof(Offer.ClientViewDto), 200)]
 		public async Task<IActionResult> GetOfferForClient(Guid link, string key)

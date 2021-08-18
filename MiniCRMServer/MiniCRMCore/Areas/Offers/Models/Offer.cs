@@ -1,4 +1,5 @@
-﻿using MiniCRMCore.Areas.Clients.Models;
+﻿using MiniCRMCore.Areas.Auth.Models;
+using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
+	public class OfferNewsbreak : BaseEntity
+	{
+		public Offer Offer { get; set; }
+		public int OfferId { get; set; }
+		public string Text { get; set; }
+		public User Author { get; set; }
+		public int AuthorId { get; set; }
+
+		public class Dto : BaseDto
+		{
+			public string Text { get; set; }
+			public User.Dto Author { get; set; }
+		}
+
+		public class AddDto
+		{
+			public int OfferId { get; set; }
+			public string Text { get; set; }
+		}
+	}
+
 	public class Offer : BaseEntity
 	{
 		public int Number { get; set; }
@@ -34,6 +56,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public List<OfferVersion> Versions { get; set; }
 
 		public Guid ClientLink { get; set; }
+
+		public List<OfferNewsbreak> Newsbreaks { get; set; }
 
 		public class ClientViewDto
 		{
@@ -111,6 +135,11 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Ссылка для клиента.
 			/// </summary>
 			public Guid ClientLink { get; set; }
+
+			/// <summary>
+			/// Инфоповоды.
+			/// </summary>
+			public List<OfferNewsbreak.Dto> Newsbreaks { get; set; }
 		}
 
 		public class EditDto

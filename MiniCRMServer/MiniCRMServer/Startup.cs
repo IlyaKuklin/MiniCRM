@@ -261,6 +261,8 @@ namespace MiniCRMServer
 				.ForMember(x => x.Name, opt => opt.MapFrom(src => src.FileDatum.Name))
 				.ReverseMap()
 				;
+
+			this.CreateMap<OfferNewsbreak, OfferNewsbreak.Dto>();
 		}
 	}
 

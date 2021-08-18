@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from '../components/confirm-dialog/confirm-dialog.component';
 import { InfoDialogComponent } from '../components/info-dialog/info-dialog.component';
+import { InputDialogComponent } from '../components/input-dialog/input-dialog.component';
 import { SelectOptionDialogComponent } from '../components/select-option-dialog/select-option-dialog.component';
 
 @Injectable({
@@ -31,6 +32,14 @@ export class DialogService {
     });
     return dialogRef.afterClosed();
   }
+
+  inputDialog(data: IInputDialogData): Observable<any> {
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      data: data,
+      minWidth: '50em',
+    });
+    return dialogRef.afterClosed();
+  }
 }
 
 export interface ISelectOptionDialogData {
@@ -48,4 +57,9 @@ export interface IInfoDialogData {
   message: string;
   additionalData?: string;
   isError?: boolean;
+}
+
+export interface IInputDialogData {
+  header: string;
+  text: string;
 }

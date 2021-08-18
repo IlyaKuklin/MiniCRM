@@ -21,6 +21,8 @@ import { OfferClientViewDto } from '../model/models';
 import { OfferDto } from '../model/models';
 import { OfferFileDatumDto } from '../model/models';
 import { OfferFileType } from '../model/models';
+import { OfferNewsbreakAddDto } from '../model/models';
+import { OfferNewsbreakDto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -547,6 +549,72 @@ export class OffersApiService {
         }
 
         return this.httpClient.get<Array<OfferDto>>(`${this.configuration.basePath}/api/Offers/list`,
+            {
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param offerNewsbreakAddDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersNewsbreaksAddPost(offerNewsbreakAddDto: OfferNewsbreakAddDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<OfferNewsbreakDto>;
+    public apiOffersNewsbreaksAddPost(offerNewsbreakAddDto: OfferNewsbreakAddDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<OfferNewsbreakDto>>;
+    public apiOffersNewsbreaksAddPost(offerNewsbreakAddDto: OfferNewsbreakAddDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<OfferNewsbreakDto>>;
+    public apiOffersNewsbreaksAddPost(offerNewsbreakAddDto: OfferNewsbreakAddDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (offerNewsbreakAddDto === null || offerNewsbreakAddDto === undefined) {
+            throw new Error('Required parameter offerNewsbreakAddDto was null or undefined when calling apiOffersNewsbreaksAddPost.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.post<OfferNewsbreakDto>(`${this.configuration.basePath}/api/Offers/newsbreaks/add`,
+            offerNewsbreakAddDto,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

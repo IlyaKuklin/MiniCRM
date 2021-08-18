@@ -72,3 +72,17 @@
 .fileButton {
   margin-top: 0.5em;
 }
+
+.breaks-table {
+  width: 100%;
+
+  &_head {
+    border-bottom: 1px solid rgba($color: #000000, $alpha: 0.2);
+  }
+
+  &_body {
+    > td  {
+      padding: 0.25em 0;
+    }
+  }
+}

@@ -11,6 +11,7 @@
  */
 import { OfferFileDatumDto } from './offer-file-datum-dto';
 import { ClientDto } from './client-dto';
+import { OfferNewsbreakDto } from './offer-newsbreak-dto';
 
 
 export interface OfferDto { 
@@ -35,5 +36,6 @@ export interface OfferDto {
     fileData?: Array<OfferFileDatumDto> | null;
     selectedSections: Array<string>;
     clientLink?: string;
+    newsbreaks?: Array<OfferNewsbreakDto> | null;
 }
 

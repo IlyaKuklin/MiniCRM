@@ -24,18 +24,22 @@ namespace MiniCRMCore.Areas.Offers
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
+		#region Offers
+
 		public async Task<Offer.Dto> GetAsync(int id)
 		{
-			var client = await _context.Offers
+			var offer = await _context.Offers
 				.Include(x => x.Client)
 				.Include(x => x.FileData)
 					.ThenInclude(x => x.FileDatum)
+				.Include(x => x.Newsbreaks)
+					.ThenInclude(x => x.Author)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.Id == id);
-			if (client == null)
+			if (offer == null)
 				throw new ApiException($"Не найден клиент с ID {id}");
 
-			var dto = _mapper.Map<Offer.Dto>(client);
+			var dto = _mapper.Map<Offer.Dto>(offer);
 			return dto;
 		}
 
@@ -112,6 +116,10 @@ namespace MiniCRMCore.Areas.Offers
 			_context.Offers.Remove(offer);
 			await _context.SaveChangesAsync();
 		}
+
+		#endregion
+
+		#region Files
 
 		public async Task<List<OfferFileDatum.Dto>> UploadFileAsync(List<IFormFile> files, int id, OfferFileType type, bool replace)
 		{
@@ -195,6 +203,32 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
+		#endregion
+
+		public async Task<OfferNewsbreak.Dto> AddOfferNewsbreakAsync(OfferNewsbreak.AddDto addDto, int currentUserId)
+		{
+			var offer = await _context.Offers
+				.Include(x => x.Newsbreaks)
+				.FirstOrDefaultAsync(x => x.Id == addDto.OfferId);
+			if (offer == null)
+				throw new ApiException($"Не найдено КП с ID {addDto.OfferId}");
+
+			var user = await _context.Users.FirstAsync(x => x.Id == currentUserId);
+
+			var newsbreak = new OfferNewsbreak
+			{
+				Text = addDto.Text,
+				AuthorId = currentUserId,
+				Author = user
+			};
+
+			offer.Newsbreaks.Add(newsbreak);
+			await _context.SaveChangesAsync();
+
+			var dto = _mapper.Map<OfferNewsbreak.Dto>(newsbreak);
+			return dto;
+		}
+
 		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
 		{
 			var offer = await _context.Offers
@@ -258,7 +292,7 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
-		private string GetReadablePropertyName(string name)
+		private static string GetReadablePropertyName(string name)
 		{
 			switch (name)
 			{

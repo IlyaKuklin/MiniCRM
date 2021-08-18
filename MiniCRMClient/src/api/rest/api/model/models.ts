@@ -5,6 +5,8 @@ export * from './offer-client-view-dto';
 export * from './offer-dto';
 export * from './offer-file-datum-dto';
 export * from './offer-file-type';
+export * from './offer-newsbreak-add-dto';
+export * from './offer-newsbreak-dto';
 export * from './role';
 export * from './section-dto';
 export * from './user-auth-dto';

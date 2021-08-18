@@ -1,0 +1,25 @@
+<div>
+  <h3 mat-dialog-title>
+    {{ data.header }}
+  </h3>
+  <mat-dialog-content>
+    <mat-form-field appearance="outline">
+      <textarea
+        style="resize: none"
+        rows="4"
+        matInput
+        type="text"
+        [(ngModel)]="data.text"
+      ></textarea>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Отмена</button>
+    <button mat-raised-button [mat-dialog-close]="{text: data.text}" color="accent">
+      Сохранить
+    </button>
+    <!-- <button mat-raised-button [mat-dialog-close]="'delete'" color="warn">
+      Удалить
+    </button> -->
+  </mat-dialog-actions>
+</div>

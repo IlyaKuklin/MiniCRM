@@ -30,7 +30,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
@@ -49,14 +52,22 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.component';
-import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
-import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { getRussianPaginatorIntl } from './intl/russian-paginator-intl';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
+import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.component';
+import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
+import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
 
 @NgModule({
-  declarations: [ToolbarComponent, InfoSnackbarComponent, InfoDialogComponent, SelectOptionDialogComponent, ConfirmDialogComponent],
+  declarations: [
+    ToolbarComponent,
+    InfoSnackbarComponent,
+    InfoDialogComponent,
+    SelectOptionDialogComponent,
+    ConfirmDialogComponent,
+    InputDialogComponent,
+  ],
   imports: [
     CommonModule,
     SharedRoutingModule,
@@ -164,7 +175,7 @@ import { getRussianPaginatorIntl } from './intl/russian-paginator-intl';
   ],
 
   providers: [
-    { provide: MatPaginatorIntl, useValue: getRussianPaginatorIntl() }
-  ]
+    { provide: MatPaginatorIntl, useValue: getRussianPaginatorIntl() },
+  ],
 })
 export class SharedModule {}

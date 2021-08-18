@@ -10,6 +10,7 @@ import {
   OfferDto,
   OfferFileDatumDto,
   OfferFileType,
+  OfferNewsbreakDto,
   OffersApiService,
 } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
@@ -161,6 +162,8 @@ export class EditOfferComponent implements OnInit {
     return this.model.selectedSections.indexOf(name) > -1;
   }
 
+  //#region Files
+
   getFiles(type: OfferFileType): OfferFileDatumDto[] {
     if (this.model.fileData) {
       return this.model.fileData.filter((x) => x.type == type);
@@ -186,7 +189,7 @@ export class EditOfferComponent implements OnInit {
     this.isLoading = true;
     this.offersApiService
       .apiOffersFilesUploadPatch(<number>this.model.id, type, replace, blobs)
-      .subscribe((response :OfferFileDatumDto[]) => {
+      .subscribe((response: OfferFileDatumDto[]) => {
         console.log(response);
 
         console.log(this.model.fileData);
@@ -229,6 +232,8 @@ export class EditOfferComponent implements OnInit {
       });
   }
 
+  //#endregion
+
   onClientSelected(evt: ClientDto) {
     this.model.clientId = evt.id;
   }
@@ -237,8 +242,29 @@ export class EditOfferComponent implements OnInit {
     return option?.name ? option.name : '';
   }
 
-  sendClick() : void {
-    
+  sendClick(): void {}
+
+  onAddNewsbreakClick(): void {
+    this.dialogService
+      .inputDialog({
+        header: 'Инфоповод',
+        text: '',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.isLoading = true;
+
+          this.offersApiService
+            .apiOffersNewsbreaksAddPost({
+              offerId: this.model.id,
+              text: result.text,
+            })
+            .subscribe((response: OfferNewsbreakDto) => {
+              this.model.newsbreaks?.push(response);
+              this.isLoading = false;
+            });
+        }
+      });
   }
 
   private _filter(value: any): ClientDto[] {

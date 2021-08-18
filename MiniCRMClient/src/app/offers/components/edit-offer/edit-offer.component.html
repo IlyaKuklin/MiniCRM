@@ -37,6 +37,7 @@
     </div>
   </div>
 
+  <!-- Выбор клиента (создание) -->
   <mat-form-field *ngIf="!isEdit && clients.length" style="width: 50%">
     <mat-label>Клиент</mat-label>
 
@@ -62,6 +63,35 @@
     </mat-autocomplete>
   </mat-form-field>
 
+  <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
+    <div class="col-12" style="padding-bottom: 0.5em;">
+      <button mat-flat-button (click)="onAddNewsbreakClick()">
+        <mat-icon>add</mat-icon>
+        Добавить инфоповод
+      </button>
+    </div>
+    <div class="col-12" *ngIf="model.newsbreaks?.length">
+      <mat-card>
+        <mat-card-title style="font-size: 1.25em"
+          >Список инфоповодов</mat-card-title
+        >
+        <table class="breaks-table">
+          <tr class="breaks-table_head">
+            <th>Текст</th>
+            <th>Дата создания</th>
+            <th>Автор</th>
+          </tr>
+          <tr class="breaks-table_body" *ngFor="let break of model.newsbreaks">
+            <td>{{ break.text }}</td>
+            <td>{{ break.created |  date:'dd.MM.YYYY' }}</td>
+            <td>{{ break.author?.name }}</td>
+          </tr>
+        </table>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Основные поля -->
   <div class="row" *ngIf="isEdit">
     <div class="col-6">
       <mat-card class="offer_card">
@@ -556,16 +586,15 @@
   </div>
 
   <div class="row justify-content-end">
-
     <div class="col-8 offer__buttons">
       <button
-          mat-raised-button
-          color="accent"
-          class="offer__buttons-button"
-          (click)="sendClick()"
-        >
-          Отправить КП клиенту
-        </button>
+        mat-raised-button
+        color="accent"
+        class="offer__buttons-button"
+        (click)="sendClick()"
+      >
+        Отправить КП клиенту
+      </button>
     </div>
 
     <div class="col-4 offer__buttons">
