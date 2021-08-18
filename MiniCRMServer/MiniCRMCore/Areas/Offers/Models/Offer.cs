@@ -43,6 +43,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public int CurrentVersion { get; set; }
 
+		public List<OfferVersion> Versions { get; set; }
+
 		public class Dto : BaseDto
 		{
 			public int Number { get; set; }

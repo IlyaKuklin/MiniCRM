@@ -59,13 +59,14 @@ namespace MiniCRMCore.Areas.Offers
 					.Include(x => x.Client)
 					.Include(x => x.FileData)
 						.ThenInclude(x => x.FileDatum)
+					.Include(x => x.Versions)
 					.FirstOrDefaultAsync(x => x.Id == dto.Id);
 				if (offer == null)
 					throw new ApiException($"Не найдено КП с ID {dto.Id}");
 			}
 			else
 			{
-				offer = new Offer { Number = 777 };
+				offer = new Offer { Number = 777, Versions = new List<OfferVersion>() };
 				var lastOffer = await _context.Offers.OrderBy(x => x.Id).AsNoTracking().LastOrDefaultAsync();
 				if (lastOffer != null)
 					offer.Number = lastOffer.Number + 1;
@@ -79,14 +80,22 @@ namespace MiniCRMCore.Areas.Offers
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
 			offer.CurrentVersion++;
-
-			await _context.OfferVersions.AddAsync(new OfferVersion
+			var dbVersion = new OfferVersion
 			{
 				Data = jsonVersion,
-				OfferId = offer.Id,
 				Number = offer.CurrentVersion,
 				AuthorId = currentUserId
-			});
+			};
+			offer.Versions.Add(dbVersion);
+			//offer.Versions.Add()
+
+			//await _context.OfferVersions.AddAsync(new OfferVersion
+			//{
+			//	Data = jsonVersion,
+			//	OfferId = offer.Id,
+			//	Number = offer.CurrentVersion,
+			//	AuthorId = currentUserId
+			//});
 
 			await _context.SaveChangesAsync();
 
