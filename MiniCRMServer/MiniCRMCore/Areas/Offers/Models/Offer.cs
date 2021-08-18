@@ -1,23 +1,10 @@
-﻿using MiniCRMCore.Areas.Auth.Models;
-using MiniCRMCore.Areas.Clients.Models;
+﻿using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
-	public class OfferVersion : BaseEntity
-	{
-		public int Number { get; set; }
-		public string Data { get; set; }
-
-		public Offer Offer { get; set; }
-		public int OfferId { get; set; }
-
-		public User Author { get; set; }
-		public int AuthorId { get; set; }
-	}
-
 	public class Offer : BaseEntity
 	{
 		public int Number { get; set; }
@@ -96,6 +83,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// </summary>
 			public string NewsLinks { get; set; }
 
+			/// <summary>
+			/// Тип КП (Холодный / Теплый / Горячий).
+			/// </summary>
 			public string Potential { get; set; }
 			public string Stage { get; set; }
 
@@ -150,15 +140,6 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			public string Potential { get; set; }
 			public string Stage { get; set; }
-		}
-
-		public class UpdateDto
-		{
-			[Required]
-			public Dto EditDto { get; set; }
-
-			[Required]
-			public List<string> SelectedSections { get; set; }
 		}
 	}
 }
