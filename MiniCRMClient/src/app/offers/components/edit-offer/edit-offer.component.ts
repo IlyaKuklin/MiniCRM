@@ -8,6 +8,7 @@ import {
   ClientDto,
   ClientsApiService,
   OfferDto,
+  OfferFeedbackRequestDto,
   OfferFileDatumDto,
   OfferFileType,
   OfferNewsbreakDto,
@@ -247,7 +248,7 @@ export class EditOfferComponent implements OnInit {
   onAddNewsbreakClick(): void {
     this.dialogService
       .inputDialog({
-        header: 'Инфоповод',
+        header: 'Добавление инфоповода',
         text: '',
       })
       .subscribe((result) => {
@@ -261,6 +262,29 @@ export class EditOfferComponent implements OnInit {
             })
             .subscribe((response: OfferNewsbreakDto) => {
               this.model.newsbreaks?.push(response);
+              this.isLoading = false;
+            });
+        }
+      });
+  }
+
+  onAddFeedbackRequestClick(): void {
+    this.dialogService
+      .inputDialog({
+        header: 'Добавление заявки на обратную связь',
+        text: '',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.isLoading = true;
+
+          this.offersApiService
+            .apiOffersFeedbackRequestsAddPost({
+              offerId: this.model.id,
+              text: result.text,
+            })
+            .subscribe((response: OfferFeedbackRequestDto) => {
+              this.model.feedbackRequests?.push(response);
               this.isLoading = false;
             });
         }

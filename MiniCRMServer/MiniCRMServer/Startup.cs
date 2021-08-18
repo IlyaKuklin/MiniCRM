@@ -263,6 +263,7 @@ namespace MiniCRMServer
 				;
 
 			this.CreateMap<OfferNewsbreak, OfferNewsbreak.Dto>();
+			this.CreateMap<OfferFeedbackRequest, OfferFeedbackRequest.Dto>();
 		}
 	}
 

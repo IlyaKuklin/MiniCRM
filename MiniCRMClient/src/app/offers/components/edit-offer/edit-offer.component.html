@@ -64,14 +64,13 @@
   </mat-form-field>
 
   <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
-    <div class="col-12" style="padding-bottom: 0.5em;">
-      <button mat-flat-button (click)="onAddNewsbreakClick()">
+    <!-- Инфоповоды -->
+    <div class="col-6">
+      <button mat-stroked-button (click)="onAddNewsbreakClick()" style="margin-bottom: 1em;">
         <mat-icon>add</mat-icon>
         Добавить инфоповод
       </button>
-    </div>
-    <div class="col-12" *ngIf="model.newsbreaks?.length">
-      <mat-card>
+      <mat-card *ngIf="model.newsbreaks?.length">
         <mat-card-title style="font-size: 1.25em"
           >Список инфоповодов</mat-card-title
         >
@@ -83,8 +82,34 @@
           </tr>
           <tr class="breaks-table_body" *ngFor="let break of model.newsbreaks">
             <td>{{ break.text }}</td>
-            <td>{{ break.created |  date:'dd.MM.YYYY' }}</td>
+            <td>{{ break.created | date: "dd.MM.YYYY" }}</td>
             <td>{{ break.author?.name }}</td>
+          </tr>
+        </table>
+      </mat-card>
+    </div>
+
+    <!-- Заявки на обр.связь -->
+    <div class="col-6">
+      <button mat-stroked-button (click)="onAddFeedbackRequestClick()" style="margin-bottom: 1em;">
+        <mat-icon>add</mat-icon>
+        Добавить заявку на обратную связь
+      </button>
+      <mat-card *ngIf="model.feedbackRequests?.length">
+        <mat-card-title style="font-size: 1.25em">Список заявок</mat-card-title>
+        <table class="breaks-table">
+          <tr class="breaks-table_head">
+            <th>Текст</th>
+            <th>Дата создания</th>
+            <th>Автор</th>
+          </tr>
+          <tr
+            class="breaks-table_body"
+            *ngFor="let request of model.feedbackRequests"
+          >
+            <td>{{ request.text }}</td>
+            <td>{{ request.created | date: "dd.MM.YYYY" }}</td>
+            <td>{{ request.author?.name }}</td>
           </tr>
         </table>
       </mat-card>

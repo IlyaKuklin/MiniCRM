@@ -7,6 +7,27 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
+	public class OfferFeedbackRequest : BaseEntity
+	{
+		public Offer Offer { get; set; }
+		public int OfferId { get; set; }
+		public string Text { get; set; }
+		public User Author { get; set; }
+		public int AuthorId { get; set; }
+
+		public class Dto : BaseDto
+		{
+			public string Text { get; set; }
+			public User.Dto Author { get; set; }
+		}
+
+		public class AddDto
+		{
+			public int OfferId { get; set; }
+			public string Text { get; set; }
+		}
+	}
+
 	public class OfferNewsbreak : BaseEntity
 	{
 		public Offer Offer { get; set; }
@@ -58,6 +79,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public Guid ClientLink { get; set; }
 
 		public List<OfferNewsbreak> Newsbreaks { get; set; }
+		public List<OfferFeedbackRequest> FeedbackRequests { get; set; }
 
 		public class ClientViewDto
 		{
@@ -140,6 +162,11 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Инфоповоды.
 			/// </summary>
 			public List<OfferNewsbreak.Dto> Newsbreaks { get; set; }
+
+			/// <summary>
+			/// Заявки на обратную связь с клиентом.
+			/// </summary>
+			public List<OfferFeedbackRequest.Dto> FeedbackRequests { get; set; }
 		}
 
 		public class EditDto

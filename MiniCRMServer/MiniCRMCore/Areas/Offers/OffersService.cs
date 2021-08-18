@@ -34,6 +34,8 @@ namespace MiniCRMCore.Areas.Offers
 					.ThenInclude(x => x.FileDatum)
 				.Include(x => x.Newsbreaks)
 					.ThenInclude(x => x.Author)
+				.Include(x => x.FeedbackRequests)
+					.ThenInclude(x => x.Author)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (offer == null)
@@ -229,6 +231,32 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
+		public async Task<OfferFeedbackRequest.Dto> AddOfferFeedbackRequestAsync(OfferFeedbackRequest.AddDto addDto, int currentUserId)
+		{
+			var offer = await _context.Offers
+				.Include(x => x.FeedbackRequests)
+				.FirstOrDefaultAsync(x => x.Id == addDto.OfferId);
+			if (offer == null)
+				throw new ApiException($"Не найдено КП с ID {addDto.OfferId}");
+
+			var user = await _context.Users.FirstAsync(x => x.Id == currentUserId);
+
+			var request = new OfferFeedbackRequest
+			{
+				Text = addDto.Text,
+				AuthorId = currentUserId,
+				Author = user
+			};
+
+			offer.FeedbackRequests.Add(request);
+			await _context.SaveChangesAsync();
+
+			var dto = _mapper.Map<OfferFeedbackRequest.Dto>(request);
+			return dto;
+		}
+
+		#region ClientView
+
 		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
 		{
 			var offer = await _context.Offers
@@ -311,6 +339,8 @@ namespace MiniCRMCore.Areas.Offers
 			return "NotImplementedException";
 			//throw new NotImplementedException();
 		}
+
+		#endregion
 	}
 
 	public static class StringExtentions

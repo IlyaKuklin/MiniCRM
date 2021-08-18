@@ -12,6 +12,7 @@
 import { OfferFileDatumDto } from './offer-file-datum-dto';
 import { ClientDto } from './client-dto';
 import { OfferNewsbreakDto } from './offer-newsbreak-dto';
+import { OfferFeedbackRequestDto } from './offer-feedback-request-dto';
 
 
 export interface OfferDto { 
@@ -37,5 +38,6 @@ export interface OfferDto {
     selectedSections: Array<string>;
     clientLink?: string;
     newsbreaks?: Array<OfferNewsbreakDto> | null;
+    feedbackRequests?: Array<OfferFeedbackRequestDto> | null;
 }
 

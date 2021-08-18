@@ -87,6 +87,14 @@ namespace MiniCRMServer.Controllers
 			return this.Ok(result);
 		}
 
+		[HttpPost("feedbackRequests/add")]
+		[ProducesResponseType(typeof(OfferFeedbackRequest.Dto), 200)]
+		public async Task<IActionResult> AddOfferFeedbackRequest([Required] OfferFeedbackRequest.AddDto addDto)
+		{
+			var result = await _offersService.AddOfferFeedbackRequestAsync(addDto, this.CurrentUserId);
+			return this.Ok(result);
+		}
+
 		[HttpGet("client/offer")]
 		[ProducesResponseType(typeof(Offer.ClientViewDto), 200)]
 		public async Task<IActionResult> GetOfferForClient(Guid link, string key)

@@ -15,6 +15,8 @@ model/client-dto.ts
 model/models.ts
 model/offer-client-view-dto.ts
 model/offer-dto.ts
+model/offer-feedback-request-add-dto.ts
+model/offer-feedback-request-dto.ts
 model/offer-file-datum-dto.ts
 model/offer-file-type.ts
 model/offer-newsbreak-add-dto.ts
