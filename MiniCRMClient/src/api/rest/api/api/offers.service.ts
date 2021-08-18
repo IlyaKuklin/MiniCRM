@@ -17,6 +17,7 @@ import { HttpClient, HttpHeaders, HttpParams,
 import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
+import { OfferClientViewDto } from '../model/models';
 import { OfferDto } from '../model/models';
 import { OfferFileDatumDto } from '../model/models';
 import { OfferFileType } from '../model/models';
@@ -97,6 +98,68 @@ export class OffersApiService {
             throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
+    }
+
+    /**
+     * @param link 
+     * @param key 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersClientOfferGet(link?: string, key?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<OfferClientViewDto>;
+    public apiOffersClientOfferGet(link?: string, key?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<OfferClientViewDto>>;
+    public apiOffersClientOfferGet(link?: string, key?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<OfferClientViewDto>>;
+    public apiOffersClientOfferGet(link?: string, key?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (link !== undefined && link !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>link, 'link');
+        }
+        if (key !== undefined && key !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>key, 'key');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.get<OfferClientViewDto>(`${this.configuration.basePath}/api/Offers/client/offer`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**

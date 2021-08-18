@@ -1,0 +1,20 @@
+<div *ngIf="model">
+  <div *ngFor="let section of model.sections">
+    <div class="row" style="padding: 1em 0">
+      <div class="col-3">
+        <strong> {{ section.name }}</strong>
+      </div>
+      <div class="col-9">
+            <ng-container *ngIf="section.type == 'text'">
+            {{ section.data }}
+        </ng-container>
+        <ng-container *ngIf="section.type == 'img'">
+            <div *ngFor="let path of section.imagePaths">
+                <img [src]="path">
+            </div>
+        </ng-container>
+        </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div>

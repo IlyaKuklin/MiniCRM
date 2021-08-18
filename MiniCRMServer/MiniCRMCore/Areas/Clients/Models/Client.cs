@@ -17,6 +17,8 @@ namespace MiniCRMCore.Areas.Clients.Models
 		public virtual List<Offer> Offers { get; set; }
 		public virtual List<ClientCommunicationReport> CommunicationReports { get; set; }
 
+		public string Key { get; set; }
+
 		public class Dto
 		{
 			[Required]

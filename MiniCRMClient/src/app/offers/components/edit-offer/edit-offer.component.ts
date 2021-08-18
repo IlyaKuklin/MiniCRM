@@ -237,6 +237,10 @@ export class EditOfferComponent implements OnInit {
     return option?.name ? option.name : '';
   }
 
+  sendClick() : void {
+    
+  }
+
   private _filter(value: any): ClientDto[] {
     const isString = (value as ClientDto).legalEntitiesNames == undefined;
     if (!isString) return [];

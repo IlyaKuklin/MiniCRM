@@ -78,5 +78,13 @@ namespace MiniCRMServer.Controllers
 			await _offersService.DeleteFileAsync(offerFileId);
 			return this.Ok(204);
 		}
+
+		[HttpGet("client/offer")]
+		[ProducesResponseType(typeof(Offer.ClientViewDto), 200)]
+		public async Task<IActionResult> GetOfferForClient(Guid link, string key)
+		{
+			var result = await _offersService.GetOfferForClientAsync(link, key);
+			return this.Ok(result);
+		}
 	}
 }

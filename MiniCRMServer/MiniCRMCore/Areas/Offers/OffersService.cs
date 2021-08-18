@@ -194,5 +194,101 @@ namespace MiniCRMCore.Areas.Offers
 
 			await _context.SaveChangesAsync();
 		}
+
+		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
+		{
+			var offer = await _context.Offers
+				.Include(x => x.Client)
+				.Include(x => x.FileData)
+					.ThenInclude(x => x.FileDatum)
+				.Include(x => x.Versions)
+				.AsNoTracking()
+				.FirstOrDefaultAsync(x => x.ClientLink == link);
+
+			if (offer == null)
+				throw new ApiException($"Не найдено КП по ссылке {link}");
+
+			//if (offer.Client.Key != clientKey)
+			//	throw new ApiException("", 403);
+
+			var lstV = offer.Versions.Last();
+
+			var versionToDisplay = JsonConvert.DeserializeObject<Offer>(lstV.Data);
+
+			var type = typeof(Offer);
+			var props = typeof(Offer).GetProperties();
+
+			var dto = new Offer.ClientViewDto
+			{
+				Sections = new List<SectionDto>()
+			};
+
+
+			foreach (var sectionName in versionToDisplay.SelectedSections)
+			{
+				var section = new SectionDto
+				{
+					Name = GetReadablePropertyName(sectionName),
+					Type = "text"
+				};
+
+				var textProperty = type.GetProperty(sectionName.FirstCharToUpper());
+				if (textProperty != null)
+				{
+					var value = textProperty.GetValue(versionToDisplay);
+					if (value != null)
+					{
+						section.Data = value.ToString();
+						dto.Sections.Add(section);
+					}
+				}
+
+				else
+				{
+					if (sectionName == "techPassport")
+					{
+						section.Type = "img";
+						section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.TechPassport).Select(x => x.FileDatum.Path).ToList();
+						dto.Sections.Add(section);
+					}
+				}
+				
+			}
+
+			return dto;
+		}
+
+		private string GetReadablePropertyName(string name)
+		{
+			switch (name)
+			{
+				case "productSystemType": return "Тип товара/системы";
+
+				case "briefIndustryDescription": return "Краткое описание отрасли";
+				case "offerCase": return "Кейс";
+				case "offerPoint": return "Суть предложения";
+				case "recommendations": return "Рекомендации";
+				case "techPassport": return "Технический паспорт";
+				case "coveringLetter": return "Сопроводительное письмо";
+				case "similarCases": return "Аналогичные кейсы";
+				
+			}
+
+			return "NotImplementedException";
+			//throw new NotImplementedException();
+		}
+	}
+
+	public static class StringExtentions
+	{
+		public static string FirstCharToUpper(this string input)
+		{
+			return input switch
+			{
+				null => throw new ArgumentNullException(nameof(input)),
+				"" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
+				_ => input.First().ToString().ToUpper() + input.Substring(1)
+			};
+		}
 	}
 }

@@ -35,6 +35,12 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public Guid ClientLink { get; set; }
 
+		public class ClientViewDto
+		{
+			[Required]
+			public List<SectionDto> Sections { get; set; }
+		}
+
 		public class Dto : BaseDto
 		{
 			public int Number { get; set; }
@@ -90,6 +96,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Тип КП (Холодный / Теплый / Горячий).
 			/// </summary>
 			public string Potential { get; set; }
+
 			public string Stage { get; set; }
 
 			public Client.Dto Client { get; set; }
@@ -149,5 +156,20 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public string Potential { get; set; }
 			public string Stage { get; set; }
 		}
+	}
+
+	public class SectionDto
+	{
+		[Required]
+		public string Name { get; set; }
+
+		[Required]
+		public string Data { get; set; }
+
+		[Required]
+		public List<string> ImagePaths { get; set; }
+
+		[Required]
+		public string Type { get; set; }
 	}
 }
