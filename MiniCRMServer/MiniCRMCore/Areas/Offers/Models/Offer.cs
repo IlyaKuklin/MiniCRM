@@ -1,5 +1,6 @@
 ﻿using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -31,6 +32,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public int CurrentVersion { get; set; }
 
 		public List<OfferVersion> Versions { get; set; }
+
+		public Guid ClientLink { get; set; }
 
 		public class Dto : BaseDto
 		{
@@ -96,6 +99,11 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			[Required]
 			public List<string> SelectedSections { get; set; }
+
+			/// <summary>
+			/// Ссылка для клиента.
+			/// </summary>
+			public Guid ClientLink { get; set; }
 		}
 
 		public class EditDto

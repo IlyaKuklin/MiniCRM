@@ -41,6 +41,7 @@ namespace MiniCRMCore
 			modelBuilder.Entity<Offer>(e =>
 			{
 				e.HasKey(x => x.Id);
+				e.Property(x => x.ClientLink).ValueGeneratedOnAdd();
 			});
 
 			modelBuilder.Entity<OfferFileDatum>(e =>
