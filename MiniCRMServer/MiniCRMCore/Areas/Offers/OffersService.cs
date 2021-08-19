@@ -36,6 +36,7 @@ namespace MiniCRMCore.Areas.Offers
 					.ThenInclude(x => x.Author)
 				.Include(x => x.FeedbackRequests)
 					.ThenInclude(x => x.Author)
+				.Include(x => x.Rules)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (offer == null)
@@ -119,7 +120,7 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
-		#endregion
+		#endregion Offers
 
 		#region Files
 
@@ -172,7 +173,6 @@ namespace MiniCRMCore.Areas.Offers
 			var sectionKey = string.Empty;
 			switch (type)
 			{
-
 				case OfferFileType.Photo: sectionKey = "description"; break;
 				case OfferFileType.TechPassport: sectionKey = "techPassport"; break;
 				case OfferFileType.Certificate: sectionKey = "certificate"; break;
@@ -205,7 +205,7 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
-		#endregion
+		#endregion Files
 
 		public async Task<OfferNewsbreak.Dto> AddOfferNewsbreakAsync(OfferNewsbreak.AddDto addDto, int currentUserId)
 		{
@@ -255,6 +255,58 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
+		#region Rules
+
+		public async Task<OfferRule.Dto> EditOfferRuleAsync(OfferRule.Dto dto)
+		{
+			var offer = await _context.Offers
+				.Include(x => x.Rules)
+				.FirstOrDefaultAsync(x => x.Id == dto.OfferId);
+			if (offer == null)
+				throw new ApiException($"Не найдено КП с ID {dto.OfferId}");
+
+			OfferRule rule;
+			if (dto.Id > 0)
+			{
+				rule = offer.Rules.FirstOrDefault(x => x.Id == dto.Id);
+			}
+			else
+			{
+				rule = new OfferRule();
+				offer.Rules.Add(rule);
+			}
+
+			_mapper.Map(dto, rule);
+			await _context.SaveChangesAsync();
+
+			var returnDto = _mapper.Map<OfferRule.Dto>(rule);
+			return returnDto;
+		}
+
+		public async Task ChangeOfferRuleStateAsync(int ruleId)
+		{
+			var rule = await _context.OfferRules
+				.FirstOrDefaultAsync(x => x.Id == ruleId);
+			if (rule == null)
+				throw new ApiException($"На нейдено правило с ID {ruleId}");
+
+			rule.Completed = !rule.Completed;
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task DeleteOfferRuleAsync(int ruleId)
+		{
+			var rule = await _context.OfferRules
+				.FirstOrDefaultAsync(x => x.Id == ruleId);
+			if (rule == null)
+				throw new ApiException($"На нейдено правило с ID {ruleId}");
+
+			_context.OfferRules.Remove(rule);
+			await _context.SaveChangesAsync();
+		}
+
+		#endregion
+
 		#region ClientView
 
 		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
@@ -285,7 +337,6 @@ namespace MiniCRMCore.Areas.Offers
 				Sections = new List<SectionDto>()
 			};
 
-
 			foreach (var sectionName in versionToDisplay.SelectedSections)
 			{
 				var section = new SectionDto
@@ -304,7 +355,6 @@ namespace MiniCRMCore.Areas.Offers
 						dto.Sections.Add(section);
 					}
 				}
-
 				else
 				{
 					if (sectionName == "techPassport")
@@ -314,7 +364,6 @@ namespace MiniCRMCore.Areas.Offers
 						dto.Sections.Add(section);
 					}
 				}
-				
 			}
 
 			return dto;
@@ -333,14 +382,13 @@ namespace MiniCRMCore.Areas.Offers
 				case "techPassport": return "Технический паспорт";
 				case "coveringLetter": return "Сопроводительное письмо";
 				case "similarCases": return "Аналогичные кейсы";
-				
 			}
 
 			return "NotImplementedException";
 			//throw new NotImplementedException();
 		}
 
-		#endregion
+		#endregion ClientView
 	}
 
 	public static class StringExtentions

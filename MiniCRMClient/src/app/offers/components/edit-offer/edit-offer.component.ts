@@ -12,6 +12,7 @@ import {
   OfferFileDatumDto,
   OfferFileType,
   OfferNewsbreakDto,
+  OfferRuleDto,
   OffersApiService,
 } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
@@ -38,9 +39,9 @@ export class EditOfferComponent implements OnInit {
   @ViewChild('offerForm') offerForm!: NgForm;
   isLoading: boolean = false;
 
-  model: OfferDto = { selectedSections: [] };
+  model: OfferDto = { selectedSections: [], rules: [] };
   isEdit: boolean = false;
-  originalModel: OfferDto = { selectedSections: [] };
+  originalModel: OfferDto = { selectedSections: [], rules: [] };
   clients: ClientDto[] = [];
 
   errorStateMatcher = new OfferErrorStateMatcher();
@@ -290,6 +291,66 @@ export class EditOfferComponent implements OnInit {
         }
       });
   }
+
+  //#region Rules
+
+  onAddRuleClick(): void {
+    this.model.rules.push({
+      completed: false,
+      offerId: this.model.id,
+      id: 0,
+    });
+  }
+
+  cancelRuleAdd(rule: OfferRuleDto): void {
+    this.model.rules = this.model.rules.filter((x) => x != rule);
+  }
+
+  confirmRuleAdd(rule: OfferRuleDto): void {
+    if (rule.completed) return;
+    this.isLoading = true;
+    this.offersApiService
+      .apiOffersRulesEditPost(rule)
+      .subscribe((response: OfferRuleDto) => {
+        rule.id = response.id;
+        this.isLoading = false;
+      });
+  }
+
+  changeState(ruleId: number): void {
+    this.offersApiService
+      .apiOffersRulesChangeStatePost(ruleId)
+      .subscribe(() => {});
+  }
+
+  deleteRule(ruleId: number): void {
+    const rule = this.model.rules.find(x => x.id == ruleId);
+    if (rule?.completed) return;
+    this.dialogService
+      .confirmDialog({
+        header: 'Удаление правила',
+        message: 'Вы уверены, что хотите удалить правило?',
+      })
+      .subscribe((response) => {
+        if (response) {
+          this.isLoading = true;
+          this.offersApiService
+            .apiOffersRulesDeleteDelete(ruleId)
+            .subscribe(() => {
+              this.model.rules = this.model.rules.filter(
+                (x) => x.id !== ruleId
+              );
+              this.snackbarService.show({
+                duration: 2000,
+                message: 'Правило удалено',
+              });
+              this.isLoading = false;
+            });
+        }
+      });
+  }
+
+  //#endregion
 
   private _filter(value: any): ClientDto[] {
     const isString = (value as ClientDto).legalEntitiesNames == undefined;

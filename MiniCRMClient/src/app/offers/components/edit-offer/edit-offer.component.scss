@@ -81,13 +81,29 @@
   }
 
   &_body {
-    > td  {
+    > td {
       padding: 0.25em 0;
     }
   }
 }
 
-
 mat-card {
   background-color: rgba($color: #999, $alpha: 0.03);
+}
+
+.rules-table {
+  &_head {
+    > th {
+      padding: 0 1em;
+    }
+  }
+  &_body {
+    > td {
+      padding: 0 1em;
+    }
+  }
+
+  &_field {
+    width: 100%;
+  }
 }

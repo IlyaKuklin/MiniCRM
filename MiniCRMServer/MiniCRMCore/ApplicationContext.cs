@@ -28,6 +28,7 @@ namespace MiniCRMCore
 		public DbSet<OfferVersion> OfferVersions { get; set; }
 		public DbSet<OfferNewsbreak> OfferNewsbreaks { get; set; }
 		public DbSet<OfferFeedbackRequest> OfferFeedbackRequests { get; set; }
+		public DbSet<OfferRule> OfferRules { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

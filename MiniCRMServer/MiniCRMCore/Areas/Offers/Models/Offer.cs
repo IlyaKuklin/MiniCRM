@@ -1,5 +1,4 @@
-﻿using MiniCRMCore.Areas.Auth.Models;
-using MiniCRMCore.Areas.Clients.Models;
+﻿using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using System;
 using System.Collections.Generic;
@@ -7,45 +6,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
-	public class OfferFeedbackRequest : BaseEntity
+	public class OfferRule : BaseEntity
 	{
 		public Offer Offer { get; set; }
 		public int OfferId { get; set; }
-		public string Text { get; set; }
-		public User Author { get; set; }
-		public int AuthorId { get; set; }
+
+		public bool Completed { get; set; }
+		public string Task { get; set; }
+		public DateTime Deadline { get; set; }
 
 		public class Dto : BaseDto
 		{
-			public string Text { get; set; }
-			public User.Dto Author { get; set; }
-		}
-
-		public class AddDto
-		{
 			public int OfferId { get; set; }
-			public string Text { get; set; }
-		}
-	}
-
-	public class OfferNewsbreak : BaseEntity
-	{
-		public Offer Offer { get; set; }
-		public int OfferId { get; set; }
-		public string Text { get; set; }
-		public User Author { get; set; }
-		public int AuthorId { get; set; }
-
-		public class Dto : BaseDto
-		{
-			public string Text { get; set; }
-			public User.Dto Author { get; set; }
-		}
-
-		public class AddDto
-		{
-			public int OfferId { get; set; }
-			public string Text { get; set; }
+			
+			[Required]
+			public bool Completed { get; set; }
+			public string Task { get; set; }
+			public DateTime Deadline { get; set; }
 		}
 	}
 
@@ -80,6 +57,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public List<OfferNewsbreak> Newsbreaks { get; set; }
 		public List<OfferFeedbackRequest> FeedbackRequests { get; set; }
+
+		public List<OfferRule> Rules { get; set; }
 
 		public class ClientViewDto
 		{
@@ -167,6 +146,12 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Заявки на обратную связь с клиентом.
 			/// </summary>
 			public List<OfferFeedbackRequest.Dto> FeedbackRequests { get; set; }
+
+			[Required]
+			/// <summary>
+			/// Правила работы с клиентом.
+			/// </summary>
+			public List<OfferRule.Dto> Rules { get; set; }
 		}
 
 		public class EditDto

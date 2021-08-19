@@ -21,6 +21,7 @@ model/offer-file-datum-dto.ts
 model/offer-file-type.ts
 model/offer-newsbreak-add-dto.ts
 model/offer-newsbreak-dto.ts
+model/offer-rule-dto.ts
 model/role.ts
 model/section-dto.ts
 model/user-auth-dto.ts

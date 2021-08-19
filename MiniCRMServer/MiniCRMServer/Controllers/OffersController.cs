@@ -95,6 +95,30 @@ namespace MiniCRMServer.Controllers
 			return this.Ok(result);
 		}
 
+		[HttpPost("rules/edit")]
+		[ProducesResponseType(typeof(OfferRule.Dto), 200)]
+		public async Task<IActionResult> EditOfferRule([Required] OfferRule.Dto dto)
+		{
+			var result = await _offersService.EditOfferRuleAsync(dto);
+			return this.Ok(result);
+		}
+
+		[HttpPost("rules/changeState")]
+		[ProducesResponseType(200)]
+		public async Task<IActionResult> ChangeOfferRuleState([Required] int ruleId)
+		{
+			await _offersService.ChangeOfferRuleStateAsync(ruleId);
+			return this.Ok();
+		}
+
+		[HttpDelete("rules/delete")]
+		[ProducesResponseType(204)]
+		public async Task<IActionResult> DeleteOfferRule([Required] int ruleId)
+		{
+			await _offersService.DeleteOfferRuleAsync(ruleId);
+			return this.Ok();
+		}
+
 		[HttpGet("client/offer")]
 		[ProducesResponseType(typeof(Offer.ClientViewDto), 200)]
 		public async Task<IActionResult> GetOfferForClient(Guid link, string key)

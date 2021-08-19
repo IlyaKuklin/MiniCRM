@@ -25,7 +25,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
 
 namespace MiniCRMServer
 {
@@ -264,6 +263,10 @@ namespace MiniCRMServer
 
 			this.CreateMap<OfferNewsbreak, OfferNewsbreak.Dto>();
 			this.CreateMap<OfferFeedbackRequest, OfferFeedbackRequest.Dto>();
+
+			this.CreateMap<OfferRule, OfferRule.Dto>()
+				.ReverseMap()
+				.ForMember(x => x.Id, opt => opt.Ignore());
 		}
 	}
 
@@ -271,7 +274,6 @@ namespace MiniCRMServer
 	{
 		public void Apply(OpenApiSchema schema, SchemaFilterContext context)
 		{
-
 			if (context.Type.IsReferenceOrNullableType())
 			{
 				schema.Nullable = false;

@@ -63,18 +63,25 @@
     </mat-autocomplete>
   </mat-form-field>
 
+  <!-- Инфоповоды и обратная связь -->
   <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
     <!-- Инфоповоды -->
     <div class="col-6">
-      <button mat-stroked-button (click)="onAddNewsbreakClick()" style="margin-bottom: 1em;">
-        <mat-icon>add</mat-icon>
-        Добавить инфоповод
-      </button>
-      <mat-card *ngIf="model.newsbreaks?.length">
-        <mat-card-title style="font-size: 1.25em"
-          >Список инфоповодов</mat-card-title
+      <mat-card>
+        <button
+          mat-stroked-button
+          (click)="onAddNewsbreakClick()"
+          style="margin-bottom: 1em"
         >
-        <table class="breaks-table">
+          <mat-icon>add</mat-icon>
+          Добавить инфоповод
+        </button>
+        <!-- <mat-card-title
+          style="font-size: 1.25em"
+          *ngIf="model.newsbreaks?.length"
+          >Список инфоповодов</mat-card-title
+        > -->
+        <table class="breaks-table" *ngIf="model.newsbreaks?.length">
           <tr class="breaks-table_head">
             <th>Текст</th>
             <th>Дата создания</th>
@@ -91,13 +98,21 @@
 
     <!-- Заявки на обр.связь -->
     <div class="col-6">
-      <button mat-stroked-button (click)="onAddFeedbackRequestClick()" style="margin-bottom: 1em;">
-        <mat-icon>add</mat-icon>
-        Добавить заявку на обратную связь
-      </button>
-      <mat-card *ngIf="model.feedbackRequests?.length">
-        <mat-card-title style="font-size: 1.25em">Список заявок</mat-card-title>
-        <table class="breaks-table">
+      <mat-card>
+        <button
+          mat-stroked-button
+          (click)="onAddFeedbackRequestClick()"
+          style="margin-bottom: 1em"
+        >
+          <mat-icon>add</mat-icon>
+          Добавить заявку на обратную связь
+        </button>
+        <!-- <mat-card-title
+          style="font-size: 1.25em"
+          *ngIf="model.feedbackRequests?.length"
+          >Список заявок</mat-card-title
+        > -->
+        <table class="breaks-table" *ngIf="model.feedbackRequests?.length">
           <tr class="breaks-table_head">
             <th>Текст</th>
             <th>Дата создания</th>
@@ -110,6 +125,102 @@
             <td>{{ request.text }}</td>
             <td>{{ request.created | date: "dd.MM.YYYY" }}</td>
             <td>{{ request.author?.name }}</td>
+          </tr>
+        </table>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Правила -->
+  <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
+    <div class="col-12">
+      <mat-card>
+        <button
+          mat-stroked-button
+          (click)="onAddRuleClick()"
+          style="margin-bottom: 1em"
+        >
+          <mat-icon>add</mat-icon>
+          Добавить правило
+        </button>
+
+        <table class="rules-table" *ngIf="model.rules?.length">
+          <tr class="rules-table_head">
+            <th style="width: 5%"></th>
+            <th>Задача</th>
+            <th style="width: 10%">Срок</th>
+            <th style="width: 10%"></th>
+          </tr>
+          <tr class="rules-table_body" *ngFor="let rule of model.rules">
+            <td>
+              <mat-checkbox
+                *ngIf="rule.id"
+                [(ngModel)]="rule.completed"
+                (change)="changeState(rule.id)"
+              >
+              </mat-checkbox>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="rules-table_field">
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="rule.task"
+                  [disabled]="rule.completed"
+                  [ngClass]="{ completed: rule.completed }"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="rules-table_field">
+                <input
+                  [disabled]="rule.completed"
+                  [ngClass]="{ completed: rule.completed }"
+                  matInput
+                  [matDatepicker]="datepicker"
+                  [(ngModel)]="rule.deadline"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datepicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Отмена</button>
+                    <button
+                      mat-raised-button
+                      color="primary"
+                      matDatepickerApply
+                    >
+                      Выбрать
+                    </button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+            </td>
+            <td style="text-align: end">
+              <div
+                *ngIf="rule.id"
+                style="display: flex; gap: 0.5em; justify-content: center"
+                [ngClass]="{ 'faded-50': rule.completed }"
+              >
+                <mat-icon
+                  color="accent"
+                  class="clickable"
+                  (click)="confirmRuleAdd(rule)"
+                  >cloud_upload</mat-icon
+                >
+                <mat-icon color="warn" class="clickable" (click)="deleteRule(rule.id)">delete</mat-icon>
+              </div>
+              <div style="display: flex; gap: 1em" *ngIf="!rule.id">
+                <button mat-stroked-button (click)="confirmRuleAdd(rule)">
+                  Создать
+                </button>
+                <button mat-stroked-button (click)="cancelRuleAdd(rule)">
+                  Отмена
+                </button>
+              </div>
+            </td>
           </tr>
         </table>
       </mat-card>

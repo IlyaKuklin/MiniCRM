@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { httpInterceptorProviders } from './shared/_http-interceptors';
 import { ClientsModule } from './clients/clients.module';
 import { OffersModule } from './offers/offers.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,6 +29,7 @@ import { OffersModule } from './offers/offers.module';
   ],
   providers: [
     { provide: BASE_PATH, useValue: environment.basePath },
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' },
     httpInterceptorProviders,
   ],
   bootstrap: [AppComponent],
