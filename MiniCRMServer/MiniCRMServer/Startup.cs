@@ -243,13 +243,7 @@ namespace MiniCRMServer
 				.ReverseMap()
 				.ForMember(x => x.Id, opt => opt.Ignore())
 				.ForMember(x => x.Offers, opt => opt.Ignore())
-				.ForMember(x => x.CommunicationReports, opt => opt.Ignore())
-				;
-
-			this.CreateMap<ClientCommunicationReport, ClientCommunicationReport.Dto>();
-			this.CreateMap<ClientCommunicationReport.EditDto, ClientCommunicationReport>()
-				.ForMember(x => x.Id, opt => opt.Ignore())
-				.ForMember(x => x.AuthorId, opt => opt.Ignore())
+				.ForMember(x => x.CommonCommunicationReports, opt => opt.Ignore())
 				;
 		}
 	}

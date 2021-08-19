@@ -3,7 +3,6 @@ import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  ClientCommunicationReportDto,
   ClientDto,
   ClientsApiService,
   OfferDto,
@@ -61,7 +60,7 @@ export class EditClientComponent implements OnInit {
             this.isLoading = false;
           });
       } else {
-        this.model = { id: 0, communicationReports: [], commonCommunicationReports: [] };
+        this.model = { id: 0, commonCommunicationReports: [] };
       }
     });
   }

@@ -21,7 +21,6 @@ namespace MiniCRMCore
 		public DbSet<FileDatum> FileData { get; set; }
 
 		public DbSet<Client> Clients { get; set; }
-		public DbSet<ClientCommunicationReport> ClientCommunicationReports { get; set; }
 
 		public DbSet<Offer> Offers { get; set; }
 		public DbSet<OfferFileDatum> OfferFileData { get; set; }

@@ -25,8 +25,6 @@ namespace MiniCRMCore.Areas.Clients
 		{
 			var client = await _context.Clients
 				.Include(x => x.Offers)
-				.Include(x => x.CommunicationReports)
-					.ThenInclude(x => x.Author)
 				.Include(x => x.CommonCommunicationReports)
 					.ThenInclude(x => x.Author)
 				.AsNoTracking()
@@ -102,48 +100,5 @@ namespace MiniCRMCore.Areas.Clients
 			_context.Clients.Remove(client);
 			await _context.SaveChangesAsync();
 		}
-
-		#region CommunicationReports
-
-		public async Task<ClientCommunicationReport.Dto> EditCommunicationReportAsync(ClientCommunicationReport.EditDto dto, int currentUserId)
-		{
-			var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == currentUserId);
-			if (user == null)
-				throw new ApiException($"Не найден пользователь с ID {currentUserId}");
-
-			ClientCommunicationReport communicationReport;
-			if (dto.Id > 0)
-			{
-				communicationReport = await _context.ClientCommunicationReports
-					.Include(x => x.Author)
-					.FirstOrDefaultAsync(x => x.Id == dto.Id);
-				if (communicationReport == null)
-					throw new ApiException($"Не найден отчёт с ID {dto.Id}");
-			}
-			else
-			{
-				communicationReport = new ClientCommunicationReport();
-				await _context.ClientCommunicationReports.AddAsync(communicationReport);
-			}
-
-			_mapper.Map(dto, communicationReport);
-			communicationReport.AuthorId = user.Id;
-			await _context.SaveChangesAsync();
-
-			var returnDto = _mapper.Map<ClientCommunicationReport.Dto>(communicationReport);
-			return returnDto;
-		}
-
-		public async Task DeleteCommunicationReportAsync(int id)
-		{
-			var report = await _context.ClientCommunicationReports.FirstOrDefaultAsync(x => x.Id == id);
-			if (report == null)
-				throw new ApiException($"Не найден отчёт с ID {id}");
-
-			_context.ClientCommunicationReports.Remove(report);
-			await _context.SaveChangesAsync();
-		}
-
-		#endregion CommunicationReports
 	}
 }
