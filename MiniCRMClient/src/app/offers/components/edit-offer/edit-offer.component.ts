@@ -252,8 +252,8 @@ export class EditOfferComponent implements OnInit {
         header: 'Добавление инфоповода',
         text: '',
       })
-      .subscribe((result) => {
-        if (result) {
+      .subscribe((result: { text: string }) => {
+        if (result && result.text.length > 0) {
           this.isLoading = true;
 
           this.offersApiService
@@ -275,8 +275,8 @@ export class EditOfferComponent implements OnInit {
         header: 'Добавление заявки на обратную связь',
         text: '',
       })
-      .subscribe((result) => {
-        if (result) {
+      .subscribe((result: { text: string }) => {
+        if (result && result.text.length > 0) {
           this.isLoading = true;
 
           this.offersApiService
@@ -308,6 +308,23 @@ export class EditOfferComponent implements OnInit {
 
   confirmRuleAdd(rule: OfferRuleDto): void {
     if (rule.completed) return;
+
+    if (!rule.task) {
+      this.snackbarService.show({
+        duration: 2000,
+        message: 'Заполните текст задачи',
+        isError: true,
+      });
+      return;
+    } else if (!rule.deadline) {
+      this.snackbarService.show({
+        duration: 2000,
+        message: 'Укажите срок исполнения',
+        isError: true,
+      });
+      return;
+    }
+
     this.isLoading = true;
     this.offersApiService
       .apiOffersRulesEditPost(rule)
@@ -324,7 +341,7 @@ export class EditOfferComponent implements OnInit {
   }
 
   deleteRule(ruleId: number): void {
-    const rule = this.model.rules.find(x => x.id == ruleId);
+    const rule = this.model.rules.find((x) => x.id == ruleId);
     if (rule?.completed) return;
     this.dialogService
       .confirmDialog({
