@@ -210,7 +210,12 @@
                   (click)="confirmRuleAdd(rule)"
                   >cloud_upload</mat-icon
                 >
-                <mat-icon color="warn" class="clickable" (click)="deleteRule(rule.id)">delete</mat-icon>
+                <mat-icon
+                  color="warn"
+                  class="clickable"
+                  (click)="deleteRule(rule.id)"
+                  >delete</mat-icon
+                >
               </div>
               <div style="display: flex; gap: 1em" *ngIf="!rule.id">
                 <button mat-stroked-button (click)="confirmRuleAdd(rule)">
@@ -228,7 +233,7 @@
   </div>
 
   <!-- Основные поля -->
-  <div class="row" *ngIf="isEdit">
+  <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
     <div class="col-6">
       <mat-card class="offer_card">
         <!-- Фотографии и описание товара -->
@@ -717,6 +722,19 @@
             </div>
           </div>
         </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <mat-card>
+        <mcrm-communication-reports-list
+          *ngIf="model.id && model.id > 0"
+          [type]="'offer'"
+          [id]="model.id"
+          [reports]="model.commonCommunicationReports"
+        ></mcrm-communication-reports-list>
       </mat-card>
     </div>
   </div>

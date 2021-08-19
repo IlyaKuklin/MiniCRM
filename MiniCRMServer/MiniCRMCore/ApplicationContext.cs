@@ -30,6 +30,8 @@ namespace MiniCRMCore
 		public DbSet<OfferFeedbackRequest> OfferFeedbackRequests { get; set; }
 		public DbSet<OfferRule> OfferRules { get; set; }
 
+		public DbSet<CommunicationReport> CommunicationReports { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
@@ -38,7 +40,7 @@ namespace MiniCRMCore
 			{
 				e.HasKey(x => x.Id);
 				e.HasMany(x => x.Offers).WithOne(x => x.Client).OnDelete(DeleteBehavior.Cascade);
-				e.HasMany(x => x.CommunicationReports).WithOne(x => x.Client).OnDelete(DeleteBehavior.Cascade);
+				//e.HasMany(x => x.CommunicationReports).WithOne(x => x.Client).OnDelete(DeleteBehavior.Cascade);
 			});
 
 			modelBuilder.Entity<Offer>(e =>

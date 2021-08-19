@@ -61,7 +61,7 @@ export class EditClientComponent implements OnInit {
             this.isLoading = false;
           });
       } else {
-        this.model = { id: 0, communicationReports: [] };
+        this.model = { id: 0, communicationReports: [], commonCommunicationReports: [] };
       }
     });
   }

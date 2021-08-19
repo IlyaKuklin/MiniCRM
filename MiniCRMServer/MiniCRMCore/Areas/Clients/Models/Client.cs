@@ -17,6 +17,8 @@ namespace MiniCRMCore.Areas.Clients.Models
 		public virtual List<Offer> Offers { get; set; }
 		public virtual List<ClientCommunicationReport> CommunicationReports { get; set; }
 
+		public virtual List<CommunicationReport> CommonCommunicationReports { get; set; }
+
 		public string Key { get; set; }
 
 		public class Dto
@@ -59,6 +61,9 @@ namespace MiniCRMCore.Areas.Clients.Models
 			/// Отчёты о коммуникации с клиентом.
 			/// </summary>
 			public List<ClientCommunicationReport.Dto> CommunicationReports { get; set; }
+
+			[Required]
+			public virtual List<CommunicationReport.Dto> CommonCommunicationReports { get; set; }
 		}
 	}
 }

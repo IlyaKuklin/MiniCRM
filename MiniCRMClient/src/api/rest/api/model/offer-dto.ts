@@ -12,6 +12,7 @@
 import { OfferFileDatumDto } from './offer-file-datum-dto';
 import { ClientDto } from './client-dto';
 import { OfferRuleDto } from './offer-rule-dto';
+import { CommunicationReportDto } from './communication-report-dto';
 import { OfferNewsbreakDto } from './offer-newsbreak-dto';
 import { OfferFeedbackRequestDto } from './offer-feedback-request-dto';
 
@@ -41,5 +42,6 @@ export interface OfferDto {
     newsbreaks?: Array<OfferNewsbreakDto> | null;
     feedbackRequests?: Array<OfferFeedbackRequestDto> | null;
     rules: Array<OfferRuleDto>;
+    commonCommunicationReports: Array<CommunicationReportDto>;
 }
 

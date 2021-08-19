@@ -58,6 +58,7 @@ import { InfoDialogComponent } from './components/info-dialog/info-dialog.compon
 import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.component';
 import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
 import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
+import { CommunicationReportsListComponent } from './components/communication-reports-list/communication-reports-list.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { SelectOptionDialogComponent } from './components/select-option-dialog/s
     SelectOptionDialogComponent,
     ConfirmDialogComponent,
     InputDialogComponent,
+    CommunicationReportsListComponent
   ],
   imports: [
     CommonModule,
@@ -172,6 +174,7 @@ import { SelectOptionDialogComponent } from './components/select-option-dialog/s
 
     // Components
     ToolbarComponent,
+    CommunicationReportsListComponent
   ],
 
   providers: [

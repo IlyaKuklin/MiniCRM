@@ -27,6 +27,8 @@ namespace MiniCRMCore.Areas.Clients
 				.Include(x => x.Offers)
 				.Include(x => x.CommunicationReports)
 					.ThenInclude(x => x.Author)
+				.Include(x => x.CommonCommunicationReports)
+					.ThenInclude(x => x.Author)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (client == null)
@@ -114,7 +116,6 @@ namespace MiniCRMCore.Areas.Clients
 			{
 				communicationReport = await _context.ClientCommunicationReports
 					.Include(x => x.Author)
-					.Include(x => x.Client)
 					.FirstOrDefaultAsync(x => x.Id == dto.Id);
 				if (communicationReport == null)
 					throw new ApiException($"Не найден отчёт с ID {dto.Id}");

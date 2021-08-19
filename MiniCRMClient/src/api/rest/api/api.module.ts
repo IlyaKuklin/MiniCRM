@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { AuthApiService } from './api/auth.service';
 import { ClientsApiService } from './api/clients.service';
+import { CommonApiService } from './api/common.service';
 import { OffersApiService } from './api/offers.service';
 
 @NgModule({

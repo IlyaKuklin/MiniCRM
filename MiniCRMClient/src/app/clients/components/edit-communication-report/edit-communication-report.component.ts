@@ -9,9 +9,9 @@ import {
 import { NgForm } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {
-  ClientCommunicationReportDto,
-  ClientCommunicationReportEditDto,
-  ClientsApiService,
+  CommonApiService,
+  CommunicationReportDto,
+  CommunicationReportEditDto,
 } from 'src/api/rest/api';
 import { ClientsService } from '../../services/clients.service';
 import { ClientErrorStateMatcher } from '../edit-client/edit-client.component';
@@ -23,12 +23,12 @@ import { ClientErrorStateMatcher } from '../edit-client/edit-client.component';
 })
 export class EditCommunicationReportComponent implements OnInit {
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: ClientCommunicationReportEditDto,
-    private readonly clientApiService: ClientsApiService,
+    @Inject(MAT_DIALOG_DATA) public data: CommunicationReportEditDto,
+    private readonly commonApiService: CommonApiService,
     private readonly clientService: ClientsService
   ) {}
 
-  model!: ClientCommunicationReportEditDto;
+  model!: CommunicationReportDto;
   @ViewChild('form') form!: NgForm;
 
   isLoading: boolean = false;
@@ -39,19 +39,21 @@ export class EditCommunicationReportComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.data)
     this.model = {...this.data};
-    this.isEdit = <ClientCommunicationReportEditDto>this.model.id > 0;
+    this.isEdit = <CommunicationReportDto>this.model.id > 0;
   }
 
   submit(): void {
     if (!this.form.valid) return;
 
-    this.clientApiService
-      .apiClientsCommunicationReportsEditPost({
-        clientId: this.model.clientId,
-        id: this.model.id,
-        text: this.model.text,
+    this.commonApiService
+      .apiCommonCommunicationReportsEditPost({
+        //clientId: this.model.clientId,
+        id: <number>this.model.id,
+        text: <string>this.model.text,
+        clientId: <number>this.model.clientId,
+        offerId: <number>this.model.offerId
       })
-      .subscribe((response: ClientCommunicationReportDto) => {
+      .subscribe((response: CommunicationReportDto) => {
         this.clientService.communicationReportSubject.next(response);
       });
   }

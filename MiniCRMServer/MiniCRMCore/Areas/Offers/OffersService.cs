@@ -36,6 +36,8 @@ namespace MiniCRMCore.Areas.Offers
 					.ThenInclude(x => x.Author)
 				.Include(x => x.FeedbackRequests)
 					.ThenInclude(x => x.Author)
+				.Include(x => x.CommonCommunicationReports)
+					.ThenInclude(x => x.Author)
 				.Include(x => x.Rules)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.Id == id);

@@ -39,9 +39,9 @@ export class EditOfferComponent implements OnInit {
   @ViewChild('offerForm') offerForm!: NgForm;
   isLoading: boolean = false;
 
-  model: OfferDto = { selectedSections: [], rules: [] };
+  model: OfferDto = { selectedSections: [], rules: [], commonCommunicationReports: [] };
   isEdit: boolean = false;
-  originalModel: OfferDto = { selectedSections: [], rules: [] };
+  originalModel: OfferDto = { selectedSections: [], rules: [], commonCommunicationReports: [] };
   clients: ClientDto[] = [];
 
   errorStateMatcher = new OfferErrorStateMatcher();

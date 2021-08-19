@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommunicationReportDto } from './communication-report-dto';
 import { OfferDto } from './offer-dto';
 import { ClientCommunicationReportDto } from './client-communication-report-dto';
 
@@ -22,5 +23,6 @@ export interface ClientDto {
     diagnostics?: string | null;
     offers?: Array<OfferDto> | null;
     communicationReports: Array<ClientCommunicationReportDto>;
+    commonCommunicationReports: Array<CommunicationReportDto>;
 }
 

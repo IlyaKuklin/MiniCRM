@@ -10,14 +10,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import {
-  ClientCommunicationReportDto,
-  ClientCommunicationReportEditDto,
-  ClientsApiService,
+  //ClientCommunicationReportDto,
+  //ClientCommunicationReportEditDto,
+  //ClientsApiService,
+  CommonApiService,
+  CommunicationReportDto,
 } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { ClientsService } from '../../services/clients.service';
-import { EditCommunicationReportComponent } from '../edit-communication-report/edit-communication-report.component';
+import { ClientsService } from '../../../clients/services/clients.service';
+import { EditCommunicationReportComponent } from '../../../clients/components/edit-communication-report/edit-communication-report.component';
 
 @Component({
   selector: 'mcrm-communication-reports-list',
@@ -29,17 +31,19 @@ export class CommunicationReportsListComponent
 {
   constructor(
     private readonly matDialog: MatDialog,
-    private readonly clientsApiService: ClientsApiService,
+    //private readonly clientsApiService: ClientsApiService,
     private readonly clientsService: ClientsService,
     private readonly snackbarService: SnackbarService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly commonApiService: CommonApiService
   ) {}
 
-  @Input('clientId') clientId!: number;
-  @Input('reports') model: ClientCommunicationReportDto[] = [];
+  @Input('id') id!: number | undefined;
+  @Input('reports') model: CommunicationReportDto[] = [];
+  @Input('type') type: string = 'client';
 
   displayedColumns: string[] = ['date', 'author', 'text', 'del'];
-  dataSource!: MatTableDataSource<ClientCommunicationReportDto>;
+  dataSource!: MatTableDataSource<CommunicationReportDto>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -56,7 +60,7 @@ export class CommunicationReportsListComponent
     this.dataSource.sort = this.sort;
   }
 
-  onEdit(dto: ClientCommunicationReportDto): void {
+  onEdit(dto: CommunicationReportDto): void {
     this.matDialog.closeAll();
     let report = this.model.find((x) => x.id == dto.id);
     if (!report) {
@@ -68,19 +72,29 @@ export class CommunicationReportsListComponent
   }
 
   addClick(): void {
-    const newReportEdit: ClientCommunicationReportEditDto = {
-      clientId: this.clientId,
+    const newReportEdit: CommunicationReportDto = {
       id: 0,
       text: '',
+      clientId: -1,
+      offerId: -1,
     };
+
+    if (this.type == 'client') {
+      newReportEdit.clientId = this.id;
+    } else if (this.type == 'offer') {
+      newReportEdit.offerId = this.id;
+    } else {
+      throw new Error('not implemented');
+    }
+
     const dialogRef = this.matDialog.open(EditCommunicationReportComponent, {
       data: newReportEdit,
     });
   }
 
-  editClick(report: ClientCommunicationReportDto): void {
-    const editDto: ClientCommunicationReportEditDto = {
-      clientId: this.clientId,
+  editClick(report: CommunicationReportDto): void {
+    const editDto: CommunicationReportDto = {
+      //clientId: this.clientId,
       id: report.id,
       text: report.text,
     };
@@ -97,8 +111,8 @@ export class CommunicationReportsListComponent
       })
       .subscribe((result: boolean) => {
         if (result) {
-          this.clientsApiService
-            .apiClientsCommunicationReportsDeleteDelete(id)
+          this.commonApiService
+            .apiCommonCommunicationReportsDeleteDelete(id)
             .subscribe(() => {
               this.model = this.model.filter((x) => x.id !== id);
               this.refreshDataSource();
@@ -111,13 +125,13 @@ export class CommunicationReportsListComponent
       });
   }
 
-  getText(report: ClientCommunicationReportDto) {
+  getText(report: CommunicationReportDto) {
     if (report.text && report.text?.length <= 150) return report.text;
     return `${report.text?.substring(0, 150)}...`;
   }
 
   private refreshDataSource() {
-    this.dataSource = new MatTableDataSource<ClientCommunicationReportDto>(
+    this.dataSource = new MatTableDataSource<CommunicationReportDto>(
       this.model
     );
     this.dataSource.paginator = this.paginator;

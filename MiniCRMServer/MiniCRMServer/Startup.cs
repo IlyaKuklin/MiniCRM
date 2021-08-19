@@ -85,6 +85,7 @@ namespace MiniCRMServer
 			services.AddScoped<AuthService>();
 			services.AddScoped<ClientsService>();
 			services.AddScoped<OffersService>();
+			services.AddScoped<CommonService>();
 
 			services.AddControllers()
 				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -197,7 +198,8 @@ namespace MiniCRMServer
 				typeof(BaseMappingProfile),
 				typeof(AuthMappingProfile),
 				typeof(ClientsMappingProfile),
-				typeof(OffersMappingProfile)
+				typeof(OffersMappingProfile),
+				typeof(CommonMappingProfile)
 			};
 
 			services.AddAutoMapper(profiles.ToArray());
@@ -209,6 +211,18 @@ namespace MiniCRMServer
 		public BaseMappingProfile()
 		{
 			this.CreateMap<BaseEntity, BaseEntity.BaseDto>();
+		}
+	}
+
+	public class CommonMappingProfile : Profile
+	{
+		public CommonMappingProfile()
+		{
+			this.CreateMap<CommunicationReport, CommunicationReport.Dto>();
+			this.CreateMap<CommunicationReport.EditDto, CommunicationReport>()
+				.ForMember(x => x.Id, opt => opt.Ignore())
+				.ForMember(x => x.AuthorId, opt => opt.Ignore())
+				;
 		}
 	}
 

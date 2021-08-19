@@ -6,25 +6,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
-	public class OfferRule : BaseEntity
-	{
-		public Offer Offer { get; set; }
-		public int OfferId { get; set; }
-
-		public bool Completed { get; set; }
-		public string Task { get; set; }
-		public DateTime Deadline { get; set; }
-
-		public class Dto : BaseDto
-		{
-			public int OfferId { get; set; }
-			
-			[Required]
-			public bool Completed { get; set; }
-			public string Task { get; set; }
-			public DateTime Deadline { get; set; }
-		}
-	}
 
 	public class Offer : BaseEntity
 	{
@@ -59,6 +40,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public List<OfferFeedbackRequest> FeedbackRequests { get; set; }
 
 		public List<OfferRule> Rules { get; set; }
+
+		public virtual List<CommunicationReport> CommonCommunicationReports { get; set; }
 
 		public class ClientViewDto
 		{
@@ -152,6 +135,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Правила работы с клиентом.
 			/// </summary>
 			public List<OfferRule.Dto> Rules { get; set; }
+
+			[Required]
+			public virtual List<CommunicationReport.Dto> CommonCommunicationReports { get; set; }
 		}
 
 		public class EditDto
