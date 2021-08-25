@@ -11,14 +11,8 @@
  */
 
 
-export interface OfferRuleDto { 
+export interface OfferRuleCompleteDto { 
     id?: number;
-    created?: string;
-    changed?: string;
-    offerId?: number;
-    completed: boolean;
-    task?: string | null;
     report?: string | null;
-    deadline?: string;
 }
 

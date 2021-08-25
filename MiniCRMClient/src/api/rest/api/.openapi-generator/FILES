@@ -13,6 +13,7 @@ index.ts
 model/client-dto.ts
 model/communication-report-dto.ts
 model/communication-report-edit-dto.ts
+model/email-settings-dto.ts
 model/models.ts
 model/offer-client-view-dto.ts
 model/offer-dto.ts
@@ -22,6 +23,7 @@ model/offer-file-datum-dto.ts
 model/offer-file-type.ts
 model/offer-newsbreak-add-dto.ts
 model/offer-newsbreak-dto.ts
+model/offer-rule-complete-dto.ts
 model/offer-rule-dto.ts
 model/role.ts
 model/section-dto.ts

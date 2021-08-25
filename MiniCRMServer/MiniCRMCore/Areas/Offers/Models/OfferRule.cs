@@ -11,6 +11,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public bool Completed { get; set; }
 		public string Task { get; set; }
+		public string Report { get; set; }
 		public DateTime Deadline { get; set; }
 
 		public class Dto : BaseDto
@@ -20,7 +21,14 @@ namespace MiniCRMCore.Areas.Offers.Models
 			[Required]
 			public bool Completed { get; set; }
 			public string Task { get; set; }
+			public string Report { get; set; }
 			public DateTime Deadline { get; set; }
+		}
+
+		public class CompleteDto
+		{
+			public int Id { get; set; }
+			public string Report { get; set; }
 		}
 	}
 }

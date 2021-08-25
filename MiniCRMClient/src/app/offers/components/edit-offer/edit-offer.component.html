@@ -148,6 +148,7 @@
           <tr class="rules-table_head">
             <th style="width: 5%"></th>
             <th>Задача</th>
+            <th>Отчёт</th>
             <th style="width: 10%">Срок</th>
             <th style="width: 10%"></th>
           </tr>
@@ -155,8 +156,9 @@
             <td>
               <mat-checkbox
                 *ngIf="rule.id"
+                [disabled]="rule.completed"
                 [(ngModel)]="rule.completed"
-                (change)="changeState(rule.id)"
+                (click)="completeRule(rule, $event)"
               >
               </mat-checkbox>
             </td>
@@ -166,6 +168,17 @@
                   matInput
                   type="text"
                   [(ngModel)]="rule.task"
+                  [disabled]="rule.completed"
+                  [ngClass]="{ completed: rule.completed }"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="rules-table_field">
+                <input
+                  matInput
+                  type="text"
+                  [(ngModel)]="rule.report"
                   [disabled]="rule.completed"
                   [ngClass]="{ completed: rule.completed }"
                 />

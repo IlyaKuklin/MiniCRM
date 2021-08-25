@@ -15,6 +15,7 @@ using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Clients;
 using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Email.Models;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Serialization;
@@ -223,6 +224,10 @@ namespace MiniCRMServer
 				.ForMember(x => x.Id, opt => opt.Ignore())
 				.ForMember(x => x.AuthorId, opt => opt.Ignore())
 				;
+
+			this.CreateMap<EmailSettings, EmailSettings.Dto>()
+				.ReverseMap()
+				.ForMember(x => x.Id, opt => opt.Ignore());
 		}
 	}
 
@@ -258,6 +263,10 @@ namespace MiniCRMServer
 				.ForMember(x => x.Number, opt => opt.Ignore())
 				.ForMember(x => x.FileData, opt => opt.Ignore())
 				.ForMember(x => x.Client, opt => opt.Ignore())
+				.ForMember(x => x.Newsbreaks, opt => opt.Ignore())
+				.ForMember(x => x.FeedbackRequests, opt => opt.Ignore())
+				.ForMember(x => x.Rules, opt => opt.Ignore())
+				.ForMember(x => x.CommonCommunicationReports, opt => opt.Ignore())
 				//.ForMember(x => x.ClientId, opt => opt.Ignore())
 				;
 			this.CreateMap<Offer.EditDto, Offer>()

@@ -11,14 +11,11 @@
  */
 
 
-export interface OfferRuleDto { 
-    id?: number;
-    created?: string;
-    changed?: string;
-    offerId?: number;
-    completed: boolean;
-    task?: string | null;
-    report?: string | null;
-    deadline?: string;
+export interface EmailSettingsDto { 
+    senderName?: string | null;
+    senderEmail?: string | null;
+    smtpHost?: string | null;
+    port?: number;
+    password?: string | null;
 }
 

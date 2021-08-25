@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MiniCRMCore.Areas.Auth;
 using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Email.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
@@ -39,5 +40,21 @@ namespace MiniCRMServer.Controllers
 		}
 
 		#endregion CommunicationReports
+
+		[HttpPost("settings/update")]
+		[ProducesResponseType(200)]
+		public async Task<IActionResult> UpdateSettings([Required] EmailSettings.Dto dto)
+		{
+			await _commonService.UpdateEmailSettingsAsync(dto);
+			return this.Ok();
+		}
+
+		[HttpGet("settings/get")]
+		[ProducesResponseType(typeof(EmailSettings.Dto), 200)]
+		public async Task<IActionResult> GetSettings()
+		{
+			var result = await _commonService.GetSettingsAsync();
+			return this.Ok(result);
+		}
 	}
 }

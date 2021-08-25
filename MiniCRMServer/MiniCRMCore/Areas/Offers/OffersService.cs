@@ -307,6 +307,18 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
+		public async Task CompleteOfferRuleAsync (OfferRule.CompleteDto dto)
+		{
+			var rule = await _context.OfferRules
+				.FirstOrDefaultAsync(x => x.Id == dto.Id);
+			if (rule == null)
+				throw new ApiException($"На нейдено правило с ID {dto.Id}");
+
+			rule.Report = dto.Report;
+			rule.Completed = true;
+			await _context.SaveChangesAsync();
+		}
+
 		#endregion
 
 		#region ClientView

@@ -111,6 +111,14 @@ namespace MiniCRMServer.Controllers
 			return this.Ok();
 		}
 
+		[HttpPost("rules/complete")]
+		[ProducesResponseType(200)]
+		public async Task<IActionResult> CompleteOfferRule([Required] OfferRule.CompleteDto dto)
+		{
+			await _offersService.CompleteOfferRuleAsync(dto);
+			return this.Ok();
+		}
+
 		[HttpDelete("rules/delete")]
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> DeleteOfferRule([Required] int ruleId)

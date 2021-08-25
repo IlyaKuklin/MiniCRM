@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using MiniCRMCore.Areas.Email.Models;
 using MiniCRMCore.Utilities.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MiniCRMCore.Areas.Common
@@ -19,8 +18,8 @@ namespace MiniCRMCore.Areas.Common
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 		}
 
-
 		#region CommunicationReports
+
 		public async Task<CommunicationReport.Dto> EditCommunicationReportAsync(CommunicationReport.EditDto dto, int currentUserId)
 		{
 			var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == currentUserId);
@@ -76,5 +75,24 @@ namespace MiniCRMCore.Areas.Common
 		}
 
 		#endregion CommunicationReports
+
+		public async Task UpdateEmailSettingsAsync(EmailSettings.Dto dto)
+		{
+			var settings = await _context.EmailSettings.FirstOrDefaultAsync();
+			if (settings == null)
+			{
+				settings = new EmailSettings();
+				_context.EmailSettings.Add(settings);
+			}
+
+			_mapper.Map(dto, settings);
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task<EmailSettings.Dto> GetSettingsAsync()
+		{
+			var settings = await _context.EmailSettings.FirstOrDefaultAsync();
+			return _mapper.Map<EmailSettings.Dto>(settings);
+		}
 	}
 }

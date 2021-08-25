@@ -39,9 +39,17 @@ export class EditOfferComponent implements OnInit {
   @ViewChild('offerForm') offerForm!: NgForm;
   isLoading: boolean = false;
 
-  model: OfferDto = { selectedSections: [], rules: [], commonCommunicationReports: [] };
+  model: OfferDto = {
+    selectedSections: [],
+    rules: [],
+    commonCommunicationReports: [],
+  };
   isEdit: boolean = false;
-  originalModel: OfferDto = { selectedSections: [], rules: [], commonCommunicationReports: [] };
+  originalModel: OfferDto = {
+    selectedSections: [],
+    rules: [],
+    commonCommunicationReports: [],
+  };
   clients: ClientDto[] = [];
 
   errorStateMatcher = new OfferErrorStateMatcher();
@@ -119,7 +127,7 @@ export class EditOfferComponent implements OnInit {
     this.offersApiService
       .apiOffersEditPost(this.model)
       .subscribe((response) => {
-        this.model = response;
+        //this.model = response;
         this.snackbarService.show({
           message: 'Данные обновлены',
           duration: 3000,
@@ -334,11 +342,47 @@ export class EditOfferComponent implements OnInit {
       });
   }
 
-  changeState(ruleId: number): void {
-    this.offersApiService
-      .apiOffersRulesChangeStatePost(ruleId)
-      .subscribe(() => {});
+  completeRule(rule: OfferRuleDto, $event: any): void {
+    if (rule.completed) return;
+    $event.preventDefault();
+
+    if (!rule.report?.length) {
+      this.snackbarService.show({
+        message: 'Заполните отчёт',
+        duration: 2000,
+        isError: true,
+      });
+      return;
+    }
+
+    this.dialogService
+      .confirmDialog({
+        header: 'Выполнение задачи',
+        message: 'Подтвердите выполнение задачи',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.offersApiService
+            .apiOffersRulesCompletePost({
+              id: rule.id,
+              report: rule.report,
+            })
+            .subscribe((response) => {
+              this.snackbarService.show({
+                duration: 2000,
+                message: 'Задача помечена выполненной',
+              });
+              rule.completed = true;
+            });
+        }
+      });
   }
+
+  // changeState(rule: OfferRuleDto): void {
+  //   this.offersApiService
+  //     .apiOffersRulesChangeStatePost(rule.id)
+  //     .subscribe(() => {});
+  // }
 
   deleteRule(ruleId: number): void {
     const rule = this.model.rules.find((x) => x.id == ruleId);

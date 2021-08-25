@@ -9,6 +9,13 @@
         >Список менеджеров</span
       >
       <span
+        *ngIf="isAdmin"
+        class="routerItem clickable"
+        routerLink="/emailSettings"
+        routerLinkActive="routerItem_active"
+        >Настройки email</span
+      >
+      <span
         class="routerItem clickable"
         routerLink="/clients"
         routerLinkActive="routerItem_active"
