@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, mergeMap } from 'rxjs/operators';
 import { OfferDto, OffersApiService } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -25,12 +27,29 @@ export class OffersListComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  private searchText$ = new Subject<string>();
+
   ngOnInit(): void {
     this.offersApiService.apiOffersListGet().subscribe((response) => {
       this.model = response;
       this.dataSource = new MatTableDataSource<OfferDto>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
+
+      this.searchText$
+        .pipe(
+          debounceTime(500),
+          distinctUntilChanged(),
+          mergeMap((filter) => {
+            this.isLoading = true;
+            return this.offersApiService.apiOffersListGet(filter);
+          })
+        )
+        .subscribe((response) => {
+          this.model = response;
+          this.dataSource = new MatTableDataSource<OfferDto>(response);
+          this.isLoading = false;
+        });
     });
   }
 
@@ -52,5 +71,10 @@ export class OffersListComponent implements OnInit {
             });
         }
       });
+  }
+
+  applyFilter(event: KeyboardEvent) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchText$.next(value);
   }
 }

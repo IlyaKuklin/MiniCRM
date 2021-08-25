@@ -1,6 +1,31 @@
 <div>
   <h2>Список КП</h2>
 
+  <div class="row align-items-center">
+    <div class="col-10">
+      <button
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/offers/edit', '']"
+      >
+        Добавить
+      </button>
+    </div>
+
+    <div class="col-2">
+      <mat-form-field appearance="standard"  style="width: 100%;">
+        <mat-label>Поиск</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Введите фразу для поиска"
+          #input
+        />
+      </mat-form-field>
+    </div>
+  </div>
+  
+<!-- 
   <div>
     <button
       mat-raised-button
@@ -9,7 +34,7 @@
     >
       Добавить
     </button>
-  </div>
+  </div> -->
 
   <div class="table-container">
     <table

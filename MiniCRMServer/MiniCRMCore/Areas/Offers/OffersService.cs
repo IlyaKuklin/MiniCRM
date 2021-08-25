@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace MiniCRMCore.Areas.Offers
@@ -54,6 +55,34 @@ namespace MiniCRMCore.Areas.Offers
 				.Include(x => x.Client)
 				.AsNoTracking()
 				.ToListAsync();
+
+			var dto = _mapper.Map<List<Offer.Dto>>(offers);
+			return dto;
+		}
+
+		public async Task<List<Offer.Dto>> GetListAsync(string filter)
+		{
+			List<Offer> offers;
+			if (string.IsNullOrEmpty(filter))
+			{
+				offers = await _context.Offers
+					.Include(x => x.Client)
+					.AsNoTracking()
+					.ToListAsync();
+			}
+			else
+			{
+				Expression<Func<Offer, bool>> predicate = x =>
+					x.Client.Name.Contains(filter) ||
+					x.Number.ToString().Contains(filter)
+				;
+
+				offers = await _context.Offers
+					.Include(x => x.Client)
+					.Where(predicate)
+					.AsNoTracking()
+					.ToListAsync();
+			}
 
 			var dto = _mapper.Map<List<Offer.Dto>>(offers);
 			return dto;
@@ -307,7 +336,7 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task CompleteOfferRuleAsync (OfferRule.CompleteDto dto)
+		public async Task CompleteOfferRuleAsync(OfferRule.CompleteDto dto)
 		{
 			var rule = await _context.OfferRules
 				.FirstOrDefaultAsync(x => x.Id == dto.Id);

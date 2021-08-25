@@ -581,13 +581,20 @@ export class OffersApiService {
     }
 
     /**
+     * @param filter 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiOffersListGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferDto>>;
-    public apiOffersListGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferDto>>>;
-    public apiOffersListGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferDto>>>;
-    public apiOffersListGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+    public apiOffersListGet(filter?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferDto>>;
+    public apiOffersListGet(filter?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferDto>>>;
+    public apiOffersListGet(filter?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferDto>>>;
+    public apiOffersListGet(filter?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (filter !== undefined && filter !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>filter, 'filter');
+        }
 
         let headers = this.defaultHeaders;
 
@@ -620,6 +627,7 @@ export class OffersApiService {
 
         return this.httpClient.get<Array<OfferDto>>(`${this.configuration.basePath}/api/Offers/list`,
             {
+                params: queryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
