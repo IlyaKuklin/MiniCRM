@@ -129,6 +129,7 @@ namespace MiniCRMServer.Controllers
 
 		[HttpGet("client/offer")]
 		[ProducesResponseType(typeof(Offer.ClientViewDto), 200)]
+		[AllowAnonymous]
 		public async Task<IActionResult> GetOfferForClient(Guid link, string key)
 		{
 			var result = await _offersService.GetOfferForClientAsync(link, key);

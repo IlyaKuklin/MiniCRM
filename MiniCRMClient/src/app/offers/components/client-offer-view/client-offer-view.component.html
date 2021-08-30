@@ -1,4 +1,4 @@
-<div *ngIf="model">
+<div *ngIf="model" id="offer">
   <div *ngFor="let section of model.sections">
     <div class="row" style="padding: 1em 0">
       <div class="col-3">
@@ -18,3 +18,5 @@
     </div>
   </div>
 </div>
+
+<button (click)="download()">Скачать</button>
