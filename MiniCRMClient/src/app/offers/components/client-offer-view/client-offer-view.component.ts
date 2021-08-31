@@ -35,6 +35,9 @@ export class ClientOfferViewComponent implements OnInit {
   }
 
   download() {
+    var btn = <HTMLElement>document.getElementById('download_btn');
+    btn.style.display = 'none';
+
     var data = document.getElementById('offer'); //Id of the table
     if (data) {
       html2canvas(data, {

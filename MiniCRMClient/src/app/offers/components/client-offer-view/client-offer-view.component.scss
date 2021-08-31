@@ -1,7 +1,73 @@
 mat-form-field {
-    width: 100%;
+  width: 100%;
 }
 
 img {
-    max-width: 100px;
+  max-width: 100px;
+}
+
+.offer {
+  &_header {
+    font-family: "Noto Sans";
+    color: white;
+    background-color: #2b4767;
+
+    &-container {
+      padding-top: 2em;
+      padding-bottom: 2em;
+    }
+  }
+
+  &_body {
+    margin-top: 2em;
+  }
+
+  &_footer {
+    background-color: #f0f3f6;
+    height: 50px;
+    text-align: center;
+    font-family: "Noto Sans";
+    font-size: 0.8em;
+    color: #45484d;
+    opacity: 0.75;
+  }
+}
+ul {
+  padding-left: 0;
+}
+li {
+  list-style-type: none;
+}
+
+.gr1 {
+  &_checks {
+    width: 20px;
+    margin-right: 0.5em;
+  }
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+}
+
+.gr3 {
+  text-align: end;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75em;
+
+  &_phone {
+    font-size: 1.5em;
+    > a {
+      color: white;
+      text-decoration: none;
+    }
+  }
+
+  &_email {
+    > a {
+      color: white;
+      opacity: 0.75;
+    }
+  }
 }

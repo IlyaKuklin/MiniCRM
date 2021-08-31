@@ -1,22 +1,112 @@
-<div *ngIf="model" id="offer">
-  <div *ngFor="let section of model.sections">
-    <div class="row" style="padding: 1em 0">
-      <div class="col-3">
-        <strong> {{ section.name }}</strong>
-      </div>
-      <div class="col-9">
-            <ng-container *ngIf="section.type == 'text'">
-            {{ section.data }}
-        </ng-container>
-        <ng-container *ngIf="section.type == 'img'">
-            <div *ngFor="let path of section.imagePaths">
-                <img [src]="path">
-            </div>
-        </ng-container>
+<div class="offer" id="offer" style="min-height: calc(100vh - 50px)">
+  <header class="offer_header">
+    <div class="container offer_header-container">
+      <div class="row">
+        <div class="col-4">
+          <ul style="font-size: 0.9em" class="gr1">
+            <li>
+              <div>
+                <img src="assets/static/checks.png" class="gr1_checks" />
+                <span>Производство промышленных сенсорных киосков</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="assets/static/checks.png" class="gr1_checks" />
+                <span>Производство интерактивного оборудования</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="assets/static/checks.png" class="gr1_checks" />
+                <span>Производство систем автоматических касс</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="assets/static/checks.png" class="gr1_checks" />
+                <span>Производство систем электронной очереди</span>
+              </div>
+            </li>
+            <li>
+              <div>
+                <img src="assets/static/checks.png" class="gr1_checks" />
+                <span>Разработка технологических ИТ платформ</span>
+              </div>
+            </li>
+          </ul>
         </div>
-      <mat-divider></mat-divider>
+
+        <div class="col-4" style="text-align: center; display: flex">
+          <div
+            class="gr2"
+            style="
+              margin: auto;
+              display: flex;
+              flex-direction: column;
+              gap: 1em;
+            "
+          >
+            <div>
+              <img src="assets/static/logo_new.png" style="max-width: 300px" />
+            </div>
+            <div>
+              <img src="assets/static/location.png" style="width: 15px" />
+              191040, Санкт-Петербург Лиговский пр-т д.50, корп. 15
+            </div>
+          </div>
+        </div>
+
+        <div class="col-4 gr3">
+          <div class="gr3_phone">
+            <a href="tel:8 (800) 100-47-78 ">8 (800) 100-47-78 </a>
+          </div>
+          <div class="gr3_phone">
+            <a href="tel:+7 (812) 309-02-36">+7 (812) 309-02-36</a>
+          </div>
+          <div class="gr3_email">
+            <img
+              src="assets/static/envelope.png"
+              style="width: 15px; margin-right: 0.5em"
+            />
+            <a href="mailto:sales@automat-service.ru"
+              >sales@automat-service.ru</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div *ngIf="model" class="offer_body container">
+    <div *ngFor="let section of model.sections">
+      <div class="row" style="padding: 1em 0">
+        <div class="col-3">
+          <strong> {{ section.name }}</strong>
+        </div>
+        <div class="col-9">
+          <ng-container *ngIf="section.type == 'text'">
+            {{ section.data }}
+          </ng-container>
+          <ng-container *ngIf="section.type == 'img'">
+            <div *ngFor="let path of section.imagePaths">
+              <img [src]="path" />
+            </div>
+          </ng-container>
+        </div>
+        <mat-divider></mat-divider>
+      </div>
     </div>
   </div>
+
+  <button id="download_btn" (click)="download()">Скачать</button>
 </div>
 
-<button (click)="download()">Скачать</button>
+<footer class="offer_footer">
+  <div>
+    ООО "Автомат-Сервис", 191040, Санкт-Петербург Лиговский пр-т д.50, корп. 15
+  </div>
+  <div>
+    ИНН 7802398406 КПП 780201001, 8 (800) 100-47-78 http://automat-service.ru
+  </div>
+</footer>
