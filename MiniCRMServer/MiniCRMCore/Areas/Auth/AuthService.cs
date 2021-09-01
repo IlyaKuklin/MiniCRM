@@ -114,7 +114,7 @@ namespace MiniCRMCore.Areas.Auth
 
 		public async Task<List<User.Dto>> GetManagersAsync()
 		{
-			var managers = await _context.Users.Where(x => x.Role == Role.Manager).ToListAsync();
+			var managers = await _context.Users.Where(x => x.Role == Role.Manager).OrderBy(x => x.Id).ToListAsync();
 			var dto = _mapper.Map<List<User.Dto>>(managers);
 			return dto;
 		}
@@ -127,6 +127,7 @@ namespace MiniCRMCore.Areas.Auth
 
 			manager.Name = updateDto.Name;
 			manager.Login = updateDto.Login;
+			manager.Email = updateDto.Email;
 
 			await _context.SaveChangesAsync();
 

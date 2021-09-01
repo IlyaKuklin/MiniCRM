@@ -79,6 +79,21 @@
   </header>
 
   <div *ngIf="model" class="offer_body container">
+    <div class="offer_body__header">
+      <div class="offer_body__header-h">
+        <strong>КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</strong> № {{ model.number }} от
+        {{ model.changed | date: "dd.MM.YYYY" }}
+      </div>
+
+      <div class="offer_body__header-b">
+        <span class="faded-50">Для: </span> <strong>{{ model.client.name }}</strong>
+      </div>
+
+      <div class="offer_body__header-b" style="padding-top: 0.5em;">
+        <span class="faded-50">E-mail: </span> <span > <a [href]="managerEmailLink" style="color: #FF9000;">{{model.managerEmail}}</a></span>
+      </div>
+    </div>
+
     <div *ngFor="let section of model.sections">
       <div class="row" style="padding: 1em 0">
         <div class="col-3">
@@ -110,3 +125,7 @@
     ИНН 7802398406 КПП 780201001, 8 (800) 100-47-78 http://automat-service.ru
   </div>
 </footer>
+
+<div class="loader" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

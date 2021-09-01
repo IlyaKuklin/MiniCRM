@@ -13,8 +13,10 @@ export class ClientOfferViewComponent implements OnInit {
   constructor(private readonly offersApiService: OffersApiService) {}
 
   model!: OfferClientViewDto;
+  isLoading: boolean = false;
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.offersApiService
       .apiOffersClientOfferGet('00000000-0000-0000-0000-000000000000', 'key')
       .subscribe((response: OfferClientViewDto) => {
@@ -31,7 +33,13 @@ export class ClientOfferViewComponent implements OnInit {
         }
 
         this.model = response;
+        this.isLoading = false;
+        console.log(response);
       });
+  }
+
+  get managerEmailLink(): string {
+    return `mailto:${this.model.managerEmail}`;
   }
 
   download() {

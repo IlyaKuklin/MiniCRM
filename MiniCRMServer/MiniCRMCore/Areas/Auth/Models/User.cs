@@ -18,6 +18,8 @@ namespace MiniCRMCore.Areas.Auth.Models
 
 		public string Name { get; set; }
 
+		public string Email { get; set; }
+
 		public void SetPassword(string password, Guid salt)
 		{
 			this.Salt = salt;
@@ -44,6 +46,11 @@ namespace MiniCRMCore.Areas.Auth.Models
 			/// Адрес электронной почты.
 			/// </summary>
 			public string Login { get; set; }
+
+			/// <summary>
+			/// Email
+			/// </summary>
+			public string Email { get; set; }
 		}
 
 		/// <summary>
@@ -65,6 +72,11 @@ namespace MiniCRMCore.Areas.Auth.Models
 			/// Пароль.
 			/// </summary>
 			public string Password { get; set; }
+
+			/// <summary>
+			/// Email
+			/// </summary>
+			public string Email { get; set; }
 		}
 
 		/// <summary>

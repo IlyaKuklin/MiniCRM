@@ -9,10 +9,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ClientDto } from './client-dto';
 import { SectionDto } from './section-dto';
 
 
 export interface OfferClientViewDto { 
+    number: number;
+    changed: string;
+    managerEmail: string;
     sections: Array<SectionDto>;
+    client: ClientDto;
 }
 

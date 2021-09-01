@@ -25,6 +25,7 @@ export class EditManagerComponent implements OnInit {
 
   private originalName: string = '';
   private originalLogin: string = '';
+  private originalEmail: string = '';
 
   errorStateMatcher = new ManagerErrorStateMatcher();
 
@@ -40,6 +41,7 @@ export class EditManagerComponent implements OnInit {
             this.model = response;
             this.originalLogin = <string>response.login;
             this.originalName = <string>response.name;
+            this.originalEmail = <string>response.email;
             this.isLoading = false;
           });
       }
@@ -50,7 +52,8 @@ export class EditManagerComponent implements OnInit {
     return (
       this.isEdit &&
       (this.originalLogin !== this.model.login ||
-        this.originalName !== this.model.name)
+        this.originalName !== this.model.name ||
+        this.originalEmail !== this.model.email)
     );
   }
 
@@ -62,6 +65,7 @@ export class EditManagerComponent implements OnInit {
       .apiAuthRegisterPost({
         login: this.model.login,
         name: this.model.name,
+        email: this.model.email,
         password: this.password,
       })
       .subscribe((response) => {
@@ -79,6 +83,7 @@ export class EditManagerComponent implements OnInit {
         this.model = response;
         this.originalName = <string>response.name;
         this.originalLogin = <string>response.login;
+        this.originalEmail = <string>response.email;
         alert('Данные обновлены');
         this.isLoading = false;
       });

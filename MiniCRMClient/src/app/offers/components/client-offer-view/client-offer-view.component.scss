@@ -7,8 +7,8 @@ img {
 }
 
 .offer {
+  font-family: "Noto Sans";
   &_header {
-    font-family: "Noto Sans";
     color: white;
     background-color: #2b4767;
 
@@ -20,6 +20,18 @@ img {
 
   &_body {
     margin-top: 2em;
+
+    &__header {
+      padding-top: 2em;
+      &-h {
+        text-align: center;
+        font-size: 2em;
+        padding-bottom: 1em;
+      }
+      &-b {
+        font-size: 1.2em;
+      }
+    }
   }
 
   &_footer {
@@ -32,9 +44,11 @@ img {
     opacity: 0.75;
   }
 }
+
 ul {
   padding-left: 0;
 }
+
 li {
   list-style-type: none;
 }

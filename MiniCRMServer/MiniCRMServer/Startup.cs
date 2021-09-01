@@ -15,6 +15,7 @@ using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Clients;
 using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Email;
 using MiniCRMCore.Areas.Email.Models;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
@@ -88,6 +89,7 @@ namespace MiniCRMServer
 			services.AddScoped<ClientsService>();
 			services.AddScoped<OffersService>();
 			services.AddScoped<CommonService>();
+			services.AddScoped<EmailSenderService>();
 
 			services.AddControllers()
 				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -285,6 +287,8 @@ namespace MiniCRMServer
 			this.CreateMap<OfferRule, OfferRule.Dto>()
 				.ReverseMap()
 				.ForMember(x => x.Id, opt => opt.Ignore());
+
+			this.CreateMap<Offer, Offer.ClientViewDto>();
 		}
 	}
 

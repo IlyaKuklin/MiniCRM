@@ -46,7 +46,15 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public class ClientViewDto
 		{
 			[Required]
+			public int Number { get; set; }
+			[Required]
+			public DateTime Changed { get; set; }
+			[Required]
+			public string ManagerEmail { get; set; }
+			[Required]
 			public List<SectionDto> Sections { get; set; }
+			[Required]
+			public Client.Dto Client { get; set; }
 		}
 
 		public class Dto : BaseDto

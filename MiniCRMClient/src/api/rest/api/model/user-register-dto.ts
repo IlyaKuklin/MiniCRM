@@ -15,5 +15,6 @@ export interface UserRegisterDto {
     name?: string | null;
     login?: string | null;
     password?: string | null;
+    email?: string | null;
 }
 

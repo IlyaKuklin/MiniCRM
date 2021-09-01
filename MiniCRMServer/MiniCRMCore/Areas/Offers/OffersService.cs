@@ -359,6 +359,7 @@ namespace MiniCRMCore.Areas.Offers
 				.Include(x => x.FileData)
 					.ThenInclude(x => x.FileDatum)
 				.Include(x => x.Versions)
+					.ThenInclude(x => x.Author)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.ClientLink == link);
 
@@ -375,10 +376,14 @@ namespace MiniCRMCore.Areas.Offers
 			var type = typeof(Offer);
 			var props = typeof(Offer).GetProperties();
 
-			var dto = new Offer.ClientViewDto
-			{
-				Sections = new List<SectionDto>()
-			};
+			var dto = _mapper.Map<Offer.ClientViewDto>(versionToDisplay);
+			dto.ManagerEmail = lstV.Author.Email;
+			dto.Sections = new List<SectionDto>();
+
+			//var dto = new Offer.ClientViewDto
+			//{
+			//	Sections = new List<SectionDto>()
+			//};
 
 			foreach (var sectionName in versionToDisplay.SelectedSections)
 			{
