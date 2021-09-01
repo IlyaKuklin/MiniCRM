@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Email;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Exceptions;
 using Newtonsoft.Json;
@@ -18,11 +19,16 @@ namespace MiniCRMCore.Areas.Offers
 	{
 		private readonly ApplicationContext _context;
 		private readonly IMapper _mapper;
+		private readonly EmailSenderService _emailSenderService;
 
-		public OffersService(ApplicationContext context, IMapper mapper)
+		public OffersService(
+			ApplicationContext context,
+			IMapper mapper,
+			EmailSenderService emailSenderService)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+			_emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
 		}
 
 		#region Offers
@@ -117,11 +123,11 @@ namespace MiniCRMCore.Areas.Offers
 			{
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
-			offer.CurrentVersion++;
+			offer.CurrentVersionNumber++;
 			var dbVersion = new OfferVersion
 			{
 				Data = jsonVersion,
-				Number = offer.CurrentVersion,
+				Number = offer.CurrentVersionNumber,
 				AuthorId = currentUserId
 			};
 			offer.Versions.Add(dbVersion);
@@ -348,9 +354,26 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
-		#endregion
+		#endregion Rules
 
-		#region ClientView
+		#region Client
+
+		public async Task SendOfferToClientAsync(int id)
+		{
+			var offer = await _context.Offers
+				.Include(x => x.Client)
+				.Include(x => x.Versions)
+				.FirstOrDefaultAsync(x => x.Id == id);
+
+			offer.ClientLink = Guid.NewGuid();
+			offer.ClientVersionNumber = offer.CurrentVersionNumber;
+
+			var queryString = $"?key={offer.ClientLink}&ck={offer.Client.Key}";
+
+			await _context.SaveChangesAsync();
+
+			_emailSenderService.NotifyClient("", offer.Client.Email, "Коммерческое предложение от АВТОМАТ СЕРВИС", queryString);
+		}
 
 		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
 		{
@@ -366,24 +389,18 @@ namespace MiniCRMCore.Areas.Offers
 			if (offer == null)
 				throw new ApiException($"Не найдено КП по ссылке {link}");
 
-			//if (offer.Client.Key != clientKey)
-			//	throw new ApiException("", 403);
+			if (offer.Client.Key != clientKey)
+				throw new ApiException("", 403);
 
-			var lstV = offer.Versions.Last();
-
-			var versionToDisplay = JsonConvert.DeserializeObject<Offer>(lstV.Data);
+			var clientVersion = offer.Versions.FirstOrDefault(x => x.Number == offer.ClientVersionNumber);
+			var versionToDisplay = JsonConvert.DeserializeObject<Offer>(clientVersion.Data);
 
 			var type = typeof(Offer);
 			var props = typeof(Offer).GetProperties();
 
 			var dto = _mapper.Map<Offer.ClientViewDto>(versionToDisplay);
-			dto.ManagerEmail = lstV.Author.Email;
+			dto.ManagerEmail = clientVersion.Author.Email;
 			dto.Sections = new List<SectionDto>();
-
-			//var dto = new Offer.ClientViewDto
-			//{
-			//	Sections = new List<SectionDto>()
-			//};
 
 			foreach (var sectionName in versionToDisplay.SelectedSections)
 			{
@@ -436,7 +453,7 @@ namespace MiniCRMCore.Areas.Offers
 			//throw new NotImplementedException();
 		}
 
-		#endregion ClientView
+		#endregion Client
 	}
 
 	public static class StringExtentions

@@ -13,6 +13,7 @@ namespace MiniCRMCore.Areas.Clients.Models
 		public string DomainNames { get; set; }
 		public string Contact { get; set; }
 		public string Diagnostics { get; set; }
+		public string Email { get; set; }
 
 		public virtual List<Offer> Offers { get; set; }
 
@@ -60,6 +61,8 @@ namespace MiniCRMCore.Areas.Clients.Models
 			/// Отчёты о коммуникации с клиентом.
 			/// </summary>
 			public virtual List<CommunicationReport.Dto> CommonCommunicationReports { get; set; }
+
+			public string Email { get; set; }
 		}
 	}
 }

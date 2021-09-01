@@ -127,7 +127,6 @@ export class EditOfferComponent implements OnInit {
     this.offersApiService
       .apiOffersEditPost(this.model)
       .subscribe((response) => {
-        //this.model = response;
         this.snackbarService.show({
           message: 'Данные обновлены',
           duration: 3000,
@@ -252,7 +251,32 @@ export class EditOfferComponent implements OnInit {
     return option?.name ? option.name : '';
   }
 
-  sendClick(): void {}
+  sendClick(): void {
+    this.dialogService
+      .confirmDialog({
+        header: 'Отправка КП',
+        message: 'Вы уверены, что хотите отправить текущую версию КП клиенту?',
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.isLoading = true;
+          this.offersApiService
+            .apiOffersEditPost(this.model)
+            .subscribe((response) => {
+              this.offersApiService
+                .apiOffersClientOfferSendPost(this.model.id)
+                .subscribe((response) => {
+                  this.snackbarService.show({
+                    message: 'КП отправлено клиенту',
+                    duration: 2000,
+                  });
+
+                  this.isLoading = false;
+                });
+            });
+        }
+      });
+  }
 
   onAddNewsbreakClick(): void {
     this.dialogService

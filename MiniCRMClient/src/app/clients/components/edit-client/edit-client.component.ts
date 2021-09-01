@@ -42,7 +42,8 @@ export class EditClientComponent implements OnInit {
           this.model.legalEntitiesNames ||
         this.originalModel.contact != this.model.contact ||
         this.originalModel.diagnostics != this.model.diagnostics ||
-        this.originalModel.domainNames != this.model.domainNames)
+        this.originalModel.domainNames != this.model.domainNames ||
+        this.originalModel.email != this.model.email)
     );
   }
 

@@ -30,7 +30,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public List<string> SelectedSections { get; set; }
 
-		public int CurrentVersion { get; set; }
+		public int CurrentVersionNumber { get; set; }
+		public int ClientVersionNumber { get; set; }
 
 		public List<OfferVersion> Versions { get; set; }
 

@@ -1,11 +1,14 @@
 ﻿using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Common;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
 	public class OfferVersion : BaseEntity
 	{
 		public int Number { get; set; }
+
+		[Column(TypeName = "jsonb")]
 		public string Data { get; set; }
 
 		public Offer Offer { get; set; }

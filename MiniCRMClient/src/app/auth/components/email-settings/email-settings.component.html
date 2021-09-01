@@ -37,6 +37,22 @@
     </mat-form-field>
 
     <mat-form-field>
+      <mat-label>SMTP Host</mat-label>
+      <input
+        matInput
+        required
+        [errorStateMatcher]="errorStateMatcher"
+        type="text"
+        [(ngModel)]="model.smtpHost"
+        name="smtpHost"
+        #smtpHost="ngModel"
+      />
+      <mat-error *ngIf="smtpHost.hasError('required')">
+        Поля <strong>обязательно</strong> для заполнения
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
       <mat-label>Порт</mat-label>
       <input
         matInput
