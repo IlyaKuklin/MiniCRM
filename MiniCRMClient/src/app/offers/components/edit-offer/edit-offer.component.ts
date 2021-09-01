@@ -199,10 +199,6 @@ export class EditOfferComponent implements OnInit {
     this.offersApiService
       .apiOffersFilesUploadPatch(<number>this.model.id, type, replace, blobs)
       .subscribe((response: OfferFileDatumDto[]) => {
-        console.log(response);
-
-        console.log(this.model.fileData);
-
         if (replace) {
           this.model.fileData = this.model.fileData?.filter(
             (x) => x.type != type
@@ -211,8 +207,6 @@ export class EditOfferComponent implements OnInit {
         response.forEach((x) => {
           this.model.fileData?.push(x);
         });
-
-        console.log(this.model.fileData);
 
         this.isLoading = false;
       });
@@ -301,6 +295,7 @@ export class EditOfferComponent implements OnInit {
       });
   }
 
+  //#region FeedbackRequests
   onAddFeedbackRequestClick(): void {
     this.dialogService
       .inputDialog({
@@ -323,6 +318,14 @@ export class EditOfferComponent implements OnInit {
         }
       });
   }
+
+  showAnswer(request: OfferFeedbackRequestDto) {
+    this.dialogService.infoDialog({
+      header: '',
+      message: <string>request.answerText,
+    })
+  }
+  //#endregion
 
   //#region Rules
 

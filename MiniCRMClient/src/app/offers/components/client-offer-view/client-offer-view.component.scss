@@ -33,6 +33,16 @@ img {
         font-size: 1.2em;
       }
     }
+
+    &__feedbackRequests{
+      &-card {
+        margin-bottom: 2em;
+        &-row{
+          display: flex;
+          justify-content: space-between;
+        }
+      }
+    }
   }
 
   &_footer {
@@ -86,3 +96,9 @@ li {
     }
   }
 }
+
+.mat-card .mat-divider-horizontal {
+  position: relative;
+  padding-bottom: 1em;
+}
+

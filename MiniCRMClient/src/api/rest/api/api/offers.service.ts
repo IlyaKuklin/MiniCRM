@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { OfferClientViewDto } from '../model/models';
 import { OfferDto } from '../model/models';
 import { OfferFeedbackRequestAddDto } from '../model/models';
+import { OfferFeedbackRequestAnswerDto } from '../model/models';
 import { OfferFeedbackRequestDto } from '../model/models';
 import { OfferFileDatumDto } from '../model/models';
 import { OfferFileType } from '../model/models';
@@ -104,6 +105,69 @@ export class OffersApiService {
             throw Error("key may not be null if value is not object or array");
         }
         return httpParams;
+    }
+
+    /**
+     * @param offerFeedbackRequestAnswerDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersClientOfferAnswerOnFeedbackRequestPost(offerFeedbackRequestAnswerDto: OfferFeedbackRequestAnswerDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public apiOffersClientOfferAnswerOnFeedbackRequestPost(offerFeedbackRequestAnswerDto: OfferFeedbackRequestAnswerDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public apiOffersClientOfferAnswerOnFeedbackRequestPost(offerFeedbackRequestAnswerDto: OfferFeedbackRequestAnswerDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public apiOffersClientOfferAnswerOnFeedbackRequestPost(offerFeedbackRequestAnswerDto: OfferFeedbackRequestAnswerDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (offerFeedbackRequestAnswerDto === null || offerFeedbackRequestAnswerDto === undefined) {
+            throw new Error('Required parameter offerFeedbackRequestAnswerDto was null or undefined when calling apiOffersClientOfferAnswerOnFeedbackRequestPost.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/Offers/client/offer/answerOnFeedbackRequest`,
+            offerFeedbackRequestAnswerDto,
+            {
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
     }
 
     /**

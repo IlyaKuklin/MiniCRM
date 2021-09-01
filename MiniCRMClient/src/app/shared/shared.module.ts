@@ -59,6 +59,7 @@ import { InfoSnackbarComponent } from './components/info-snackbar/info-snackbar.
 import { InputDialogComponent } from './components/input-dialog/input-dialog.component';
 import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
 import { CommunicationReportsListComponent } from './components/communication-reports-list/communication-reports-list.component';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,7 @@ import { CommunicationReportsListComponent } from './components/communication-re
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    AutosizeModule,
 
     FormsModule,
     ReactiveFormsModule,
@@ -167,6 +169,7 @@ import { CommunicationReportsListComponent } from './components/communication-re
     OverlayModule,
     PortalModule,
     ScrollingModule,
+    AutosizeModule,
 
     FormsModule,
     ReactiveFormsModule,

@@ -78,7 +78,70 @@
     </div>
   </header>
 
-  <div *ngIf="model" class="offer_body container">
+  <div *ngIf="model" class="offer_body container" id="offer-container">
+
+    <!-- Заявки на обр. связь -->
+    <div
+      class="offer_body__feedbackRequests row"
+      id="feedbackRequests"
+      *ngIf="model.feedbackRequests.length"
+    >
+      <div class="col-12">
+        <mat-card class="offer_body__feedbackRequests-card">
+          <h3>Заявки на обратную связь</h3>
+          <div *ngFor="let request of model.feedbackRequests" class="row offer_body__feedbackRequests-card-row">
+            <div class="col-4">
+              <mat-form-field>
+                <mat-label>Заявка</mat-label>
+                <textarea
+                  autosize
+                  style="resize: none"
+                  disabled
+                  matInput
+                  [(ngModel)]="request.text"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-4">
+              <mat-form-field>
+                <mat-label>Ответ</mat-label>
+                <textarea
+                  autosize
+                  style="resize: none"
+                  matInput
+                  [(ngModel)]="request.answerText"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-2">
+              <input
+                type="file"
+                placeholder="Choose file"
+                style="display: none"
+                accept="image/*"
+                (change)="uploadFile(answer.files)"
+                #answer
+              />
+
+              <button
+                mat-raised-button
+                class="fileButton"
+                (click)="answer.click()"
+              >
+                Добавить изображение
+              </button>
+            </div> -->
+            <div class="col-2" style="display: flex;">
+              <button mat-raised-button (click)="answerOnRequest(request)" style="margin:auto">
+                Отправить ответ
+              </button>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+
     <div class="offer_body__header">
       <div class="offer_body__header-h">
         <strong>КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</strong> № {{ model.number }} от
@@ -97,44 +160,6 @@
             model.managerEmail
           }}</a></span
         >
-      </div>
-    </div>
-
-    <div
-      class="offer_body__feedbackRequests row"
-      *ngIf="model.feedbackRequests.length"
-    >
-      <div class="col-8">
-        <mat-card>
-          <h3>Заявки на обратную связь</h3>
-          <div *ngFor="let request of model.feedbackRequests" class="row">
-            <div class="col-5">
-              <mat-form-field>
-                <mat-label>Заявка</mat-label>
-                <textarea
-                  style="resize: none"
-                  disabled
-                  matInput
-                  [(ngModel)]="request.text"
-                ></textarea>
-              </mat-form-field>
-            </div>
-            <div class="col-5">
-              <mat-form-field>
-                <mat-label>Ответ</mat-label>
-                <textarea
-                  style="resize: none"
-                  matInput
-                  [(ngModel)]="request.answerText"
-                ></textarea>
-              </mat-form-field>
-            </div>
-            <div class="col-2">
-              <button mat-raised-button>Отправить ответ</button>
-            </div>
-            <mat-divider></mat-divider>
-          </div>
-        </mat-card>
       </div>
     </div>
 

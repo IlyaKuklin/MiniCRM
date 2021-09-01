@@ -461,6 +461,21 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
+		public async Task AnswerOnFeedbackRequestAsync(OfferFeedbackRequest.AnswerDto answerDto)
+		{
+			var request = await _context.OfferFeedbackRequests
+				.Include(x => x.Offer)
+					.ThenInclude(x => x.Versions)
+						.ThenInclude(x => x.Author)
+				.FirstOrDefaultAsync(x => x.Id == answerDto.Id);
+			request.AnswerText = answerDto.AnswerText;
+			request.Answered = true;
+			await _context.SaveChangesAsync();
+
+			var version = request.Offer.Versions.First(x => x.Number == request.Offer.ClientVersionNumber);
+			_emailSenderService.SendEmail(version.Author.Name, version.Author.Email, "Дан ответ на обратную связь", $"По КП {request.Offer.Number} клиент дал обратную связь");
+		}
+
 		private static string GetReadablePropertyName(string name)
 		{
 			switch (name)

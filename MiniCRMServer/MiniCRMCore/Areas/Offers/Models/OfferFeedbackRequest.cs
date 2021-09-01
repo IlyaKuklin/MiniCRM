@@ -1,5 +1,7 @@
-﻿using MiniCRMCore.Areas.Auth.Models;
+﻿using Microsoft.AspNetCore.Http;
+using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Common;
+using System.Collections.Generic;
 
 namespace MiniCRMCore.Areas.Offers.Models
 {
@@ -26,6 +28,12 @@ namespace MiniCRMCore.Areas.Offers.Models
 		{
 			public int OfferId { get; set; }
 			public string Text { get; set; }
+		}
+
+		public class AnswerDto
+		{
+			public int Id { get; set; }
+			public string AnswerText { get; set; }
 		}
 	}
 }

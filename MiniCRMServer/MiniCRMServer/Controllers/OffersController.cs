@@ -143,5 +143,13 @@ namespace MiniCRMServer.Controllers
 			var result = await _offersService.GetOfferForClientAsync(link, key);
 			return this.Ok(result);
 		}
+
+		[HttpPost("client/offer/answerOnFeedbackRequest")]
+		[AllowAnonymous]
+		public async Task<IActionResult> AnswerOnFeedbackRequest([Required] OfferFeedbackRequest.AnswerDto answerDto)
+		{
+			await _offersService.AnswerOnFeedbackRequestAsync(answerDto);
+			return this.Ok();
+		}
 	}
 }

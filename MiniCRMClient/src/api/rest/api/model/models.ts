@@ -5,6 +5,7 @@ export * from './email-settings-dto';
 export * from './offer-client-view-dto';
 export * from './offer-dto';
 export * from './offer-feedback-request-add-dto';
+export * from './offer-feedback-request-answer-dto';
 export * from './offer-feedback-request-dto';
 export * from './offer-file-datum-dto';
 export * from './offer-file-type';

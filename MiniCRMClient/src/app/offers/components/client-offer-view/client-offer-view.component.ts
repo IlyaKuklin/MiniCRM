@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { OfferClientViewDto, OfferFeedbackRequestDto, OffersApiService } from 'src/api/rest/api';
+import {
+  OfferClientViewDto,
+  OfferFeedbackRequestDto,
+  OffersApiService,
+} from 'src/api/rest/api';
 import { isDevMode } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'mcrm-client-offer-view',
@@ -16,6 +21,7 @@ export class ClientOfferViewComponent implements OnInit {
   constructor(
     private readonly offersApiService: OffersApiService,
     private readonly route: ActivatedRoute,
+    private readonly http: HttpClient,
     private readonly snackbarService: SnackbarService,
     private readonly dialogService: DialogService
   ) {}
@@ -55,8 +61,11 @@ export class ClientOfferViewComponent implements OnInit {
 
   download() {
     this.isLoading = true;
-    var btn = <HTMLElement>document.getElementById('download_btn');
+    
+    const btn = <HTMLElement>document.getElementById('download_btn');
     btn.style.display = 'none';
+    const feedbackRequests = <HTMLElement> document.getElementById('feedbackRequests');
+    feedbackRequests.style.display = 'none';
 
     var data = document.getElementById('offer'); //Id of the table
     if (data) {
@@ -64,7 +73,7 @@ export class ClientOfferViewComponent implements OnInit {
         useCORS: true,
       }).then((canvas) => {
         // Few necessary setting options
-        let imgWidth = 211;
+        let imgWidth = 210;
         let pageHeight = 295;
         let imgHeight = (canvas.height * imgWidth) / canvas.width;
         let heightLeft = imgHeight;
@@ -76,11 +85,26 @@ export class ClientOfferViewComponent implements OnInit {
         pdf.save(`Коммерческое предложение №${this.model.number}.pdf`); // Generated PDF
 
         btn.style.display = 'block';
+        feedbackRequests.style.display = 'block';
         this.isLoading = false;
       });
     }
   }
 
   answerOnRequest(request: OfferFeedbackRequestDto) {
+    this.offersApiService
+      .apiOffersClientOfferAnswerOnFeedbackRequestPost({
+        answerText: request.answerText,
+        id: request.id,
+      })
+      .subscribe((response) => {
+        this.snackbarService.show({
+          message: 'Ответ отправлен',
+          duration: 2000,
+        });
+        this.model.feedbackRequests = this.model.feedbackRequests.filter(
+          (x) => x.id !== request.id
+        );
+      });
   }
 }

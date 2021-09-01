@@ -107,16 +107,12 @@
           <mat-icon>add</mat-icon>
           Добавить заявку на обратную связь
         </button>
-        <!-- <mat-card-title
-          style="font-size: 1.25em"
-          *ngIf="model.feedbackRequests?.length"
-          >Список заявок</mat-card-title
-        > -->
         <table class="breaks-table" *ngIf="model.feedbackRequests?.length">
           <tr class="breaks-table_head">
             <th>Текст</th>
             <th>Дата создания</th>
             <th>Автор</th>
+            <th></th>
           </tr>
           <tr
             class="breaks-table_body"
@@ -125,6 +121,13 @@
             <td>{{ request.text }}</td>
             <td>{{ request.created | date: "dd.MM.YYYY" }}</td>
             <td>{{ request.author?.name }}</td>
+            <td
+              *ngIf="request.answered"
+              class="clickable"
+              (click)="showAnswer(request)"
+            >
+              <mat-icon color="accent">question_answer</mat-icon>
+            </td>
           </tr>
         </table>
       </mat-card>
