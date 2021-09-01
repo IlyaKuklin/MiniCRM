@@ -8,7 +8,6 @@ namespace MiniCRMCore.Areas.Offers.Models
 	{
 		public int Number { get; set; }
 
-		[Column(TypeName = "jsonb")]
 		public string Data { get; set; }
 
 		public Offer Offer { get; set; }
