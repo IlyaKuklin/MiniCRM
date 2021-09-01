@@ -9,7 +9,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OfferRule } from './offer-rule';
+import { OfferFeedbackRequest } from './offer-feedback-request';
 import { OfferFileDatum } from './offer-file-datum';
+import { CommunicationReport } from './communication-report';
+import { OfferNewsbreak } from './offer-newsbreak';
 import { OfferVersion } from './offer-version';
 import { Client } from './client';
 
@@ -35,7 +39,13 @@ export interface Offer {
     clientId?: number;
     fileData?: Array<OfferFileDatum> | null;
     selectedSections?: Array<string> | null;
+    currentVersionNumber?: number;
+    clientVersionNumber?: number;
     versions?: Array<OfferVersion> | null;
-    currentVersion?: number;
+    clientLink?: string;
+    newsbreaks?: Array<OfferNewsbreak> | null;
+    feedbackRequests?: Array<OfferFeedbackRequest> | null;
+    rules?: Array<OfferRule> | null;
+    commonCommunicationReports?: Array<CommunicationReport> | null;
 }
 

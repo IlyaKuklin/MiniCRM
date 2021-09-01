@@ -9,20 +9,18 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { User } from './user';
 import { Offer } from './offer';
 
 
-export interface OfferVersion { 
+export interface OfferRule { 
     id?: number;
     created?: string;
     changed?: string;
-    number?: number;
-    data?: string | null;
-    visitedByClient?: boolean;
     offer?: Offer;
     offerId?: number;
-    author?: User;
-    authorId?: number;
+    completed?: boolean;
+    task?: string | null;
+    report?: string | null;
+    deadline?: string;
 }
 

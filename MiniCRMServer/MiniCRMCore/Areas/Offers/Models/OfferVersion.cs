@@ -10,6 +10,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public string Data { get; set; }
 
+		public bool VisitedByClient { get; set; }
+
 		public Offer Offer { get; set; }
 		public int OfferId { get; set; }
 

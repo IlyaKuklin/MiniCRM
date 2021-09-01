@@ -11,10 +11,15 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public User Author { get; set; }
 		public int AuthorId { get; set; }
 
+		public bool Answered { get; set; }
+		public string AnswerText { get; set; }
+
 		public class Dto : BaseDto
 		{
 			public string Text { get; set; }
 			public User.Dto Author { get; set; }
+			public bool Answered { get; set; }
+			public string AnswerText { get; set; }
 		}
 
 		public class AddDto

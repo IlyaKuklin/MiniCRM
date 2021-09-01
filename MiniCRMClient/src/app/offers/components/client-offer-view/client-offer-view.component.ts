@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { OfferClientViewDto, OffersApiService } from 'src/api/rest/api';
+import { OfferClientViewDto, OfferFeedbackRequestDto, OffersApiService } from 'src/api/rest/api';
 import { isDevMode } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import { ActivatedRoute } from '@angular/router';
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
   selector: 'mcrm-client-offer-view',
@@ -10,32 +13,40 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./client-offer-view.component.scss'],
 })
 export class ClientOfferViewComponent implements OnInit {
-  constructor(private readonly offersApiService: OffersApiService) {}
+  constructor(
+    private readonly offersApiService: OffersApiService,
+    private readonly route: ActivatedRoute,
+    private readonly snackbarService: SnackbarService,
+    private readonly dialogService: DialogService
+  ) {}
 
   model!: OfferClientViewDto;
   isLoading: boolean = false;
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.offersApiService
-      .apiOffersClientOfferGet('00000000-0000-0000-0000-000000000000', 'key')
-      .subscribe((response: OfferClientViewDto) => {
-        console.log(isDevMode());
+    this.route.params.subscribe((params) => {
+      this.isLoading = true;
 
-        if (isDevMode()) {
-          response.sections.forEach((x) => {
-            if (x.type === 'img') {
-              x.imagePaths = x.imagePaths.map(
-                (p) => `http:\\\\vm469442.eurodir.ru\\${p}`
-              );
-            }
-          });
-        }
+      this.offersApiService
+        .apiOffersClientOfferGet(params.clientOfferId, params.key)
+        .subscribe((response: OfferClientViewDto) => {
+          console.log(isDevMode());
 
-        this.model = response;
-        this.isLoading = false;
-        console.log(response);
-      });
+          if (isDevMode()) {
+            response.sections.forEach((x) => {
+              if (x.type === 'img') {
+                x.imagePaths = x.imagePaths.map(
+                  (p) => `http:\\\\vm469442.eurodir.ru\\${p}`
+                );
+              }
+            });
+          }
+
+          this.model = response;
+          this.isLoading = false;
+          console.log(response);
+        });
+    });
   }
 
   get managerEmailLink(): string {
@@ -43,6 +54,7 @@ export class ClientOfferViewComponent implements OnInit {
   }
 
   download() {
+    this.isLoading = true;
     var btn = <HTMLElement>document.getElementById('download_btn');
     btn.style.display = 'none';
 
@@ -52,7 +64,7 @@ export class ClientOfferViewComponent implements OnInit {
         useCORS: true,
       }).then((canvas) => {
         // Few necessary setting options
-        let imgWidth = 208;
+        let imgWidth = 211;
         let pageHeight = 295;
         let imgHeight = (canvas.height * imgWidth) / canvas.width;
         let heightLeft = imgHeight;
@@ -61,8 +73,14 @@ export class ClientOfferViewComponent implements OnInit {
         let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
         let position = 0;
         pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-        pdf.save('MYPdf.pdf'); // Generated PDF
+        pdf.save(`Коммерческое предложение №${this.model.number}.pdf`); // Generated PDF
+
+        btn.style.display = 'block';
+        this.isLoading = false;
       });
     }
+  }
+
+  answerOnRequest(request: OfferFeedbackRequestDto) {
   }
 }

@@ -13,15 +13,13 @@ import { User } from './user';
 import { Offer } from './offer';
 
 
-export interface OfferVersion { 
+export interface OfferNewsbreak { 
     id?: number;
     created?: string;
     changed?: string;
-    number?: number;
-    data?: string | null;
-    visitedByClient?: boolean;
     offer?: Offer;
     offerId?: number;
+    text?: string | null;
     author?: User;
     authorId?: number;
 }

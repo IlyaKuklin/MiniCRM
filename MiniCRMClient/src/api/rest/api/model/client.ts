@@ -9,8 +9,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { CommunicationReport } from './communication-report';
 import { Offer } from './offer';
-import { ClientCommunicationReport } from './client-communication-report';
 
 
 export interface Client { 
@@ -22,7 +22,9 @@ export interface Client {
     domainNames?: string | null;
     contact?: string | null;
     diagnostics?: string | null;
+    email?: string | null;
     offers?: Array<Offer> | null;
-    communicationReports?: Array<ClientCommunicationReport> | null;
+    commonCommunicationReports?: Array<CommunicationReport> | null;
+    key?: string | null;
 }
 

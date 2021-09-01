@@ -11,6 +11,7 @@
  */
 import { ClientDto } from './client-dto';
 import { SectionDto } from './section-dto';
+import { OfferFeedbackRequestDto } from './offer-feedback-request-dto';
 
 
 export interface OfferClientViewDto { 
@@ -19,5 +20,6 @@ export interface OfferClientViewDto {
     managerEmail: string;
     sections: Array<SectionDto>;
     client: ClientDto;
+    feedbackRequests: Array<OfferFeedbackRequestDto>;
 }
 

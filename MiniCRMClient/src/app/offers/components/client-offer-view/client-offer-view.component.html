@@ -86,11 +86,55 @@
       </div>
 
       <div class="offer_body__header-b">
-        <span class="faded-50">Для: </span> <strong>{{ model.client.name }}</strong>
+        <span class="faded-50">Для: </span>
+        <strong>{{ model.client.name }}</strong>
       </div>
 
-      <div class="offer_body__header-b" style="padding-top: 0.5em;">
-        <span class="faded-50">E-mail: </span> <span > <a [href]="managerEmailLink" style="color: #FF9000;">{{model.managerEmail}}</a></span>
+      <div class="offer_body__header-b" style="padding-top: 0.5em">
+        <span class="faded-50">E-mail: </span>
+        <span>
+          <a [href]="managerEmailLink" style="color: #ff9000">{{
+            model.managerEmail
+          }}</a></span
+        >
+      </div>
+    </div>
+
+    <div
+      class="offer_body__feedbackRequests row"
+      *ngIf="model.feedbackRequests.length"
+    >
+      <div class="col-8">
+        <mat-card>
+          <h3>Заявки на обратную связь</h3>
+          <div *ngFor="let request of model.feedbackRequests" class="row">
+            <div class="col-5">
+              <mat-form-field>
+                <mat-label>Заявка</mat-label>
+                <textarea
+                  style="resize: none"
+                  disabled
+                  matInput
+                  [(ngModel)]="request.text"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-5">
+              <mat-form-field>
+                <mat-label>Ответ</mat-label>
+                <textarea
+                  style="resize: none"
+                  matInput
+                  [(ngModel)]="request.answerText"
+                ></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-2">
+              <button mat-raised-button>Отправить ответ</button>
+            </div>
+            <mat-divider></mat-divider>
+          </div>
+        </mat-card>
       </div>
     </div>
 
@@ -112,9 +156,11 @@
         <mat-divider></mat-divider>
       </div>
     </div>
-  </div>
 
-  <button id="download_btn" (click)="download()">Скачать</button>
+    <button mat-raised-button id="download_btn" (click)="download()">
+      Скачать
+    </button>
+  </div>
 </div>
 
 <footer class="offer_footer">

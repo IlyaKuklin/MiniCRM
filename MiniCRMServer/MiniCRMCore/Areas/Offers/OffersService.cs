@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 
 namespace MiniCRMCore.Areas.Offers
@@ -110,7 +111,7 @@ namespace MiniCRMCore.Areas.Offers
 			}
 			else
 			{
-				offer = new Offer { Number = 777, Versions = new List<OfferVersion>() };
+				offer = new Offer { Number = 777, Versions = new List<OfferVersion>(), ClientLink = Guid.NewGuid() };
 				var lastOffer = await _context.Offers.OrderBy(x => x.Id).AsNoTracking().LastOrDefaultAsync();
 				if (lastOffer != null)
 					offer.Number = lastOffer.Number + 1;
@@ -119,10 +120,19 @@ namespace MiniCRMCore.Areas.Offers
 
 			_mapper.Map(dto, offer);
 
+			//var temp = offer.DeepClone();
+			//temp.Versions.Clear();
+
+			var versions = new List<OfferVersion>();
+			versions.AddRange(offer.Versions);
+			offer.Versions.Clear();
+
 			var jsonVersion = JsonConvert.SerializeObject(offer, new JsonSerializerSettings
 			{
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore
 			});
+			offer.Versions = versions;
+
 			offer.CurrentVersionNumber++;
 			var dbVersion = new OfferVersion
 			{
@@ -364,15 +374,14 @@ namespace MiniCRMCore.Areas.Offers
 				.Include(x => x.Client)
 				.Include(x => x.Versions)
 				.FirstOrDefaultAsync(x => x.Id == id);
-
-			offer.ClientLink = Guid.NewGuid();
+			
 			offer.ClientVersionNumber = offer.CurrentVersionNumber;
 
-			var queryString = $"?key={offer.ClientLink}&ck={offer.Client.Key}";
+			var paramsString = $"{offer.ClientLink}/{offer.Client.Key}";
 
 			await _context.SaveChangesAsync();
 
-			_emailSenderService.NotifyClient("", offer.Client.Email, "Коммерческое предложение от АВТОМАТ СЕРВИС", queryString);
+			_emailSenderService.NotifyClient(offer.Client.Name, offer.Client.Email, "Коммерческое предложение от АВТОМАТ СЕРВИС", paramsString);
 		}
 
 		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
@@ -383,6 +392,7 @@ namespace MiniCRMCore.Areas.Offers
 					.ThenInclude(x => x.FileDatum)
 				.Include(x => x.Versions)
 					.ThenInclude(x => x.Author)
+				.Include(x => x.FeedbackRequests)
 				.AsNoTracking()
 				.FirstOrDefaultAsync(x => x.ClientLink == link);
 
@@ -395,12 +405,23 @@ namespace MiniCRMCore.Areas.Offers
 			var clientVersion = offer.Versions.FirstOrDefault(x => x.Number == offer.ClientVersionNumber);
 			var versionToDisplay = JsonConvert.DeserializeObject<Offer>(clientVersion.Data);
 
+			if (!clientVersion.VisitedByClient)
+			{
+				var version = await _context.OfferVersions
+					.Include(x => x.Author)
+					.FirstAsync(x => x.Id == clientVersion.Id);
+				_emailSenderService.NotifyManager(version.Author.Name, version.Author.Email, "Клиент перешёл по ссылке из письма", offer.Number, DateTime.Now);
+				version.VisitedByClient = true;
+				await _context.SaveChangesAsync();
+			}
+
 			var type = typeof(Offer);
 			var props = typeof(Offer).GetProperties();
 
 			var dto = _mapper.Map<Offer.ClientViewDto>(versionToDisplay);
 			dto.ManagerEmail = clientVersion.Author.Email;
 			dto.Sections = new List<SectionDto>();
+			dto.FeedbackRequests = _mapper.Map<List<OfferFeedbackRequest.Dto>>(offer.FeedbackRequests.Where(x => !x.Answered));
 
 			foreach (var sectionName in versionToDisplay.SelectedSections)
 			{
@@ -428,6 +449,12 @@ namespace MiniCRMCore.Areas.Offers
 						section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.TechPassport).Select(x => x.FileDatum.Path).ToList();
 						dto.Sections.Add(section);
 					}
+					if (sectionName == "certificate")
+					{
+						section.Type = "img";
+						section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.Certificate).Select(x => x.FileDatum.Path).ToList();
+						dto.Sections.Add(section);
+					}
 				}
 			}
 
@@ -445,6 +472,7 @@ namespace MiniCRMCore.Areas.Offers
 				case "offerPoint": return "Суть предложения";
 				case "recommendations": return "Рекомендации";
 				case "techPassport": return "Технический паспорт";
+				case "certificate": return "Сертификат";
 				case "coveringLetter": return "Сопроводительное письмо";
 				case "similarCases": return "Аналогичные кейсы";
 			}
@@ -466,6 +494,23 @@ namespace MiniCRMCore.Areas.Offers
 				"" => throw new ArgumentException($"{nameof(input)} cannot be empty", nameof(input)),
 				_ => input.First().ToString().ToUpper() + input.Substring(1)
 			};
+		}
+	}
+
+	public static class ExtensionMethods
+	{
+		// Deep clone
+		public static T DeepClone<T>(this T a)
+		{
+#pragma warning disable SYSLIB0011
+			using (var stream = new MemoryStream())
+			{
+				var formatter = new BinaryFormatter();
+				formatter.Serialize(stream, a);
+				stream.Position = 0;
+				return (T)formatter.Deserialize(stream);
+#pragma warning restore SYSLIB0011
+			}
 		}
 	}
 }

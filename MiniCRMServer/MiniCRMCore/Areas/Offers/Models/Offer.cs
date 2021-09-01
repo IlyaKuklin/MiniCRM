@@ -56,6 +56,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public List<SectionDto> Sections { get; set; }
 			[Required]
 			public Client.Dto Client { get; set; }
+			[Required]
+			public List<OfferFeedbackRequest.Dto> FeedbackRequests { get; set; }
 		}
 
 		public class Dto : BaseDto

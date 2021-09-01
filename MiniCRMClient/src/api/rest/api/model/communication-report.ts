@@ -10,19 +10,14 @@
  * Do not edit the class manually.
  */
 import { User } from './user';
-import { Offer } from './offer';
 
 
-export interface OfferVersion { 
+export interface CommunicationReport { 
     id?: number;
     created?: string;
     changed?: string;
-    number?: number;
-    data?: string | null;
-    visitedByClient?: boolean;
-    offer?: Offer;
-    offerId?: number;
-    author?: User;
+    text?: string | null;
     authorId?: number;
+    author?: User;
 }
 

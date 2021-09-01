@@ -20,5 +20,6 @@ export interface User {
     isDeleted?: boolean;
     role?: Role;
     name?: string | null;
+    email?: string | null;
 }
 

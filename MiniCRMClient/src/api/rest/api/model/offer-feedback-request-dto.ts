@@ -18,5 +18,7 @@ export interface OfferFeedbackRequestDto {
     changed?: string;
     text?: string | null;
     author?: UserDto;
+    answered?: boolean;
+    answerText?: string | null;
 }
 

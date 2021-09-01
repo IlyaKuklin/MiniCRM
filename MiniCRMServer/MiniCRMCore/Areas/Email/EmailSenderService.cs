@@ -41,9 +41,15 @@ namespace MiniCRMCore.Areas.Email
 			}
 		}
 
-		public void NotifyClient(string name, string email, string subject, string queryString)
+		public void NotifyManager(string name, string email, string subject, int number, DateTime time)
 		{
-			var message = $"Добрый день! Предлагаем вам ознакомиться с коммерческим предложением по ссылке {this.BasePath}{queryString}";
+			var message = $"Клиент открыл коммерческое предложение №{number} {time.ToString("dd.MM.yyyy")}";
+			this.SendEmail(name, email, subject, message);
+		}
+
+		public void NotifyClient(string name, string email, string subject, string paramsString)
+		{
+			var message = $"Добрый день! Предлагаем вам ознакомиться с коммерческим предложением от нашей компании по <a href='{this.BasePath}offers/{paramsString}'>ссылке</a>.";
 			this.SendEmail(name, email, subject, message);
 		}
 
@@ -52,16 +58,16 @@ namespace MiniCRMCore.Areas.Email
 			var message = new MimeMessage();
 			message.From.Add(new MailboxAddress(this.Settings.SenderName, this.Settings.SenderEmail));
 			message.To.Add(new MailboxAddress(name, email));
-
 			message.Subject = subject;
-			message.Body = new TextPart("plain")
-			{
-				Text = body
-			};
 
-			//var builder = new BodyBuilder();
-			//builder.HtmlBody = body;
-			//message.Body = builder.ToMessageBody();
+			//message.Body = new TextPart("plain")
+			//{
+			//	Text = body
+			//};
+
+			var builder = new BodyBuilder();
+			builder.HtmlBody = body;
+			message.Body = builder.ToMessageBody();
 
 			using (var client = new MailKit.Net.Smtp.SmtpClient())
 			{

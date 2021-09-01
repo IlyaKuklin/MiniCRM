@@ -20,7 +20,7 @@ const routes: Routes = [
     data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
   },
   {
-    path: 'offers/:clientOfferId',
+    path: 'offers/:clientOfferId/:key',
     component: ClientOfferViewComponent,
   },
 ];
