@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Email;
 using MiniCRMCore.Areas.Offers.Models;
@@ -21,15 +22,27 @@ namespace MiniCRMCore.Areas.Offers
 		private readonly ApplicationContext _context;
 		private readonly IMapper _mapper;
 		private readonly EmailSenderService _emailSenderService;
+		private readonly IConfiguration _configuration;
 
 		public OffersService(
 			ApplicationContext context,
 			IMapper mapper,
-			EmailSenderService emailSenderService)
+			EmailSenderService emailSenderService,
+			IConfiguration configuration)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 			_emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
+			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+		}
+
+		public string BasePath
+		{
+			get
+			{
+				var section = _configuration.GetSection("BasePath");
+				return section.Value;
+			}
 		}
 
 		#region Offers
@@ -368,7 +381,7 @@ namespace MiniCRMCore.Areas.Offers
 
 		#region Client
 
-		public async Task SendOfferToClientAsync(int id)
+		public async Task<string> SendOfferToClientAsync(int id)
 		{
 			var offer = await _context.Offers
 				.Include(x => x.Client)
@@ -381,7 +394,11 @@ namespace MiniCRMCore.Areas.Offers
 
 			await _context.SaveChangesAsync();
 
-			_emailSenderService.NotifyClient(offer.Client.Name, offer.Client.Email, "Коммерческое предложение от АВТОМАТ СЕРВИС", paramsString);
+			var link = $"{this.BasePath}offers/{paramsString}";
+
+			_emailSenderService.NotifyClient(offer.Client.Name, offer.Email, "Коммерческое предложение от АВТОМАТ СЕРВИС", paramsString);
+
+			return link;
 		}
 
 		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
@@ -410,7 +427,7 @@ namespace MiniCRMCore.Areas.Offers
 				var version = await _context.OfferVersions
 					.Include(x => x.Author)
 					.FirstAsync(x => x.Id == clientVersion.Id);
-				_emailSenderService.NotifyManager(version.Author.Name, version.Author.Email, "Клиент перешёл по ссылке из письма", offer.Number, DateTime.Now);
+				//_emailSenderService.NotifyManager(version.Author.Name, version.Author.Email, "Клиент перешёл по ссылке из письма", offer.Number, DateTime.Now);
 				version.VisitedByClient = true;
 				await _context.SaveChangesAsync();
 			}

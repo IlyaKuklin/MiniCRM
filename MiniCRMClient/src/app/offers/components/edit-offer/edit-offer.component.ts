@@ -246,10 +246,19 @@ export class EditOfferComponent implements OnInit {
   }
 
   sendClick(): void {
+    if (!this.model.email) {
+      this.snackbarService.show({
+        message: 'Укажите email для отправки письма',
+        duration: 2000,
+        isError: true,
+      });
+      return;
+    }
+
     this.dialogService
       .confirmDialog({
         header: 'Отправка КП',
-        message: 'Вы уверены, что хотите отправить текущую версию КП клиенту?',
+        message: `Вы уверены, что хотите отправить текущую версию КП клиенту на адрес электронной почты? ${this.model.email}`,
       })
       .subscribe((result) => {
         if (result) {
@@ -264,6 +273,11 @@ export class EditOfferComponent implements OnInit {
                     message: 'КП отправлено клиенту',
                     duration: 2000,
                   });
+
+                  this.dialogService.infoDialog({
+                    header: '',
+                    message: response
+                  })
 
                   this.isLoading = false;
                 });
@@ -323,7 +337,7 @@ export class EditOfferComponent implements OnInit {
     this.dialogService.infoDialog({
       header: '',
       message: <string>request.answerText,
-    })
+    });
   }
   //#endregion
 

@@ -43,5 +43,6 @@ export interface OfferDto {
     feedbackRequests?: Array<OfferFeedbackRequestDto> | null;
     rules: Array<OfferRuleDto>;
     commonCommunicationReports: Array<CommunicationReportDto>;
+    email?: string | null;
 }
 

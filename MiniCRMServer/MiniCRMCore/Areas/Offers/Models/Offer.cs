@@ -44,6 +44,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public virtual List<CommunicationReport> CommonCommunicationReports { get; set; }
 
+		public string Email { get; set; }
+
 		public class ClientViewDto
 		{
 			[Required]
@@ -149,6 +151,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			[Required]
 			public virtual List<CommunicationReport.Dto> CommonCommunicationReports { get; set; }
+
+			public string Email { get; set; }
+
 		}
 
 		public class EditDto
@@ -193,6 +198,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			public string Potential { get; set; }
 			public string Stage { get; set; }
+			public string Email { get; set; }
+
 		}
 	}
 

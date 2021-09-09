@@ -49,7 +49,7 @@ namespace MiniCRMCore.Areas.Email
 
 		public void NotifyClient(string name, string email, string subject, string paramsString)
 		{
-			var message = $"Добрый день! Предлагаем вам ознакомиться с коммерческим предложением от нашей компании по <a href='{this.BasePath}offers/{paramsString}'>ссылке</a>.";
+			var message = $"Добрый день! Предлагаем вам ознакомиться с коммерческим предложением от нашей компании по <a href='{this.BasePath}offers/{paramsString}'>ссылке</a>. Будем рады обратной связи";
 			this.SendEmail(name, email, subject, message);
 		}
 

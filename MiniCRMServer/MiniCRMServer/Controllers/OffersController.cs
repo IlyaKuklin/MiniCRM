@@ -128,11 +128,11 @@ namespace MiniCRMServer.Controllers
 		}
 
 		[HttpPost("client/offer/send")]
-		[ProducesResponseType(200)]
+		[ProducesResponseType(typeof(string), 200)]
 		public async Task<IActionResult> SendOfferToClient(int offerId)
 		{
-			await _offersService.SendOfferToClientAsync(offerId);
-			return this.Ok();
+			var result = await _offersService.SendOfferToClientAsync(offerId);
+			return this.Ok(result);
 		}
 
 		[HttpGet("client/offer")]

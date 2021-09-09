@@ -237,10 +237,10 @@ export class OffersApiService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiOffersClientOfferSendPost(offerId?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public apiOffersClientOfferSendPost(offerId?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public apiOffersClientOfferSendPost(offerId?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public apiOffersClientOfferSendPost(offerId?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public apiOffersClientOfferSendPost(offerId?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<string>;
+    public apiOffersClientOfferSendPost(offerId?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<string>>;
+    public apiOffersClientOfferSendPost(offerId?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<string>>;
+    public apiOffersClientOfferSendPost(offerId?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (offerId !== undefined && offerId !== null) {
@@ -261,6 +261,9 @@ export class OffersApiService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -274,7 +277,7 @@ export class OffersApiService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/Offers/client/offer/send`,
+        return this.httpClient.post<string>(`${this.configuration.basePath}/api/Offers/client/offer/send`,
             null,
             {
                 params: queryParameters,

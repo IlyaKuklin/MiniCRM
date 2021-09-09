@@ -61,10 +61,12 @@ export class ClientOfferViewComponent implements OnInit {
 
   download() {
     this.isLoading = true;
-    
+
     const btn = <HTMLElement>document.getElementById('download_btn');
     btn.style.display = 'none';
-    const feedbackRequests = <HTMLElement> document.getElementById('feedbackRequests');
+    const feedbackRequests = <HTMLElement>(
+      document.getElementById('feedbackRequests')
+    );
     feedbackRequests.style.display = 'none';
 
     var data = document.getElementById('offer'); //Id of the table

@@ -22,6 +22,5 @@ export interface ClientDto {
     diagnostics?: string | null;
     offers?: Array<OfferDto> | null;
     commonCommunicationReports: Array<CommunicationReportDto>;
-    email?: string | null;
 }
 

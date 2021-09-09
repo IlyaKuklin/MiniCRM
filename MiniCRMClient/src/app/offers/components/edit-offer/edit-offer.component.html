@@ -742,6 +742,7 @@
     </div>
   </div>
 
+  <!-- Отчёты о коммуникации с клиентом -->
   <div class="row">
     <div class="col-12">
       <mat-card>
@@ -751,6 +752,25 @@
           [id]="model.id"
           [reports]="model.commonCommunicationReports"
         ></mcrm-communication-reports-list>
+      </mat-card>
+    </div>
+  </div>
+
+  <div class="row" style="padding-top: 2em;">
+    <div class="col-3">
+      <mat-card>
+        <mat-form-field class="client_form__field" appearance="outline">
+          <mat-label>E-mail для отправки КП</mat-label>
+          <input
+            matInput
+            required
+            [errorStateMatcher]="errorStateMatcher"
+            type="email"
+            [(ngModel)]="model.email"
+            name="email"
+            #email="ngModel"
+          />
+        </mat-form-field>
       </mat-card>
     </div>
   </div>
