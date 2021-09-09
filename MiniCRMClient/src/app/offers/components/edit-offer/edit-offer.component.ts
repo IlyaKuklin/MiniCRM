@@ -268,19 +268,25 @@ export class EditOfferComponent implements OnInit {
             .subscribe((response) => {
               this.offersApiService
                 .apiOffersClientOfferSendPost(this.model.id)
-                .subscribe((response) => {
-                  this.snackbarService.show({
-                    message: 'КП отправлено клиенту',
-                    duration: 2000,
-                  });
+                .subscribe(
+                  (response: string) => {
+                    this.snackbarService.show({
+                      message: 'КП отправлено клиенту',
+                      duration: 2000,
+                    });
 
-                  this.dialogService.infoDialog({
-                    header: '',
-                    message: response
-                  })
+                    this.dialogService.infoDialog({
+                      header: '',
+                      message: response,
+                    });
 
-                  this.isLoading = false;
-                });
+                    this.isLoading = false;
+                  },
+                  (e) => {
+                    console.log(e.error.Message);
+                    alert(e.error.Message);
+                  }
+                );
             });
         }
       });

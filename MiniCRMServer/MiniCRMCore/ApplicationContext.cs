@@ -3,6 +3,7 @@ using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Email.Models;
+using MiniCRMCore.Areas.Logs;
 using MiniCRMCore.Areas.Offers.Models;
 using System;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace MiniCRMCore
 
 		public DbSet<EmailSettings> EmailSettings { get; set; }
 		public DbSet<CommunicationReport> CommunicationReports { get; set; }
+
+		public DbSet<LogEntry> LogEntries { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

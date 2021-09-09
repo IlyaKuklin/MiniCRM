@@ -17,6 +17,7 @@ using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Email;
 using MiniCRMCore.Areas.Email.Models;
+using MiniCRMCore.Areas.Logs;
 using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Serialization;
@@ -90,6 +91,8 @@ namespace MiniCRMServer
 			services.AddScoped<OffersService>();
 			services.AddScoped<CommonService>();
 			services.AddScoped<EmailSenderService>();
+
+			services.AddScoped<DBLoggerService>();
 
 			services.AddControllers()
 				.AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
