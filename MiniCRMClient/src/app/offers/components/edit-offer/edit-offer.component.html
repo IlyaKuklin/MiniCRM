@@ -425,21 +425,13 @@
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }"
             >Суть предложения</mat-label
           >
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('offerPoint')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.offerPoint"
-                name="offerPoint"
-                #offerPoint="ngModel"
-              ></textarea>
-            </mat-form-field>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em;">
+              <quill-editor  [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint"></quill-editor>
           </div>
+        </div>
+
+        <div class="offer_section__wrapper">
+          
         </div>
 
         <!-- Рекомендации клиенту -->
@@ -756,7 +748,7 @@
     </div>
   </div>
 
-  <div class="row" style="padding-top: 2em;">
+  <div class="row" style="padding-top: 2em">
     <div class="col-3">
       <mat-card>
         <mat-form-field class="client_form__field" appearance="outline">

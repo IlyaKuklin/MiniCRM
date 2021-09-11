@@ -79,7 +79,6 @@
   </header>
 
   <div *ngIf="model" class="offer_body container" id="offer-container">
-
     <!-- Заявки на обр. связь -->
     <div
       class="offer_body__feedbackRequests row"
@@ -89,7 +88,10 @@
       <div class="col-12">
         <mat-card class="offer_body__feedbackRequests-card">
           <h3>Заявки на обратную связь</h3>
-          <div *ngFor="let request of model.feedbackRequests" class="row offer_body__feedbackRequests-card-row">
+          <div
+            *ngFor="let request of model.feedbackRequests"
+            class="row offer_body__feedbackRequests-card-row"
+          >
             <div class="col-4">
               <mat-form-field>
                 <mat-label>Заявка</mat-label>
@@ -131,8 +133,12 @@
                 Добавить изображение
               </button>
             </div> -->
-            <div class="col-2" style="display: flex;">
-              <button mat-raised-button (click)="answerOnRequest(request)" style="margin:auto">
+            <div class="col-2" style="display: flex">
+              <button
+                mat-raised-button
+                (click)="answerOnRequest(request)"
+                style="margin: auto"
+              >
                 Отправить ответ
               </button>
             </div>
@@ -171,6 +177,17 @@
         <div class="col-9">
           <ng-container *ngIf="section.type == 'text'">
             {{ section.data }}
+          </ng-container>
+          <ng-container *ngIf="section.type == 'offerPoint'">
+            <!-- <quill-view-html
+              [content]="section.data"
+              theme="snow"
+            ></quill-view-html> -->
+
+            <div class="ql-container ql-snow" style="border-width: 0">
+              <div class="ql-editor" [innerHTML]="offerPoint"></div>
+            </div>
+
           </ng-container>
           <ng-container *ngIf="section.type == 'img'">
             <div *ngFor="let path of section.imagePaths">

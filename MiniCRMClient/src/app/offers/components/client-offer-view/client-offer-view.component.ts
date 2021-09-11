@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { HttpClient } from '@angular/common/http';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'mcrm-client-offer-view',
@@ -23,11 +24,23 @@ export class ClientOfferViewComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly http: HttpClient,
     private readonly snackbarService: SnackbarService,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private sanitizer: DomSanitizer
   ) {}
 
   model!: OfferClientViewDto;
   isLoading: boolean = false;
+
+  // TODO: to pipe (https://stackoverflow.com/questions/39857858/angular-2-domsanitizer-bypasssecuritytrusthtml-svg)
+  get offerPoint() {
+    var s = this.model.sections.find(x => x.type == 'offerPoint');
+
+    if (s) {
+      var h = this.sanitizer.bypassSecurityTrustHtml(<string>s.data);
+      return h;
+    }
+    return '';
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -36,8 +49,6 @@ export class ClientOfferViewComponent implements OnInit {
       this.offersApiService
         .apiOffersClientOfferGet(params.clientOfferId, params.key)
         .subscribe((response: OfferClientViewDto) => {
-          console.log(isDevMode());
-
           if (isDevMode()) {
             response.sections.forEach((x) => {
               if (x.type === 'img') {

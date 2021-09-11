@@ -60,6 +60,7 @@ import { InputDialogComponent } from './components/input-dialog/input-dialog.com
 import { SelectOptionDialogComponent } from './components/select-option-dialog/select-option-dialog.component';
 import { CommunicationReportsListComponent } from './components/communication-reports-list/communication-reports-list.component';
 import { AutosizeModule } from 'ngx-autosize';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,8 @@ import { AutosizeModule } from 'ngx-autosize';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+
+    QuillModule.forRoot()
   ],
   exports: [
     A11yModule,
@@ -174,6 +177,8 @@ import { AutosizeModule } from 'ngx-autosize';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+
+    QuillModule,
 
     // Components
     ToolbarComponent,

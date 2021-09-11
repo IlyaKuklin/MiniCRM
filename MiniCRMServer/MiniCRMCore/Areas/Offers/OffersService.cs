@@ -457,6 +457,8 @@ namespace MiniCRMCore.Areas.Offers
 						section.Data = value.ToString();
 						dto.Sections.Add(section);
 					}
+					if (textProperty.Name == "OfferPoint")
+						section.Type = "offerPoint";
 				}
 				else
 				{
