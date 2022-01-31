@@ -43,7 +43,7 @@ namespace MiniCRMCore.Areas.Email
 
 		public void NotifyManager(string name, string email, string subject, int number, DateTime time)
 		{
-			var message = $"Клиент открыл коммерческое предложение №{number} {time.ToString("dd.MM.yyyy")}";
+			var message = $"Клиент открыл коммерческое предложение №{number} (время: {time.ToString("dd.MM.yyyy")})";
 			this.SendEmail(name, email, subject, message);
 		}
 
