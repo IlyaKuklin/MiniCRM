@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  basePath: 'http://vm469442.eurodir.ru'
+  basePath: 'http://188.225.44.35'
 };
