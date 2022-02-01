@@ -81,6 +81,7 @@ namespace MiniCRMCore.Areas.Clients
 			else
 			{
 				client = new Client();
+				client.Key = Hasher.ComputeHash("crm", Guid.NewGuid()).Replace("+","").Replace("=","");
 				await _context.Clients.AddAsync(client);
 			}
 

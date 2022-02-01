@@ -19,7 +19,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { filter, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'mcrm-edit-offer',
@@ -461,7 +461,7 @@ export class EditOfferComponent implements OnInit {
   //#endregion
 
   private _filter(value: any): ClientDto[] {
-    const isString = (value as ClientDto).legalEntitiesNames == undefined;
+    const isString = (value as ClientDto).id == undefined;
     if (!isString) return [];
 
     const filterValue = value.toLowerCase();

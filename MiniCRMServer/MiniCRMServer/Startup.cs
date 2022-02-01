@@ -252,6 +252,7 @@ namespace MiniCRMServer
 				.ReverseMap()
 				.ForMember(x => x.Id, opt => opt.Ignore())
 				.ForMember(x => x.Offers, opt => opt.Ignore())
+				.ForMember(x => x.Key, opt => opt.Ignore())
 				.ForMember(x => x.CommonCommunicationReports, opt => opt.Ignore())
 				;
 		}
@@ -271,10 +272,13 @@ namespace MiniCRMServer
 				.ForMember(x => x.FeedbackRequests, opt => opt.Ignore())
 				.ForMember(x => x.Rules, opt => opt.Ignore())
 				.ForMember(x => x.CommonCommunicationReports, opt => opt.Ignore())
+				.ForMember(x => x.ClientLink, opt => opt.Ignore())
 				//.ForMember(x => x.ClientId, opt => opt.Ignore())
 				;
 			this.CreateMap<Offer.EditDto, Offer>()
-				.ForMember(x => x.Id, opt => opt.Ignore());
+				.ForMember(x => x.Id, opt => opt.Ignore())
+				.ForMember(x => x.ClientLink, opt => opt.Ignore())
+				;
 
 			this.CreateMap<OfferFileDatum, OfferFileDatum.Dto>()
 				.ForMember(x => x.Path, opt => opt.MapFrom(src => src.FileDatum.Path))

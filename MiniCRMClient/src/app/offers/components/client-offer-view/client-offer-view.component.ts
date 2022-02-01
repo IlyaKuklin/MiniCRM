@@ -78,7 +78,8 @@ export class ClientOfferViewComponent implements OnInit {
     const feedbackRequests = <HTMLElement>(
       document.getElementById('feedbackRequests')
     );
-    feedbackRequests.style.display = 'none';
+    if (feedbackRequests)
+      feedbackRequests.style.display = 'none';
 
     var data = document.getElementById('offer'); //Id of the table
     if (data) {
@@ -98,7 +99,9 @@ export class ClientOfferViewComponent implements OnInit {
         pdf.save(`Коммерческое предложение №${this.model.number}.pdf`); // Generated PDF
 
         btn.style.display = 'block';
-        feedbackRequests.style.display = 'block';
+        
+        if (feedbackRequests)
+          feedbackRequests.style.display = 'block';
         this.isLoading = false;
       });
     }
