@@ -84,7 +84,7 @@
         mat-raised-button
         color="warn"
         class="manager_form__buttons-button"
-        (click)="delete()"
+        (click)="delete(); $event.preventDefault()"
       >
         Удалить
       </button>

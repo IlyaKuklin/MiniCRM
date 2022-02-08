@@ -2,7 +2,18 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
+import {
+  exhaustMap,
+  filter,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { AuthApiService, UserDto } from 'src/api/rest/api';
+import { DialogService } from 'src/app/shared/services/dialog.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
   selector: 'mcrm-edit-manager',
@@ -13,7 +24,9 @@ export class EditManagerComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly authApiService: AuthApiService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly dialogService: DialogService,
+    private readonly snackbarService: SnackbarService
   ) {}
 
   @ViewChild('managerForm') managerForm!: NgForm;
@@ -90,14 +103,36 @@ export class EditManagerComponent implements OnInit {
   }
 
   delete(): void {
-    this.isLoading = true;
-    this.authApiService
-      .apiAuthManagerDeleteDelete(this.model.id)
+    this.dialogService
+      .confirmDialog({
+        header: 'Удаление',
+        message: 'Вы уверены, что хотите удалить менеджера?',
+      })
+      .pipe(
+        filter((x) => !!x),
+        tap(() => (this.isLoading = true)),
+        switchMap(() =>
+          this.authApiService.apiAuthManagerDeleteDelete(this.model.id)
+        )
+      )
       .subscribe((response) => {
-        alert('Менеджер удалён');
+        this.snackbarService.show({
+          message: 'Менеджер удалён',
+          duration: 2000,
+        });
         this.isLoading = false;
         this.router.navigate(['/managers']);
       });
+
+    // this.isLoading = true;
+
+    // this.authApiService
+    //   .apiAuthManagerDeleteDelete(this.model.id)
+    //   .subscribe((response) => {
+    //     alert('Менеджер удалён');
+    //     this.isLoading = false;
+    //
+    //   });
   }
 }
 

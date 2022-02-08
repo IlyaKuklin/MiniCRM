@@ -36,7 +36,8 @@ namespace MiniCRMCore.Areas.Auth
 			{
 				Login = registerDto.Login,
 				Role = Role.Manager,
-				Name = registerDto.Name
+				Name = registerDto.Name,
+				Email = registerDto.Email
 			};
 
 			user.SetPassword(registerDto.Password, Guid.NewGuid());
