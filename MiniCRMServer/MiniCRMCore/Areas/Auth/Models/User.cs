@@ -142,14 +142,16 @@ namespace MiniCRMCore.Areas.Auth.Models
 		public class NewPasswordDto
 		{
 			/// <summary>
-			/// Текущий пароль.
+			/// Текущий пароль администратора.
 			/// </summary>
-			public string CurrentPassword { get; set; }
+			public string AdminPassword { get; set; }
 
-			/// <summary>
-			/// Новый пароль.
-			/// </summary>
-			public string Password { get; set; }
+            public int ManagerId { get; set; }
+
+            /// <summary>
+            /// Новый пароль.
+            /// </summary>
+            public string Password { get; set; }
 
 			/// <summary>
 			/// Подтверждения нового пароля.
