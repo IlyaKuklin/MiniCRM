@@ -2,7 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, mergeMap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  mergeMap,
+  tap,
+} from 'rxjs/operators';
 import { OfferDto, OffersApiService } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
@@ -20,7 +26,7 @@ export class OffersListComponent implements OnInit {
   ) {}
 
   model: OfferDto[] = [];
-  displayedColumns: string[] = ['id', 'number', 'clientName', 'del'];
+  displayedColumns: string[] = ['id', 'number', 'clientName', 'created', 'del'];
   dataSource!: MatTableDataSource<OfferDto>;
   resultsLength: number = 0;
   isLoading = true;
@@ -36,21 +42,23 @@ export class OffersListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;
 
-      this.searchText$
-        .pipe(
-          debounceTime(500),
-          distinctUntilChanged(),
-          mergeMap((filter) => {
-            this.isLoading = true;
-            return this.offersApiService.apiOffersListGet(filter);
-          })
-        )
-        .subscribe((response) => {
-          this.model = response;
-          this.dataSource = new MatTableDataSource<OfferDto>(response);
-          this.isLoading = false;
-        });
+      console.log(response);
     });
+
+    this.searchText$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        tap(() => (this.isLoading = true)),
+        mergeMap((filter) =>
+          this.offersApiService
+            .apiOffersListGet(filter)
+            .pipe(tap(() => (this.isLoading = false)))
+        )
+      )
+      .subscribe((response) => {
+        this.dataSource = new MatTableDataSource<OfferDto>(response);
+      });
   }
 
   delete(id: number) {
