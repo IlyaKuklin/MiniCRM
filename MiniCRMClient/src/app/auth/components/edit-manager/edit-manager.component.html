@@ -38,7 +38,7 @@
     </button>
 
     <div *ngIf="isEdit && !isLoading" class="manager_form__buttons">
-      <div style="display:flex; gap: 2em;">
+      <div style="display:flex; gap: 2em;flex-wrap: wrap;">
         <button mat-raised-button color="primary" class="manager_form__buttons-button" [disabled]="!modelChanged" (click)="update()">
           Обновить
         </button>
@@ -48,6 +48,14 @@
 
         <button *ngIf="model.id" mat-raised-button color="accent" class="manager_form__buttons-button" (click)="$event.preventDefault();" routerLink="/managers/edit/{{model.id}}/password">
           Сменить пароль
+        </button>
+
+        <button *ngIf="!model.isBlocked" mat-raised-button color="accent" class="manager_form__buttons-button" (click)="block(true); $event.preventDefault();">
+          Заблокировать менеджера
+        </button>
+
+        <button *ngIf="model.isBlocked" mat-raised-button color="primary" class="manager_form__buttons-button" (click)="block(false); $event.preventDefault();">
+          Разблокировать менеджера
         </button>
       </div>
 

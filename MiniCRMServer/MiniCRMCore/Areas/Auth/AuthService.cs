@@ -172,5 +172,16 @@ namespace MiniCRMCore.Areas.Auth
             _context.Users.Remove(manager);
             await _context.SaveChangesAsync();
         }
+
+        public async Task ResolveBlockManagerAsync(int id, bool block)
+        {
+            var manager = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (manager == null)
+                throw new ApiException($"Не найден менеджер с ID {id}");
+
+            manager.IsBlocked = block;
+            
+            await _context.SaveChangesAsync();
+        }
     }
 }

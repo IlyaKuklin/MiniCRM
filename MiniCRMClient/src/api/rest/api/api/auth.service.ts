@@ -156,10 +156,10 @@ export class AuthApiService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<UserDto>;
-    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<UserDto>>;
-    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<UserDto>>;
-    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (userNewPasswordDto === null || userNewPasswordDto === undefined) {
             throw new Error('Required parameter userNewPasswordDto was null or undefined when calling apiAuthManagerChangePasswordPatch.');
         }
@@ -177,9 +177,6 @@ export class AuthApiService {
         if (httpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
             ];
             httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -205,7 +202,7 @@ export class AuthApiService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.patch<UserDto>(`${this.configuration.basePath}/api/Auth/manager/changePassword`,
+        return this.httpClient.patch<any>(`${this.configuration.basePath}/api/Auth/manager/changePassword`,
             userNewPasswordDto,
             {
                 responseType: <any>responseType_,
@@ -317,6 +314,71 @@ export class AuthApiService {
         }
 
         return this.httpClient.get<UserDto>(`${this.configuration.basePath}/api/Auth/manager`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param id 
+     * @param block 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAuthManagerResolveBlockDelete(id: number, block: boolean, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public apiAuthManagerResolveBlockDelete(id: number, block: boolean, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public apiAuthManagerResolveBlockDelete(id: number, block: boolean, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public apiAuthManagerResolveBlockDelete(id: number, block: boolean, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiAuthManagerResolveBlockDelete.');
+        }
+        if (block === null || block === undefined) {
+            throw new Error('Required parameter block was null or undefined when calling apiAuthManagerResolveBlockDelete.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (id !== undefined && id !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>id, 'id');
+        }
+        if (block !== undefined && block !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>block, 'block');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/Auth/manager/resolve_block`,
             {
                 params: queryParameters,
                 responseType: <any>responseType_,

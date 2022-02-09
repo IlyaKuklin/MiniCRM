@@ -16,5 +16,6 @@ export interface UserDto {
     name?: string | null;
     login?: string | null;
     email?: string | null;
+    isBlocked?: boolean;
 }
 

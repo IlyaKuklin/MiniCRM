@@ -124,6 +124,21 @@ export class EditManagerComponent implements OnInit {
         this.router.navigate(['/managers']);
       });
   }
+
+  block(isBlocked: boolean): void {
+    this.isLoading = true;
+    const id = <number>this.model.id;
+    this.authApiService
+      .apiAuthManagerResolveBlockDelete(id, isBlocked)
+      .subscribe((response) => {
+        this.snackbarService.show({
+          duration: 2000,
+          message: 'Операция завершена',
+        });
+        this.model.isBlocked = isBlocked;
+        this.isLoading = false;
+      });
+  }
 }
 
 export class ManagerErrorStateMatcher implements ErrorStateMatcher {

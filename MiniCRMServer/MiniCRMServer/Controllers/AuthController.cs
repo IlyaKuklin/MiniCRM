@@ -80,5 +80,13 @@ namespace MiniCRMServer.Controllers
             await _authService.DeleteManagerAsync(id);
             return this.Ok(204);
         }
+
+        [HttpDelete("manager/resolve_block")]
+        [ProducesResponseType(201)]
+        public async Task<IActionResult> BlockManager([FromQuery][Required] int id, [FromQuery][Required] bool block)
+        {
+            await _authService.ResolveBlockManagerAsync(id, block);
+            return this.Ok(204);
+        }
     }
 }

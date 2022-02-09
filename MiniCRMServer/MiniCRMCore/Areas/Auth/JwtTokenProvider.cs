@@ -12,10 +12,10 @@ namespace MiniCRMCore.Areas.Auth
         {
             var userId = context.Principal.GetUserId();
 
+            // TODO: via MemoryCache
             var ctx = context.HttpContext.RequestServices.GetService<ApplicationContext>();
-
             var user = ctx.Users.FirstOrDefault(x => x.Id == userId);
-            if (user == null)
+            if (user == null || user.IsBlocked)
                 throw new ApiException("Доступ запрещён", 403);
 
             return Task.CompletedTask;
