@@ -25,11 +25,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MiniCRMCore\MiniCRMCore.csproj" />
+    <Folder Include="wwwroot\files\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\files\" />
+    <ProjectReference Include="..\MiniCRMCore\MiniCRMCore.csproj" />
   </ItemGroup>
 
 </Project>

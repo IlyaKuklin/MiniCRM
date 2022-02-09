@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -28,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MiniCRMServer
 {
@@ -68,6 +70,14 @@ namespace MiniCRMServer
 			var connectionString = this.Configuration.GetSection("ConnectionString").Value;
 			services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
 
+			services.AddAuthorization(options =>
+			{
+				options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+					.RequireAuthenticatedUser()
+					.Build();
+			}
+			);
+
 			services
 			.AddAuthentication(options =>
 			{
@@ -78,8 +88,13 @@ namespace MiniCRMServer
 			.AddJwtBearer(cfg =>
 			{
 				cfg.RequireHttpsMetadata = false;
-				cfg.SaveToken = true;
+				//cfg.SaveToken = true;
 				cfg.TokenValidationParameters = this.GetTokenValidationParameters();
+				cfg.Events = new JwtBearerEvents
+				{
+					OnTokenValidated = JwtTokenProvider.OnTokenValidated,
+					OnMessageReceived = context => Task.CompletedTask
+				};
 			});
 
 			services.AddAutoMapperProfiles();
@@ -114,6 +129,7 @@ namespace MiniCRMServer
 
 			app.UseRouting();
 			app.UseCors(CORS_NAME);
+
 			app.UseAuthentication();
 			app.UseAuthorization();
 
@@ -130,7 +146,9 @@ namespace MiniCRMServer
 				ValidIssuer = this.Configuration["JwtIssuer"],
 				ValidAudience = this.Configuration["JwtIssuer"],
 				IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Configuration["JwtKey"])),
-				ClockSkew = TimeSpan.Zero
+				ValidateIssuerSigningKey = true,
+				ValidateLifetime = true,
+				ClockSkew = TimeSpan.Zero,
 			};
 		}
 	}

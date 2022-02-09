@@ -66,7 +66,7 @@ namespace MiniCRMServer.Controllers
         }
 
         [HttpPatch("manager/changePassword")]
-        [ProducesResponseType(typeof(User.Dto), 200)]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> ChangeManagerPassword([FromBody][Required] User.NewPasswordDto passwordDto)
         {
             await _authService.ChangeManagerPasswordAsync(passwordDto, this.CurrentUserId);

@@ -7,9 +7,10 @@ import { SharedModule } from '../shared/shared.module';
 import { ManagersListComponent } from './components/managers-list/managers-list.component';
 import { EditManagerComponent } from './components/edit-manager/edit-manager.component';
 import { EmailSettingsComponent } from './components/email-settings/email-settings.component';
+import { EditPasswordComponent } from './components/edit-password/edit-password.component';
 
 @NgModule({
-  declarations: [LoginComponent, ManagersListComponent, EditManagerComponent, EmailSettingsComponent],
+  declarations: [LoginComponent, ManagersListComponent, EditManagerComponent, EmailSettingsComponent, EditPasswordComponent],
   imports: [CommonModule, AuthRoutingModule, SharedModule],
 })
 export class AuthModule {}

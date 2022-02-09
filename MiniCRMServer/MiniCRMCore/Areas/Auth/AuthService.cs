@@ -23,7 +23,8 @@ namespace MiniCRMCore.Areas.Auth
         public AuthService(
             ApplicationContext context,
             IConfiguration configuration,
-            IMapper mapper)
+            IMapper mapper
+            )
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -152,16 +153,21 @@ namespace MiniCRMCore.Areas.Auth
             if (manager.CheckPassword(dto.Password))
                 throw new ApiException("Пароль совпадает со старым", 400);
 
+            if (!currentUser.CheckPassword(dto.AdminPassword))
+                throw new ApiException("Неверно введён пароль администратора", 400);
+
             manager.SetPassword(dto.Password, Guid.NewGuid());
 
             await _context.SaveChangesAsync();
-        }
+        } 
 
         public async Task DeleteManagerAsync(int id)
         {
             var manager = await _context.Users.FirstOrDefaultAsync(x => x.Id == id);
             if (manager == null)
                 throw new ApiException($"Не найден менеджер с ID {id}");
+
+            
 
             _context.Users.Remove(manager);
             await _context.SaveChangesAsync();

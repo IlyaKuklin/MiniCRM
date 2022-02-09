@@ -37,6 +37,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(List<Client.Dto>), 200)]
 		public async Task<IActionResult> GetList(string filter)
 		{
+			var t = User;
 			var result = await _clientsService.GetListAsync(filter);
 			return this.Ok(result);
 		}

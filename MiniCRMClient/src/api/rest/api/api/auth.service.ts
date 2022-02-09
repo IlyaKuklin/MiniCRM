@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { UserAuthDto } from '../model/models';
 import { UserAuthResponseDto } from '../model/models';
 import { UserDto } from '../model/models';
+import { UserNewPasswordDto } from '../model/models';
 import { UserRegisterDto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -140,6 +141,72 @@ export class AuthApiService {
 
         return this.httpClient.post<UserAuthResponseDto>(`${this.configuration.basePath}/api/Auth/login`,
             userAuthDto,
+            {
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param userNewPasswordDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<UserDto>;
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<UserDto>>;
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<UserDto>>;
+    public apiAuthManagerChangePasswordPatch(userNewPasswordDto: UserNewPasswordDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (userNewPasswordDto === null || userNewPasswordDto === undefined) {
+            throw new Error('Required parameter userNewPasswordDto was null or undefined when calling apiAuthManagerChangePasswordPatch.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+                'text/plain',
+                'application/json',
+                'text/json'
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json-patch+json',
+            'application/json',
+            'text/json',
+            'application/_*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            headers = headers.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.patch<UserDto>(`${this.configuration.basePath}/api/Auth/manager/changePassword`,
+            userNewPasswordDto,
             {
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,

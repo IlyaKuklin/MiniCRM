@@ -2,15 +2,7 @@
   <form class="manager_form" #managerForm="ngForm" (ngSubmit)="submit()">
     <mat-form-field class="manager_form__field">
       <mat-label>Имя</mat-label>
-      <input
-        matInput
-        required
-        [errorStateMatcher]="errorStateMatcher"
-        type="text"
-        [(ngModel)]="model.name"
-        name="name"
-        #name="ngModel"
-      />
+      <input matInput required [errorStateMatcher]="errorStateMatcher" type="text" [(ngModel)]="model.name" name="name" #name="ngModel" />
       <mat-error *ngIf="name.hasError('required')">
         Поля <strong>обязательно</strong> для заполнения
       </mat-error>
@@ -18,15 +10,7 @@
 
     <mat-form-field class="manager_form__field">
       <mat-label>Логин</mat-label>
-      <input
-        matInput
-        required
-        [errorStateMatcher]="errorStateMatcher"
-        type="text"
-        [(ngModel)]="model.login"
-        name="login"
-        #login="ngModel"
-      />
+      <input matInput required [errorStateMatcher]="errorStateMatcher" type="text" [(ngModel)]="model.login" name="login" #login="ngModel" />
       <mat-error *ngIf="login.hasError('required')">
         Поля <strong>обязательно</strong> для заполнения
       </mat-error>
@@ -34,15 +18,7 @@
 
     <mat-form-field class="manager_form__field">
       <mat-label>Email</mat-label>
-      <input
-        matInput
-        required
-        [errorStateMatcher]="errorStateMatcher"
-        type="email"
-        [(ngModel)]="model.email"
-        name="email"
-        #email="ngModel"
-      />
+      <input matInput required [errorStateMatcher]="errorStateMatcher" type="email" [(ngModel)]="model.email" name="email" #email="ngModel" />
       <mat-error *ngIf="email.hasError('required')">
         Поля <strong>обязательно</strong> для заполнения
       </mat-error>
@@ -51,16 +27,7 @@
     <!-- Password -->
     <mat-form-field class="manager_form__field" *ngIf="!isEdit">
       <mat-label>Пароль</mat-label>
-      <input
-        matInput
-        required
-        minlength="4"
-        [errorStateMatcher]="errorStateMatcher"
-        type="password"
-        [(ngModel)]="password"
-        name="password"
-        #passwordLogin="ngModel"
-      />
+      <input matInput required minlength="4" [errorStateMatcher]="errorStateMatcher" type="password" [(ngModel)]="password" name="password" #passwordLogin="ngModel" />
       <mat-error *ngIf="passwordLogin.hasError('required')">
         Поля <strong>обязательно</strong> для заполнения
       </mat-error>
@@ -71,23 +38,23 @@
     </button>
 
     <div *ngIf="isEdit && !isLoading" class="manager_form__buttons">
-      <button
-        mat-raised-button
-        color="primary"
-        class="manager_form__buttons-button"
-        [disabled]="!modelChanged"
-        (click)="update()"
-      >
-        Обновить
-      </button>
-      <button
-        mat-raised-button
-        color="warn"
-        class="manager_form__buttons-button"
-        (click)="delete(); $event.preventDefault()"
-      >
-        Удалить
-      </button>
+      <div style="display:flex; gap: 2em;">
+        <button mat-raised-button color="primary" class="manager_form__buttons-button" [disabled]="!modelChanged" (click)="update()">
+          Обновить
+        </button>
+        <button mat-raised-button color="warn" class="manager_form__buttons-button" (click)="delete(); $event.preventDefault()">
+          Удалить
+        </button>
+
+        <button *ngIf="model.id" mat-raised-button color="accent" class="manager_form__buttons-button" (click)="$event.preventDefault();" routerLink="/managers/edit/{{model.id}}/password">
+          Сменить пароль
+        </button>
+      </div>
+
+      <div style="display:flex;  gap: 2em;">
+
+      </div>
+
     </div>
   </form>
 </div>

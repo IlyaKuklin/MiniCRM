@@ -23,8 +23,8 @@ import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 export class EditManagerComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly authApiService: AuthApiService,
     private readonly router: Router,
+    private readonly authApiService: AuthApiService,
     private readonly dialogService: DialogService,
     private readonly snackbarService: SnackbarService
   ) {}
@@ -123,16 +123,6 @@ export class EditManagerComponent implements OnInit {
         this.isLoading = false;
         this.router.navigate(['/managers']);
       });
-
-    // this.isLoading = true;
-
-    // this.authApiService
-    //   .apiAuthManagerDeleteDelete(this.model.id)
-    //   .subscribe((response) => {
-    //     alert('Менеджер удалён');
-    //     this.isLoading = false;
-    //
-    //   });
   }
 }
 
