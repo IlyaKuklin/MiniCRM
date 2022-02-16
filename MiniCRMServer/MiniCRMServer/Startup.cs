@@ -30,6 +30,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hangfire;
+using Hangfire.PostgreSql;
+using MiniCRMCore.Areas.Common.Interfaces;
 
 namespace MiniCRMServer
 {
@@ -70,6 +73,20 @@ namespace MiniCRMServer
             var connectionString = this.Configuration.GetSection("ConnectionString").Value;
             services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
 
+            var hangfireConnectionString = this.Configuration.GetSection("HangfireConnectionString").Value;
+            services.AddHangfire(options =>
+            {
+                options
+                    .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                    .UseSimpleAssemblyNameTypeSerializer()
+                    .UseRecommendedSerializerSettings()
+                    .UsePostgreSqlStorage(hangfireConnectionString, new PostgreSqlStorageOptions
+                    {
+                        QueuePollInterval = TimeSpan.FromSeconds(1),
+                    });
+            });
+            services.AddHangfireServer();
+
             services.AddAuthorization(options =>
             {
                 options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
@@ -104,6 +121,7 @@ namespace MiniCRMServer
             services.AddScoped<OffersService>();
             services.AddScoped<CommonService>();
             services.AddScoped<EmailSenderService>();
+            services.AddScoped<IWorkingDaysResolver, IsDayOffWorkingDaysResolver>();
 
             services.AddScoped<DBLoggerService>();
 
@@ -124,6 +142,7 @@ namespace MiniCRMServer
 
             //app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseHangfireDashboard();
 
             app.UseMiddleware<ExceptionMiddleware>();
 
@@ -136,6 +155,7 @@ namespace MiniCRMServer
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHangfireDashboard();
             });
         }
 

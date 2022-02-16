@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Common.Interfaces;
 using MiniCRMCore.Areas.Email;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Exceptions;
@@ -23,17 +25,21 @@ namespace MiniCRMCore.Areas.Offers
 		private readonly IMapper _mapper;
 		private readonly EmailSenderService _emailSenderService;
 		private readonly IConfiguration _configuration;
+		private readonly IWorkingDaysResolver _workingDaysResolver;
 
 		public OffersService(
 			ApplicationContext context,
 			IMapper mapper,
 			EmailSenderService emailSenderService,
-			IConfiguration configuration)
+			IConfiguration configuration,
+			IWorkingDaysResolver workingDaysResolver
+			)
 		{
 			_context = context ?? throw new ArgumentNullException(nameof(context));
 			_mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
 			_emailSenderService = emailSenderService ?? throw new ArgumentNullException(nameof(emailSenderService));
 			_configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			_workingDaysResolver = workingDaysResolver ?? throw new ArgumentNullException(nameof(workingDaysResolver));
 		}
 
 		public string BasePath
@@ -387,7 +393,7 @@ namespace MiniCRMCore.Areas.Offers
 				.Include(x => x.Client)
 				.Include(x => x.Versions)
 				.FirstOrDefaultAsync(x => x.Id == id);
-			
+
 			offer.ClientVersionNumber = offer.CurrentVersionNumber;
 
 			var paramsString = $"{offer.ClientLink}/{offer.Client.Key}";
@@ -397,6 +403,14 @@ namespace MiniCRMCore.Areas.Offers
 			var link = $"{this.BasePath}offers/{paramsString}";
 
 			_emailSenderService.NotifyClient(offer.Client.Name, offer.Email, "Коммерческое предложение от АВТОМАТ СЕРВИС", paramsString);
+
+			var nextWorkDate = await _workingDaysResolver.GetNextWorkDateAsync();
+			var runtime = nextWorkDate  - DateTime.Now; 
+			BackgroundJob.Schedule<OffersService>(x => 
+				x.NotifyManagerIfClientDidNotOpenOffer(offer.Id), 
+				runtime
+				//TimeSpan.FromMinutes(5)
+			);
 
 			return link;
 		}
@@ -494,6 +508,21 @@ namespace MiniCRMCore.Areas.Offers
 			var version = request.Offer.Versions.First(x => x.Number == request.Offer.ClientVersionNumber);
 			_emailSenderService.SendEmail(version.Author.Name, version.Author.Email, "Дан ответ на обратную связь", $"По КП {request.Offer.Number} клиент дал обратную связь");
 		}
+
+		public async Task NotifyManagerIfClientDidNotOpenOffer(int offerId)
+        {
+			var offer = await _context.Offers
+				.Include(x => x.Versions)
+					.ThenInclude(x => x.Author)
+				.FirstAsync(x => x.Id == offerId);
+
+			var clientVersion = offer.Versions.First(x => x.Number == offer.ClientVersionNumber);
+
+			if (!clientVersion.VisitedByClient)
+            {
+				_emailSenderService.NotifyManagerIfClientIgnoredOffer(clientVersion.Author.Name, clientVersion.Author.Email, "Клиент не ознакомился с предложением", offerId);
+			}
+        }
 
 		private static string GetReadablePropertyName(string name)
 		{

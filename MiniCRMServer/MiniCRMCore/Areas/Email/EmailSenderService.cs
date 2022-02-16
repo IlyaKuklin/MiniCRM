@@ -47,6 +47,12 @@ namespace MiniCRMCore.Areas.Email
 			this.SendEmail(name, email, subject, message);
 		}
 
+		public void NotifyManagerIfClientIgnoredOffer(string name, string email, string subject, int offerId)
+        {
+			var message = $"Клиент не ознакомился с <a href='{this.BasePath}offers/edit/{offerId}'>предложением</a>";
+			this.SendEmail(name, email, subject, message);
+		}
+
 		public void NotifyClient(string name, string email, string subject, string paramsString)
 		{
 			var message = $"Добрый день! Предлагаем вам ознакомиться с коммерческим предложением от нашей компании по <a href='{this.BasePath}offers/{paramsString}'>ссылке</a>. Будем рады обратной связи";
