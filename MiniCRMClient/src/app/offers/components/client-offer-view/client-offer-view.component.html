@@ -38,15 +38,12 @@
         </div>
 
         <div class="col-4" style="text-align: center; display: flex">
-          <div
-            class="gr2"
-            style="
+          <div class="gr2" style="
               margin: auto;
               display: flex;
               flex-direction: column;
               gap: 1em;
-            "
-          >
+            ">
             <div>
               <img src="assets/static/logo_new.png" style="max-width: 300px" />
             </div>
@@ -65,13 +62,8 @@
             <a href="tel:+7 (812) 309-02-36">+7 (812) 309-02-36</a>
           </div>
           <div class="gr3_email">
-            <img
-              src="assets/static/envelope.png"
-              style="width: 15px; margin-right: 0.5em"
-            />
-            <a href="mailto:sales@automat-service.ru"
-              >sales@automat-service.ru</a
-            >
+            <img src="assets/static/envelope.png" style="width: 15px; margin-right: 0.5em" />
+            <a href="mailto:sales@automat-service.ru">sales@automat-service.ru</a>
           </div>
         </div>
       </div>
@@ -80,39 +72,21 @@
 
   <div *ngIf="model" class="offer_body container" id="offer-container">
     <!-- Заявки на обр. связь -->
-    <div
-      class="offer_body__feedbackRequests row"
-      id="feedbackRequests"
-      *ngIf="model.feedbackRequests.length"
-    >
+    <div class="offer_body__feedbackRequests row" id="feedbackRequests" *ngIf="model.feedbackRequests.length">
       <div class="col-12">
         <mat-card class="offer_body__feedbackRequests-card">
           <h3>Заявки на обратную связь</h3>
-          <div
-            *ngFor="let request of model.feedbackRequests"
-            class="row offer_body__feedbackRequests-card-row"
-          >
+          <div *ngFor="let request of model.feedbackRequests" class="row offer_body__feedbackRequests-card-row">
             <div class="col-4">
               <mat-form-field>
                 <mat-label>Заявка</mat-label>
-                <textarea
-                  autosize
-                  style="resize: none"
-                  disabled
-                  matInput
-                  [(ngModel)]="request.text"
-                ></textarea>
+                <textarea autosize style="resize: none" disabled matInput [(ngModel)]="request.text"></textarea>
               </mat-form-field>
             </div>
             <div class="col-4">
               <mat-form-field>
                 <mat-label>Ответ</mat-label>
-                <textarea
-                  autosize
-                  style="resize: none"
-                  matInput
-                  [(ngModel)]="request.answerText"
-                ></textarea>
+                <textarea autosize style="resize: none" matInput [(ngModel)]="request.answerText"></textarea>
               </mat-form-field>
             </div>
             <!-- <div class="col-2">
@@ -134,11 +108,7 @@
               </button>
             </div> -->
             <div class="col-2" style="display: flex">
-              <button
-                mat-raised-button
-                (click)="answerOnRequest(request)"
-                style="margin: auto"
-              >
+              <button mat-raised-button (click)="answerOnRequest(request)" style="margin: auto">
                 Отправить ответ
               </button>
             </div>
@@ -164,8 +134,7 @@
         <span>
           <a [href]="managerEmailLink" style="color: #ff9000">{{
             model.managerEmail
-          }}</a></span
-        >
+            }}</a></span>
       </div>
     </div>
 
@@ -175,6 +144,15 @@
           <strong> {{ section.name }}</strong>
         </div>
         <div class="col-9">
+
+          <ng-container *ngIf="section.type == 'description'">
+            {{section.data}}
+            <br>
+            <div *ngFor="let path of section.imagePaths">
+              <img [src]="path" />
+            </div>
+          </ng-container>
+
           <ng-container *ngIf="section.type == 'text'">
             {{ section.data }}
           </ng-container>

@@ -11,3 +11,6 @@ csharp_style_var_when_type_is_apparent = true:warning
 
 # IDE0021: Use expression body for constructors
 csharp_style_expression_bodied_constructors = false
+
+# IDE0003: Remove qualification
+dotnet_style_qualification_for_property = true

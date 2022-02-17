@@ -3,7 +3,7 @@ mat-form-field {
 }
 
 img {
-  max-width: 100px;
+  max-width: 400px;
 }
 
 .offer {
@@ -34,10 +34,10 @@ img {
       }
     }
 
-    &__feedbackRequests{
+    &__feedbackRequests {
       &-card {
         margin-bottom: 2em;
-        &-row{
+        &-row {
           display: flex;
           justify-content: space-between;
         }
@@ -104,6 +104,6 @@ li {
 
 .ql-editor {
   padding: 0;
-  font-family: 'Noto Sans';
-  font-size: 14px ;
+  font-family: "Noto Sans";
+  font-size: 14px;
 }

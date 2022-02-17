@@ -415,7 +415,7 @@ namespace MiniCRMCore.Areas.Offers
 			return link;
 		}
 
-		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey)
+		public async Task<Offer.ClientViewDto> GetOfferForClientAsync(Guid link, string clientKey, int currentUserId)
 		{
 			var offer = await _context.Offers
 				.Include(x => x.Client)
@@ -436,7 +436,7 @@ namespace MiniCRMCore.Areas.Offers
 			var clientVersion = offer.Versions.FirstOrDefault(x => x.Number == offer.ClientVersionNumber);
 			var versionToDisplay = JsonConvert.DeserializeObject<Offer>(clientVersion.Data);
 
-			if (!clientVersion.VisitedByClient)
+			if (!clientVersion.VisitedByClient && currentUserId == 0)
 			{
 				var version = await _context.OfferVersions
 					.Include(x => x.Author)
@@ -463,6 +463,16 @@ namespace MiniCRMCore.Areas.Offers
 				};
 
 				var textProperty = type.GetProperty(sectionName.FirstCharToUpper());
+
+				if (sectionName == "description")
+				{
+					section.Type = "description";
+					section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.Photo).Select(x => x.FileDatum.Path).ToList();
+					section.Data = textProperty == null ? "" : textProperty.GetValue(versionToDisplay)?.ToString();
+					dto.Sections.Add(section);
+					continue;
+				}
+
 				if (textProperty != null)
 				{
 					var value = textProperty.GetValue(versionToDisplay);
@@ -530,6 +540,7 @@ namespace MiniCRMCore.Areas.Offers
 			{
 				case "productSystemType": return "Тип товара/системы";
 
+				case "description": return "Фотографии и описание товара";
 				case "briefIndustryDescription": return "Краткое описание отрасли";
 				case "offerCase": return "Кейс";
 				case "offerPoint": return "Суть предложения";

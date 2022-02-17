@@ -89,7 +89,7 @@ export class EditOfferComponent implements OnInit {
           // TODO: remove
           if (this.model.fileData && isDevMode()) {
             this.model.fileData.forEach((x) => {
-              x.path = `http:\\\\vm469442.eurodir.ru\\${x.path}`;
+              x.path = `http:\\\\localhost:5000\\${x.path}`;
             });
           }
 
@@ -258,7 +258,7 @@ export class EditOfferComponent implements OnInit {
     this.dialogService
       .confirmDialog({
         header: 'Отправка КП',
-        message: `Вы уверены, что хотите отправить текущую версию КП клиенту на адрес электронной почты? ${this.model.email}`,
+        message: `Вы уверены, что хотите отправить текущую версию КП клиенту на адрес электронной почты ${this.model.email}?`,
       })
       .subscribe((result) => {
         if (result) {

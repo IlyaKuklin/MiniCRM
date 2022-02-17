@@ -51,9 +51,9 @@ export class ClientOfferViewComponent implements OnInit {
         .subscribe((response: OfferClientViewDto) => {
           if (isDevMode()) {
             response.sections.forEach((x) => {
-              if (x.type === 'img') {
+              if (x.type === 'img' || x.type === 'description') {
                 x.imagePaths = x.imagePaths.map(
-                  (p) => `http:\\\\vm469442.eurodir.ru\\${p}`
+                  (p) => `http:\\\\localhost:5000\\${p}`
                 );
               }
             });

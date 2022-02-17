@@ -140,7 +140,7 @@ namespace MiniCRMServer.Controllers
 		[AllowAnonymous]
 		public async Task<IActionResult> GetOfferForClient(Guid link, string key)
 		{
-			var result = await _offersService.GetOfferForClientAsync(link, key);
+			var result = await _offersService.GetOfferForClientAsync(link, key, this.CurrentUserId);
 			return this.Ok(result);
 		}
 
