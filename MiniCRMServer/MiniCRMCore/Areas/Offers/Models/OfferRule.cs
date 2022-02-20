@@ -13,8 +13,10 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public string Task { get; set; }
 		public string Report { get; set; }
 		public DateTime Deadline { get; set; }
+        public OfferCheckStatus CheckStatus { get; set; }
+        public string CheckRemark { get; set; }
 
-		public class Dto : BaseDto
+        public class Dto : BaseDto
 		{
 			public int OfferId { get; set; }
 			
@@ -23,6 +25,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public string Task { get; set; }
 			public string Report { get; set; }
 			public DateTime Deadline { get; set; }
+			public OfferCheckStatus CheckStatus { get; set; }
+			public string CheckRemark { get; set; }
 		}
 
 		public class CompleteDto
@@ -30,5 +34,11 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public int Id { get; set; }
 			public string Report { get; set; }
 		}
+
+		public class RejectDto
+        {
+            public int Id { get; set; }
+            public string Remarks { get; set; }
+        }
 	}
 }

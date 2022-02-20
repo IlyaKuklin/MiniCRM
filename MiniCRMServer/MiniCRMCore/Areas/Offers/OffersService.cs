@@ -454,6 +454,29 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
+		public async Task<List<OfferRule.Dto>> GetOfferRulesAsync()
+        {
+			var offerRules = _context.OfferRules.Where(x => x.CheckStatus == OfferCheckStatus.NotSet);
+			return _mapper.Map<List<OfferRule.Dto>>(offerRules);
+        }
+
+		public async Task ApproveOfferRuleAsync(int ruleId)
+        {
+			var rule = await _context.OfferRules
+				.FirstOrDefaultAsync(x => x.Id == ruleId);
+			rule.CheckStatus = OfferCheckStatus.Approved;
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task RejectOfferRuleAsync(OfferRule.RejectDto dto)
+        {
+			var rule = await _context.OfferRules
+				.FirstOrDefaultAsync(x => x.Id == dto.Id);
+			rule.CheckStatus = OfferCheckStatus.Rejected;
+			rule.CheckRemark = dto.Remarks;
+			await _context.SaveChangesAsync();
+		}
+
 		#endregion Rules
 
 		#region Client
