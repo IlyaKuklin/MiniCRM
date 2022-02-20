@@ -30,7 +30,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(Offer.Dto), 200)]
 		public async Task<IActionResult> Get([FromQuery][Required] int id)
 		{
-			var result = await _offersService.GetAsync(id);
+			var result = await _offersService.GetAsync(id, this.CurrentUserId);
 			return this.Ok(result);
 		}
 
@@ -38,7 +38,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(List<Offer.Dto>), 200)]
 		public async Task<IActionResult> GetList(string filter)
 		{
-			var result = await _offersService.GetListAsync(filter);
+			var result = await _offersService.GetListAsync(filter, this.CurrentUserId);
 			return this.Ok(result);
 		}
 
@@ -59,7 +59,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> DeleteManager([FromQuery] int id)
 		{
-			await _offersService.DeleteAsync(id);
+			await _offersService.DeleteAsync(id, this.CurrentUserId);
 			return this.Ok(204);
 		}
 
@@ -67,7 +67,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(List<OfferFileDatum.Dto>), 200)]
 		public async Task<IActionResult> UploadFile([Required] List<IFormFile> files, [FromQuery][Required] int offerId, [FromQuery][Required] OfferFileType type, [FromQuery][Required] bool replace)
 		{
-			var res = await _offersService.UploadFileAsync(files, offerId, type, replace);
+			var res = await _offersService.UploadFileAsync(files, offerId, type, replace, this.CurrentUserId);
 			return this.Ok(res);
 		}
 
@@ -75,7 +75,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> DeleteFile([Required] int offerFileId)
 		{
-			await _offersService.DeleteFileAsync(offerFileId);
+			await _offersService.DeleteFileAsync(offerFileId, this.CurrentUserId);
 			return this.Ok(204);
 		}
 
@@ -99,7 +99,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(OfferRule.Dto), 200)]
 		public async Task<IActionResult> EditOfferRule([Required] OfferRule.Dto dto)
 		{
-			var result = await _offersService.EditOfferRuleAsync(dto);
+			var result = await _offersService.EditOfferRuleAsync(dto, this.CurrentUserId);
 			return this.Ok(result);
 		}
 
@@ -107,7 +107,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(200)]
 		public async Task<IActionResult> ChangeOfferRuleState([Required] int ruleId)
 		{
-			await _offersService.ChangeOfferRuleStateAsync(ruleId);
+			await _offersService.ChangeOfferRuleStateAsync(ruleId, this.CurrentUserId);
 			return this.Ok();
 		}
 
@@ -115,7 +115,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(200)]
 		public async Task<IActionResult> CompleteOfferRule([Required] OfferRule.CompleteDto dto)
 		{
-			await _offersService.CompleteOfferRuleAsync(dto);
+			await _offersService.CompleteOfferRuleAsync(dto, this.CurrentUserId);
 			return this.Ok();
 		}
 
@@ -123,7 +123,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(204)]
 		public async Task<IActionResult> DeleteOfferRule([Required] int ruleId)
 		{
-			await _offersService.DeleteOfferRuleAsync(ruleId);
+			await _offersService.DeleteOfferRuleAsync(ruleId, this.CurrentUserId);
 			return this.Ok();
 		}
 
@@ -131,7 +131,7 @@ namespace MiniCRMServer.Controllers
 		[ProducesResponseType(typeof(string), 200)]
 		public async Task<IActionResult> SendOfferToClient(int offerId)
 		{
-			var result = await _offersService.SendOfferToClientAsync(offerId);
+			var result = await _offersService.SendOfferToClientAsync(offerId, this.CurrentUserId);
 			return this.Ok(result);
 		}
 

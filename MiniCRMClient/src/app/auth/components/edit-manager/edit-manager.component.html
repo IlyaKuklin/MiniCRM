@@ -33,6 +33,14 @@
       </mat-error>
     </mat-form-field>
 
+    <div style="display: flex; flex-direction: column; padding-bottom: 1em;">
+      <mat-label style="color:rgba(0,0,0,.54)">Может видеть и редактировать все КП</mat-label>
+      <mat-radio-group [(ngModel)]="model.allowedToViewAllOffers" name="allowedToViewAllOffers" style="display: flex; flex-direction: column; margin: 0.5em 0;">
+        <mat-radio-button [value]="false" style="padding-bottom: 0.5em;">Нет</mat-radio-button>
+        <mat-radio-button [value]="true">Да</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
     <button mat-raised-button type="submit" color="primary" *ngIf="!isEdit">
       Создать
     </button>

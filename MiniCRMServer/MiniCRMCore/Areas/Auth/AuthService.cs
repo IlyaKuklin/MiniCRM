@@ -130,6 +130,7 @@ namespace MiniCRMCore.Areas.Auth
             manager.Name = updateDto.Name;
             manager.Login = updateDto.Login;
             manager.Email = updateDto.Email;
+            manager.AllowedToViewAllOffers = updateDto.AllowedToViewAllOffers;
 
             await _context.SaveChangesAsync();
 

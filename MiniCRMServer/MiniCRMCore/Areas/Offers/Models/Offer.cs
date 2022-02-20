@@ -1,4 +1,5 @@
-﻿using MiniCRMCore.Areas.Clients.Models;
+﻿using MiniCRMCore.Areas.Auth.Models;
+using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,10 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public string Email { get; set; }
 
-		public class ClientViewDto
+		public virtual User Manager { get; set; }
+        public int ManagerId { get; set; }
+
+        public class ClientViewDto
 		{
 			[Required]
 			public int Number { get; set; }
@@ -154,6 +158,7 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 			public string Email { get; set; }
 
+			public User.Dto Manager { get; set; }
 		}
 
 		public class EditDto

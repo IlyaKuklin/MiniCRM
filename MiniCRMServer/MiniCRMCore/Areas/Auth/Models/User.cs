@@ -22,6 +22,8 @@ namespace MiniCRMCore.Areas.Auth.Models
 
         public bool IsBlocked { get; set; }
 
+        public bool AllowedToViewAllOffers { get; set; }
+
         public void SetPassword(string password, Guid salt)
 		{
 			this.Salt = salt;
@@ -55,6 +57,8 @@ namespace MiniCRMCore.Areas.Auth.Models
 			public string Email { get; set; }
 
 			public bool IsBlocked { get; set; }
+
+			public bool AllowedToViewAllOffers { get; set; }
 		}
 
 		/// <summary>

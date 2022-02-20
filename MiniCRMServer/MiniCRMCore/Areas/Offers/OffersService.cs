@@ -3,6 +3,7 @@ using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Common;
 using MiniCRMCore.Areas.Common.Interfaces;
 using MiniCRMCore.Areas.Email;
@@ -53,62 +54,77 @@ namespace MiniCRMCore.Areas.Offers
 
 		#region Offers
 
-		public async Task<Offer.Dto> GetAsync(int id)
-		{
-			var offer = await _context.Offers
-				.Include(x => x.Client)
-				.Include(x => x.FileData)
-					.ThenInclude(x => x.FileDatum)
-				.Include(x => x.Newsbreaks)
-					.ThenInclude(x => x.Author)
-				.Include(x => x.FeedbackRequests)
-					.ThenInclude(x => x.Author)
-				.Include(x => x.CommonCommunicationReports)
-					.ThenInclude(x => x.Author)
-				.Include(x => x.Rules)
-				.AsNoTracking()
-				.FirstOrDefaultAsync(x => x.Id == id);
-			if (offer == null)
-				throw new ApiException($"Не найден клиент с ID {id}");
+		public async Task<Offer.Dto> GetAsync(int id, int currentUserId)
+        {
+            var offer = await _context.Offers
+                .Include(x => x.Client)
+                .Include(x => x.FileData)
+                    .ThenInclude(x => x.FileDatum)
+                .Include(x => x.Newsbreaks)
+                    .ThenInclude(x => x.Author)
+                .Include(x => x.FeedbackRequests)
+                    .ThenInclude(x => x.Author)
+                .Include(x => x.CommonCommunicationReports)
+                    .ThenInclude(x => x.Author)
+                .Include(x => x.Rules)
+                .Include(x => x.Manager)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (offer == null)
+                throw new ApiException($"Не найден клиент с ID {id}");
 
-			var dto = _mapper.Map<Offer.Dto>(offer);
+            await CheckUserAccessAsync(currentUserId, offer);
+
+            var dto = _mapper.Map<Offer.Dto>(offer);
+            return dto;
+        }
+
+        public async Task<List<Offer.Dto>> GetListAsync(int currentUserId)
+		{
+			var currentManager = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == currentUserId);
+			if (currentManager == null)
+				throw new ApiException("Не найден пользователь");
+
+			var offers = _context.Offers
+				.Include(x => x.Client)
+				.AsNoTracking();
+
+			if (!currentManager.AllowedToViewAllOffers)
+				offers = offers.Where(x => x.ManagerId == currentUserId);
+
+			var result = await offers.ToListAsync();
+
+			var dto = _mapper.Map<List<Offer.Dto>>(result);
 			return dto;
 		}
 
-		public async Task<List<Offer.Dto>> GetListAsync()
+		public async Task<List<Offer.Dto>> GetListAsync(string filter, int currentUserId)
 		{
-			var offers = await _context.Offers
-				.Include(x => x.Client)
-				.AsNoTracking()
-				.ToListAsync();
+			var currentManager = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == currentUserId);
+			if (currentManager == null)
+				throw new ApiException("Не найден пользователь");
 
-			var dto = _mapper.Map<List<Offer.Dto>>(offers);
-			return dto;
-		}
-
-		public async Task<List<Offer.Dto>> GetListAsync(string filter)
-		{
-			List<Offer> offers;
+			IQueryable<Offer> offers;
 			if (string.IsNullOrEmpty(filter))
 			{
-				offers = await _context.Offers
+				offers = _context.Offers
 					.Include(x => x.Client)
-					.AsNoTracking()
-					.ToListAsync();
+					.AsNoTracking();
 			}
 			else
 			{
 				Expression<Func<Offer, bool>> predicate = x =>
 					x.Client.Name.Contains(filter) ||
-					x.Number.ToString().Contains(filter)
-				;
+					x.Number.ToString().Contains(filter);
 
-				offers = await _context.Offers
+				offers = _context.Offers
 					.Include(x => x.Client)
 					.Where(predicate)
-					.AsNoTracking()
-					.ToListAsync();
+					.AsNoTracking();
 			}
+
+			if (!currentManager.AllowedToViewAllOffers)
+				offers = offers.Where(x => x.ManagerId == currentUserId);
 
 			var dto = _mapper.Map<List<Offer.Dto>>(offers);
 			return dto;
@@ -127,6 +143,8 @@ namespace MiniCRMCore.Areas.Offers
 					.FirstOrDefaultAsync(x => x.Id == dto.Id);
 				if (offer == null)
 					throw new ApiException($"Не найдено КП с ID {dto.Id}");
+
+				await CheckUserAccessAsync(currentUserId, offer);
 			}
 			else
 			{
@@ -134,13 +152,11 @@ namespace MiniCRMCore.Areas.Offers
 				var lastOffer = await _context.Offers.OrderBy(x => x.Id).AsNoTracking().LastOrDefaultAsync();
 				if (lastOffer != null)
 					offer.Number = lastOffer.Number + 1;
+				offer.ManagerId = currentUserId;
 				await _context.Offers.AddAsync(offer);
 			}
 
 			_mapper.Map(dto, offer);
-
-			//var temp = offer.DeepClone();
-			//temp.Versions.Clear();
 
 			var versions = new List<OfferVersion>();
 			versions.AddRange(offer.Versions);
@@ -160,15 +176,6 @@ namespace MiniCRMCore.Areas.Offers
 				AuthorId = currentUserId
 			};
 			offer.Versions.Add(dbVersion);
-			//offer.Versions.Add()
-
-			//await _context.OfferVersions.AddAsync(new OfferVersion
-			//{
-			//	Data = jsonVersion,
-			//	OfferId = offer.Id,
-			//	Number = offer.CurrentVersion,
-			//	AuthorId = currentUserId
-			//});
 
 			await _context.SaveChangesAsync();
 
@@ -176,11 +183,13 @@ namespace MiniCRMCore.Areas.Offers
 			return returnDto;
 		}
 
-		public async Task DeleteAsync(int id)
+		public async Task DeleteAsync(int id, int currentUserId)
 		{
 			var offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == id);
 			if (offer == null)
 				throw new ApiException($"Не найдено КП с ID {id}");
+
+			await CheckUserAccessAsync(currentUserId, offer);
 
 			_context.Offers.Remove(offer);
 			await _context.SaveChangesAsync();
@@ -190,7 +199,7 @@ namespace MiniCRMCore.Areas.Offers
 
 		#region Files
 
-		public async Task<List<OfferFileDatum.Dto>> UploadFileAsync(List<IFormFile> files, int id, OfferFileType type, bool replace)
+		public async Task<List<OfferFileDatum.Dto>> UploadFileAsync(List<IFormFile> files, int id, OfferFileType type, bool replace, int currentUserId)
 		{
 			var offer = await _context.Offers
 				.Include(x => x.FileData)
@@ -198,6 +207,8 @@ namespace MiniCRMCore.Areas.Offers
 				.FirstOrDefaultAsync(x => x.Id == id);
 			if (offer == null)
 				throw new ApiException($"Не найдено КП с ID {id}");
+
+			await CheckUserAccessAsync(currentUserId, offer);
 
 			var offerFilesDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "files", id.ToString(), type.ToString());
 			if (!Directory.Exists(offerFilesDirectoryPath))
@@ -254,13 +265,16 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
-		public async Task DeleteFileAsync(int offerFileId)
+		public async Task DeleteFileAsync(int offerFileId, int currentUserId)
 		{
 			var offerFile = await _context.OfferFileData
 				.Include(x => x.FileDatum)
+				.Include(x => x.Offer)
 				.FirstOrDefaultAsync(x => x.Id == offerFileId);
 			if (offerFile == null)
 				throw new ApiException($"Не найден файл с ID {offerFileId}");
+
+			await CheckUserAccessAsync(currentUserId, offerFile.Offer);
 
 			_context.OfferFileData.Remove(offerFile);
 			_context.FileData.Remove(offerFile.FileDatum);
@@ -273,6 +287,8 @@ namespace MiniCRMCore.Areas.Offers
 
 		#endregion Files
 
+		#region Newsbreaks
+
 		public async Task<OfferNewsbreak.Dto> AddOfferNewsbreakAsync(OfferNewsbreak.AddDto addDto, int currentUserId)
 		{
 			var offer = await _context.Offers
@@ -282,6 +298,8 @@ namespace MiniCRMCore.Areas.Offers
 				throw new ApiException($"Не найдено КП с ID {addDto.OfferId}");
 
 			var user = await _context.Users.FirstAsync(x => x.Id == currentUserId);
+
+			await CheckUserAccess(user, offer);
 
 			var newsbreak = new OfferNewsbreak
 			{
@@ -297,6 +315,10 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
+		#endregion Newsbreaks
+
+		#region FeedbackRequests
+
 		public async Task<OfferFeedbackRequest.Dto> AddOfferFeedbackRequestAsync(OfferFeedbackRequest.AddDto addDto, int currentUserId)
 		{
 			var offer = await _context.Offers
@@ -306,6 +328,8 @@ namespace MiniCRMCore.Areas.Offers
 				throw new ApiException($"Не найдено КП с ID {addDto.OfferId}");
 
 			var user = await _context.Users.FirstAsync(x => x.Id == currentUserId);
+
+			await CheckUserAccess(user, offer);
 
 			var request = new OfferFeedbackRequest
 			{
@@ -321,15 +345,19 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
+		#endregion FeedbackRequests
+
 		#region Rules
 
-		public async Task<OfferRule.Dto> EditOfferRuleAsync(OfferRule.Dto dto)
+		public async Task<OfferRule.Dto> EditOfferRuleAsync(OfferRule.Dto dto, int currentUserId)
 		{
 			var offer = await _context.Offers
 				.Include(x => x.Rules)
 				.FirstOrDefaultAsync(x => x.Id == dto.OfferId);
 			if (offer == null)
 				throw new ApiException($"Не найдено КП с ID {dto.OfferId}");
+
+			await CheckUserAccessAsync(currentUserId, offer);
 
 			OfferRule rule;
 			if (dto.Id > 0)
@@ -349,34 +377,43 @@ namespace MiniCRMCore.Areas.Offers
 			return returnDto;
 		}
 
-		public async Task ChangeOfferRuleStateAsync(int ruleId)
+		public async Task ChangeOfferRuleStateAsync(int ruleId, int currentUserId)
 		{
 			var rule = await _context.OfferRules
+				.Include(x => x.Offer)
 				.FirstOrDefaultAsync(x => x.Id == ruleId);
 			if (rule == null)
 				throw new ApiException($"На нейдено правило с ID {ruleId}");
+
+			await CheckUserAccessAsync(currentUserId, rule.Offer);
 
 			rule.Completed = !rule.Completed;
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task DeleteOfferRuleAsync(int ruleId)
+		public async Task DeleteOfferRuleAsync(int ruleId, int currentUserId)
 		{
 			var rule = await _context.OfferRules
+				.Include(x => x.Offer)
 				.FirstOrDefaultAsync(x => x.Id == ruleId);
 			if (rule == null)
 				throw new ApiException($"На нейдено правило с ID {ruleId}");
+
+			await CheckUserAccessAsync(currentUserId, rule.Offer);
 
 			_context.OfferRules.Remove(rule);
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task CompleteOfferRuleAsync(OfferRule.CompleteDto dto)
+		public async Task CompleteOfferRuleAsync(OfferRule.CompleteDto dto, int currentUserId)
 		{
 			var rule = await _context.OfferRules
+				.Include(x => x.Offer)
 				.FirstOrDefaultAsync(x => x.Id == dto.Id);
 			if (rule == null)
 				throw new ApiException($"На нейдено правило с ID {dto.Id}");
+
+			await CheckUserAccessAsync(currentUserId, rule.Offer);
 
 			rule.Report = dto.Report;
 			rule.Completed = true;
@@ -387,12 +424,14 @@ namespace MiniCRMCore.Areas.Offers
 
 		#region Client
 
-		public async Task<string> SendOfferToClientAsync(int id)
+		public async Task<string> SendOfferToClientAsync(int id, int currentUserId)
 		{
 			var offer = await _context.Offers
 				.Include(x => x.Client)
 				.Include(x => x.Versions)
 				.FirstOrDefaultAsync(x => x.Id == id);
+
+			await CheckUserAccessAsync(currentUserId, offer);
 
 			offer.ClientVersionNumber = offer.CurrentVersionNumber;
 
@@ -556,6 +595,21 @@ namespace MiniCRMCore.Areas.Offers
 		}
 
 		#endregion Client
+
+		private async Task CheckUserAccessAsync(int currentUserId, Offer offer)
+		{
+			var currentManager = await _context.Users.FirstOrDefaultAsync(x => x.Id == currentUserId);
+			if (currentManager == null)
+				throw new ApiException("Не найден пользователь");
+			if (!currentManager.AllowedToViewAllOffers && offer.ManagerId != currentUserId)
+				throw new ApiException("Ошибка доступа", 403);
+		}
+
+		private async Task CheckUserAccess(User currentManager, Offer offer)
+		{
+			if (!currentManager.AllowedToViewAllOffers && offer.ManagerId != currentManager.Id)
+				throw new ApiException("Ошибка доступа", 403);
+		}
 	}
 
 	public static class StringExtentions

@@ -32,13 +32,16 @@ export class EditManagerComponent implements OnInit {
   @ViewChild('managerForm') managerForm!: NgForm;
   isLoading: boolean = false;
 
-  model: UserDto = {};
+  model: UserDto = {
+    allowedToViewAllOffers: false
+  };
   password: string = '';
   isEdit: boolean = false;
 
   private originalName: string = '';
   private originalLogin: string = '';
   private originalEmail: string = '';
+  private originalAllowedToViewAllOffers: boolean = false;
 
   errorStateMatcher = new ManagerErrorStateMatcher();
 
@@ -55,7 +58,15 @@ export class EditManagerComponent implements OnInit {
             this.originalLogin = <string>response.login;
             this.originalName = <string>response.name;
             this.originalEmail = <string>response.email;
+            this.originalAllowedToViewAllOffers = <boolean>(
+              response.allowedToViewAllOffers
+            );
+
             this.isLoading = false;
+
+            setInterval(() => {
+              console.log(this.model);
+            }, 2000);
           });
       }
     });
@@ -66,7 +77,9 @@ export class EditManagerComponent implements OnInit {
       this.isEdit &&
       (this.originalLogin !== this.model.login ||
         this.originalName !== this.model.name ||
-        this.originalEmail !== this.model.email)
+        this.originalEmail !== this.model.email ||
+        this.originalAllowedToViewAllOffers !==
+          this.model.allowedToViewAllOffers)
     );
   }
 
@@ -97,6 +110,9 @@ export class EditManagerComponent implements OnInit {
         this.originalName = <string>response.name;
         this.originalLogin = <string>response.login;
         this.originalEmail = <string>response.email;
+        this.originalAllowedToViewAllOffers = <boolean>(
+          response.allowedToViewAllOffers
+        );
         alert('Данные обновлены');
         this.isLoading = false;
       });

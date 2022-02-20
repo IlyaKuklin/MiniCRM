@@ -311,6 +311,8 @@ namespace MiniCRMServer
                 .ForMember(x => x.Rules, opt => opt.Ignore())
                 .ForMember(x => x.CommonCommunicationReports, opt => opt.Ignore())
                 .ForMember(x => x.ClientLink, opt => opt.Ignore())
+                .ForMember(x => x.ManagerId, opt => opt.Ignore())
+                .ForMember(x => x.Manager, opt => opt.Ignore())
                 //.ForMember(x => x.ClientId, opt => opt.Ignore())
                 ;
             this.CreateMap<Offer.EditDto, Offer>()

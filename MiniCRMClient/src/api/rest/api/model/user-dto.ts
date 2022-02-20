@@ -17,5 +17,6 @@ export interface UserDto {
     login?: string | null;
     email?: string | null;
     isBlocked?: boolean;
+    allowedToViewAllOffers?: boolean;
 }
 
