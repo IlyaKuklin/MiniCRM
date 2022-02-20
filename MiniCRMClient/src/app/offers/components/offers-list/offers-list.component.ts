@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import {
@@ -32,7 +33,8 @@ export class OffersListComponent implements OnInit {
   isLoading = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  @ViewChild(MatSort) sort!: MatSort;
+  
   private searchText$ = new Subject<string>();
 
   ngOnInit(): void {
@@ -40,6 +42,7 @@ export class OffersListComponent implements OnInit {
       this.model = response;
       this.dataSource = new MatTableDataSource<OfferDto>(response);
       this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
       this.isLoading = false;
 
       console.log(response);

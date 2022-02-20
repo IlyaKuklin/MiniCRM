@@ -63,6 +63,17 @@ export class EditOfferComponent implements OnInit {
     return true;
   }
 
+  get clientSelected() {
+    return typeof this.clientSelectControl.value == 'object';
+  }
+
+  get canCreate() {
+    return (
+      this.clientSelectControl.value &&
+      typeof this.clientSelectControl.value == 'object'
+    );
+  }
+
   ngOnInit(): void {
     console.log(isDevMode());
 

@@ -2,33 +2,19 @@
   <div class="row offer_data">
     <div class="col-12">
       <mat-card style="display: flex" *ngIf="model.id">
-        <mat-card-title class="offer_data_title"
-          >Номер КП: {{ model.number }} ({{
-            model.client!.name
-          }})</mat-card-title
-        >
+        <mat-card-title class="offer_data_title">Номер КП: {{ model.number }} ({{
+          model.client!.name
+          }})</mat-card-title>
         <div style="flex: 1"></div>
         <div>
           <div>
             <mat-form-field class="offer_section__wrapper__field">
               <mat-label>Стадия работы</mat-label>
-              <input
-                matInput
-                type="text"
-                [(ngModel)]="model.stage"
-                name="stage"
-                #stage="ngModel"
-              />
+              <input matInput type="text" [(ngModel)]="model.stage" name="stage" #stage="ngModel" />
             </mat-form-field>
           </div>
-          <mat-radio-group
-            [(ngModel)]="model.potential"
-            style="display: flex; gap: 1em"
-          >
-            <mat-radio-button
-              *ngFor="let potential of potentialList"
-              [value]="potential"
-            >
+          <mat-radio-group [(ngModel)]="model.potential" style="display: flex; gap: 1em">
+            <mat-radio-button *ngFor="let potential of potentialList" [value]="potential">
               {{ potential }}
             </mat-radio-button>
           </mat-radio-group>
@@ -40,39 +26,27 @@
   <!-- Выбор клиента (создание) -->
   <mat-form-field *ngIf="!isEdit && clients.length" style="width: 50%">
     <mat-label>Клиент</mat-label>
+    <mat-hint>Для начала работы выберите клиента из списка и нажмите "Создать"</mat-hint>
 
-    <input
-      type="text"
-      matInput
-      [formControl]="clientSelectControl"
-      [matAutocomplete]="auto"
-    />
+    <input type="text" matInput [formControl]="clientSelectControl" [matAutocomplete]="auto" />
 
-    <mat-autocomplete
-      autoActiveFirstOption
-      #auto="matAutocomplete"
-      (optionSelected)="onClientSelected($event.option.value)"
-      [displayWith]="getClientOptionText"
-    >
-      <mat-option
-        [value]="option"
-        *ngFor="let option of filteredClients | async"
-      >
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="onClientSelected($event.option.value)" [displayWith]="getClientOptionText">
+      <mat-option [value]="option" *ngFor="let option of filteredClients | async">
         {{ option.name }}
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
+
+  <div *ngIf="(filteredClients | async)?.length == 0 && !clientSelected">
+    <i style="color: #f44336">Не найдены клиенты по условию</i>
+  </div>
 
   <!-- Инфоповоды и обратная связь -->
   <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
     <!-- Инфоповоды -->
     <div class="col-6">
       <mat-card>
-        <button
-          mat-stroked-button
-          (click)="onAddNewsbreakClick()"
-          style="margin-bottom: 1em"
-        >
+        <button mat-stroked-button (click)="onAddNewsbreakClick()" style="margin-bottom: 1em">
           <mat-icon>add</mat-icon>
           Добавить инфоповод
         </button>
@@ -99,11 +73,7 @@
     <!-- Заявки на обр.связь -->
     <div class="col-6">
       <mat-card>
-        <button
-          mat-stroked-button
-          (click)="onAddFeedbackRequestClick()"
-          style="margin-bottom: 1em"
-        >
+        <button mat-stroked-button (click)="onAddFeedbackRequestClick()" style="margin-bottom: 1em">
           <mat-icon>add</mat-icon>
           Добавить заявку на обратную связь
         </button>
@@ -114,18 +84,11 @@
             <th>Автор</th>
             <th></th>
           </tr>
-          <tr
-            class="breaks-table_body"
-            *ngFor="let request of model.feedbackRequests"
-          >
+          <tr class="breaks-table_body" *ngFor="let request of model.feedbackRequests">
             <td>{{ request.text }}</td>
             <td>{{ request.created | date: "dd.MM.YYYY" }}</td>
             <td>{{ request.author?.name }}</td>
-            <td
-              *ngIf="request.answered"
-              class="clickable"
-              (click)="showAnswer(request)"
-            >
+            <td *ngIf="request.answered" class="clickable" (click)="showAnswer(request)">
               <mat-icon color="accent">question_answer</mat-icon>
             </td>
           </tr>
@@ -138,11 +101,7 @@
   <div class="row" *ngIf="isEdit" style="padding-bottom: 2em">
     <div class="col-12">
       <mat-card>
-        <button
-          mat-stroked-button
-          (click)="onAddRuleClick()"
-          style="margin-bottom: 1em"
-        >
+        <button mat-stroked-button (click)="onAddRuleClick()" style="margin-bottom: 1em">
           <mat-icon>add</mat-icon>
           Добавить правило
         </button>
@@ -157,57 +116,27 @@
           </tr>
           <tr class="rules-table_body" *ngFor="let rule of model.rules">
             <td>
-              <mat-checkbox
-                *ngIf="rule.id"
-                [disabled]="rule.completed"
-                [(ngModel)]="rule.completed"
-                (click)="completeRule(rule, $event)"
-              >
+              <mat-checkbox *ngIf="rule.id" [disabled]="rule.completed" [(ngModel)]="rule.completed" (click)="completeRule(rule, $event)">
               </mat-checkbox>
             </td>
             <td>
               <mat-form-field appearance="outline" class="rules-table_field">
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="rule.task"
-                  [disabled]="rule.completed"
-                  [ngClass]="{ completed: rule.completed }"
-                />
+                <input matInput type="text" [(ngModel)]="rule.task" [disabled]="rule.completed" [ngClass]="{ completed: rule.completed }" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field appearance="outline" class="rules-table_field">
-                <input
-                  matInput
-                  type="text"
-                  [(ngModel)]="rule.report"
-                  [disabled]="rule.completed"
-                  [ngClass]="{ completed: rule.completed }"
-                />
+                <input matInput type="text" [(ngModel)]="rule.report" [disabled]="rule.completed" [ngClass]="{ completed: rule.completed }" />
               </mat-form-field>
             </td>
             <td>
               <mat-form-field appearance="outline" class="rules-table_field">
-                <input
-                  [disabled]="rule.completed"
-                  [ngClass]="{ completed: rule.completed }"
-                  matInput
-                  [matDatepicker]="datepicker"
-                  [(ngModel)]="rule.deadline"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="datepicker"
-                ></mat-datepicker-toggle>
+                <input [disabled]="rule.completed" [ngClass]="{ completed: rule.completed }" matInput [matDatepicker]="datepicker" [(ngModel)]="rule.deadline" />
+                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
                 <mat-datepicker #datepicker>
                   <mat-datepicker-actions>
                     <button mat-button matDatepickerCancel>Отмена</button>
-                    <button
-                      mat-raised-button
-                      color="primary"
-                      matDatepickerApply
-                    >
+                    <button mat-raised-button color="primary" matDatepickerApply>
                       Выбрать
                     </button>
                   </mat-datepicker-actions>
@@ -215,23 +144,9 @@
               </mat-form-field>
             </td>
             <td style="text-align: end">
-              <div
-                *ngIf="rule.id"
-                style="display: flex; gap: 0.5em; justify-content: center"
-                [ngClass]="{ 'faded-50': rule.completed }"
-              >
-                <mat-icon
-                  color="accent"
-                  class="clickable"
-                  (click)="confirmRuleAdd(rule)"
-                  >cloud_upload</mat-icon
-                >
-                <mat-icon
-                  color="warn"
-                  class="clickable"
-                  (click)="deleteRule(rule.id)"
-                  >delete</mat-icon
-                >
+              <div *ngIf="rule.id" style="display: flex; gap: 0.5em; justify-content: center" [ngClass]="{ 'faded-50': rule.completed }">
+                <mat-icon color="accent" class="clickable" (click)="confirmRuleAdd(rule)">cloud_upload</mat-icon>
+                <mat-icon color="warn" class="clickable" (click)="deleteRule(rule.id)">delete</mat-icon>
               </div>
               <div style="display: flex; gap: 1em" *ngIf="!rule.id">
                 <button mat-stroked-button (click)="confirmRuleAdd(rule)">
@@ -254,69 +169,30 @@
       <mat-card class="offer_card">
         <!-- Фотографии и описание товара -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('description') }"
-            [checked]="isFieldSelected('description')"
-            (change)="onFieldSelectChange($event)"
-            name="description"
-          ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('description') }"
-            >Фотографии и описание товара</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('description') }" [checked]="isFieldSelected('description')" (change)="onFieldSelectChange($event)"
+                        name="description"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('description') }">Фотографии и описание товара</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                [disabled]="!isFieldSelected('description')"
-                rows="4"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.description"
-                name="description"
-                #description="ngModel"
-              ></textarea>
+              <textarea style="resize: none" [disabled]="!isFieldSelected('description')" rows="4" matInput [errorStateMatcher]="errorStateMatcher" type="text"
+                        [(ngModel)]="model.description" name="description" #description="ngModel"></textarea>
             </mat-form-field>
           </div>
           <div [ngClass]="{ 'faded-50': !isFieldSelected('description') }">
-            <input
-              type="file"
-              placeholder="Choose file"
-              style="display: none"
-              accept="image/*"
-              (change)="uploadFile(photoFileInput.files, 2, false)"
-              #photoFileInput
-            />
+            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(photoFileInput.files, 2, false)" #photoFileInput />
 
-            <button
-              mat-raised-button
-              class="fileButton"
-              [disabled]="!isFieldSelected('description')"
-              (click)="photoFileInput.click()"
-            >
+            <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('description')" (click)="photoFileInput.click()">
               Добавить фотографии
             </button>
 
             <div class="offer_section__images">
-              <div
-                *ngFor="let file of getFiles(2)"
-                class="offer_section__images-image"
-              >
+              <div *ngFor="let file of getFiles(2)" class="offer_section__images-image">
                 <div class="offer_section__images-image-fileData">
                   <a [href]="file.path" target="_blank">{{ file.name }}</a>
-                  <mat-icon
-                    color="warn"
-                    style="transform: scale(0.5); cursor: pointer"
-                    (click)="deleteFile(file.id)"
-                    >clear</mat-icon
-                  >
+                  <mat-icon color="warn" style="transform: scale(0.5); cursor: pointer" (click)="deleteFile(file.id)">clear</mat-icon>
                 </div>
 
-                <img
-                  [src]="file.path"
-                  class="offer_section__images-image-src"
-                />
+                <img [src]="file.path" class="offer_section__images-image-src" />
               </div>
             </div>
           </div>
@@ -324,142 +200,69 @@
 
         <!-- Тип системы/продукта -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }"
-            [checked]="isFieldSelected('productSystemType')"
-            (change)="onFieldSelectChange($event)"
-            name="productSystemType"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }"
-            >Тип системы/продукта</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }" [checked]="isFieldSelected('productSystemType')"
+                        (change)="onFieldSelectChange($event)" name="productSystemType"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }">Тип системы/продукта</mat-label>
           <div>
             <mat-form-field class="offer_section__wrapper__field">
-              <input
-                matInput
-                [disabled]="!isFieldSelected('productSystemType')"
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.productSystemType"
-                name="productSystemType"
-                #productSystemType="ngModel"
-              />
+              <input matInput [disabled]="!isFieldSelected('productSystemType')" [errorStateMatcher]="errorStateMatcher" type="text" [(ngModel)]="model.productSystemType"
+                     name="productSystemType" #productSystemType="ngModel" />
             </mat-form-field>
           </div>
         </div>
 
         <!-- Краткое описание отрасли клиента -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{
+          <mat-checkbox class="offer_section_cb" [ngClass]="{
               'faded-50': !isFieldSelected('briefIndustryDescription')
-            }"
-            [checked]="isFieldSelected('briefIndustryDescription')"
-            (change)="onFieldSelectChange($event)"
-            name="briefIndustryDescription"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{
+            }" [checked]="isFieldSelected('briefIndustryDescription')" (change)="onFieldSelectChange($event)" name="briefIndustryDescription"></mat-checkbox>
+          <mat-label [ngClass]="{
               'faded-50': !isFieldSelected('briefIndustryDescription')
-            }"
-            >Краткое описание отрасли клиента</mat-label
-          >
+            }">Краткое описание отрасли клиента</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('briefIndustryDescription')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.briefIndustryDescription"
-                name="briefIndustryDescription"
-                #briefIndustryDescription="ngModel"
-              ></textarea>
+              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('briefIndustryDescription')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
+                        [(ngModel)]="model.briefIndustryDescription" name="briefIndustryDescription" #briefIndustryDescription="ngModel"></textarea>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Кейс -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }"
-            [checked]="isFieldSelected('offerCase')"
-            (change)="onFieldSelectChange($event)"
-            name="offerCase"
-          ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }"
-            >Кейс</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }" [checked]="isFieldSelected('offerCase')" (change)="onFieldSelectChange($event)"
+                        name="offerCase"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }">Кейс</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('offerCase')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.offerCase"
-                name="offerCase"
-                #offerCase="ngModel"
-              ></textarea>
+              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('offerCase')" matInput [errorStateMatcher]="errorStateMatcher" type="text" [(ngModel)]="model.offerCase"
+                        name="offerCase" #offerCase="ngModel"></textarea>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Суть предложения -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }"
-            [checked]="isFieldSelected('offerPoint')"
-            (change)="onFieldSelectChange($event)"
-            name="offerPoint"
-          ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }"
-            >Суть предложения</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }" [checked]="isFieldSelected('offerPoint')" (change)="onFieldSelectChange($event)"
+                        name="offerPoint"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }">Суть предложения</mat-label>
           <div class="offer_section__wrapper" style="display: block; padding-top: 1em;">
-              <quill-editor  [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint"></quill-editor>
+            <quill-editor [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint"></quill-editor>
           </div>
         </div>
 
         <div class="offer_section__wrapper">
-          
+
         </div>
 
         <!-- Рекомендации клиенту -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }"
-            [checked]="isFieldSelected('recommendations')"
-            (change)="onFieldSelectChange($event)"
-            name="recommendations"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }"
-            >Рекомендации клиенту</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }" [checked]="isFieldSelected('recommendations')"
+                        (change)="onFieldSelectChange($event)" name="recommendations"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }">Рекомендации клиенту</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('recommendations')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.recommendations"
-                name="recommendations"
-                #recommendations="ngModel"
-              ></textarea>
+              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('recommendations')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
+                        [(ngModel)]="model.recommendations" name="recommendations" #recommendations="ngModel"></textarea>
             </mat-form-field>
           </div>
         </div>
@@ -471,57 +274,23 @@
       <mat-card class="offer_card">
         <!-- Технический паспорт -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
-            [checked]="isFieldSelected('techPassport')"
-            (change)="onFieldSelectChange($event)"
-            name="techPassport"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
-            >Технический паспорт</mat-label
-          >
-          <div
-            class="offer_fieldWrapper"
-            [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }"
-          >
-            <input
-              type="file"
-              placeholder="Choose file"
-              style="display: none"
-              accept="image/*"
-              (change)="uploadFile(techPassportFileInput.files, 4, true)"
-              #techPassportFileInput
-            />
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }" [checked]="isFieldSelected('techPassport')"
+                        (change)="onFieldSelectChange($event)" name="techPassport"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }">Технический паспорт</mat-label>
+          <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }">
+            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(techPassportFileInput.files, 4, true)" #techPassportFileInput />
 
-            <button
-              mat-raised-button
-              class="fileButton"
-              [disabled]="!isFieldSelected('techPassport')"
-              (click)="techPassportFileInput.click()"
-            >
+            <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('techPassport')" (click)="techPassportFileInput.click()">
               Добавить изображение
             </button>
 
             <div class="offer_section__images">
-              <div
-                *ngFor="let file of getFiles(4)"
-                class="offer_section__images-image"
-              >
+              <div *ngFor="let file of getFiles(4)" class="offer_section__images-image">
                 <div class="offer_section__images-image-fileData">
                   <a [href]="file.path" target="_blank">{{ file.name }}</a>
-                  <mat-icon
-                    color="warn"
-                    style="transform: scale(0.5); cursor: pointer"
-                    (click)="deleteFile(file.id)"
-                    >clear</mat-icon
-                  >
+                  <mat-icon color="warn" style="transform: scale(0.5); cursor: pointer" (click)="deleteFile(file.id)">clear</mat-icon>
                 </div>
-                <img
-                  [src]="file.path"
-                  class="offer_section__images-image-src"
-                />
+                <img [src]="file.path" class="offer_section__images-image-src" />
               </div>
             </div>
           </div>
@@ -529,56 +298,23 @@
 
         <!-- Сертификаты -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
-            [checked]="isFieldSelected('certificate')"
-            (change)="onFieldSelectChange($event)"
-            name="certificate"
-          ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
-            >Сертификаты</mat-label
-          >
-          <div
-            class="offer_fieldWrapper"
-            [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }"
-          >
-            <input
-              type="file"
-              placeholder="Choose file"
-              style="display: none"
-              accept="image/*"
-              (change)="uploadFile(certificateFileInput.files, 3, false)"
-              #certificateFileInput
-            />
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }" [checked]="isFieldSelected('certificate')" (change)="onFieldSelectChange($event)"
+                        name="certificate"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }">Сертификаты</mat-label>
+          <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }">
+            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(certificateFileInput.files, 3, false)" #certificateFileInput />
 
-            <button
-              mat-raised-button
-              class="fileButton"
-              [disabled]="!isFieldSelected('certificate')"
-              (click)="certificateFileInput.click()"
-            >
+            <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('certificate')" (click)="certificateFileInput.click()">
               Добавить изображения
             </button>
 
             <div class="offer_section__images">
-              <div
-                *ngFor="let file of getFiles(3)"
-                class="offer_section__images-image"
-              >
+              <div *ngFor="let file of getFiles(3)" class="offer_section__images-image">
                 <div class="offer_section__images-image-fileData">
-                  <a [href]="file.path" target="_blank">{{ file.name }}</a
-                  ><mat-icon
-                    color="warn"
-                    style="transform: scale(0.5); cursor: pointer"
-                    (click)="deleteFile(file.id)"
-                    >clear</mat-icon
-                  >
+                  <a [href]="file.path" target="_blank">{{ file.name }}</a>
+                  <mat-icon color="warn" style="transform: scale(0.5); cursor: pointer" (click)="deleteFile(file.id)">clear</mat-icon>
                 </div>
-                <img
-                  [src]="file.path"
-                  class="offer_section__images-image-src"
-                />
+                <img [src]="file.path" class="offer_section__images-image-src" />
               </div>
             </div>
           </div>
@@ -586,146 +322,62 @@
 
         <!-- Прочая документация -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }"
-            [checked]="isFieldSelected('otherDocumentation')"
-            (change)="onFieldSelectChange($event)"
-            name="otherDocumentation"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }"
-            >Прочая документация</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }" [checked]="isFieldSelected('otherDocumentation')"
+                        (change)="onFieldSelectChange($event)" name="otherDocumentation"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }">Прочая документация</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('otherDocumentation')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.otherDocumentation"
-                name="otherDocumentation"
-                #otherDocumentation="ngModel"
-              ></textarea>
+              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('otherDocumentation')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
+                        [(ngModel)]="model.otherDocumentation" name="otherDocumentation" #otherDocumentation="ngModel"></textarea>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Сопроводительное письмо -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }"
-            [checked]="isFieldSelected('coveringLetter')"
-            (change)="onFieldSelectChange($event)"
-            name="coveringLetter"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }"
-            >Сопроводительное письмо</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }" [checked]="isFieldSelected('coveringLetter')"
+                        (change)="onFieldSelectChange($event)" name="coveringLetter"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }">Сопроводительное письмо</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('coveringLetter')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.coveringLetter"
-                name="coveringLetter"
-                #coveringLetter="ngModel"
-              ></textarea>
+              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('coveringLetter')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
+                        [(ngModel)]="model.coveringLetter" name="coveringLetter" #coveringLetter="ngModel"></textarea>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Аналогичные кейсы -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }"
-            [checked]="isFieldSelected('similarCases')"
-            (change)="onFieldSelectChange($event)"
-            name="similarCases"
-          ></mat-checkbox>
-          <mat-label
-            [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }"
-            >Аналогичные кейсы</mat-label
-          >
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }" [checked]="isFieldSelected('similarCases')"
+                        (change)="onFieldSelectChange($event)" name="similarCases"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }">Аналогичные кейсы</mat-label>
           <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
-              <textarea
-                style="resize: none"
-                rows="4"
-                [disabled]="!isFieldSelected('similarCases')"
-                matInput
-                [errorStateMatcher]="errorStateMatcher"
-                type="text"
-                [(ngModel)]="model.similarCases"
-                name="similarCases"
-                #similarCases="ngModel"
-              ></textarea>
+              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('similarCases')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
+                        [(ngModel)]="model.similarCases" name="similarCases" #similarCases="ngModel"></textarea>
             </mat-form-field>
           </div>
         </div>
 
         <!-- Визитка -->
         <div class="offer_section">
-          <mat-checkbox
-            class="offer_section_cb"
-            [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
-            [checked]="isFieldSelected('card')"
-            (change)="onFieldSelectChange($event)"
-            name="card"
-          ></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
-            >Визитка</mat-label
-          >
-          <div
-            class="offer_fieldWrapper"
-            [ngClass]="{ 'faded-50': !isFieldSelected('card') }"
-          >
-            <input
-              type="file"
-              placeholder="Choose file"
-              style="display: none"
-              accept="image/*"
-              (change)="uploadFile(cardFileInput.files, 5, true)"
-              #cardFileInput
-            />
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('card') }" [checked]="isFieldSelected('card')" (change)="onFieldSelectChange($event)" name="card">
+          </mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('card') }">Визитка</mat-label>
+          <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('card') }">
+            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(cardFileInput.files, 5, true)" #cardFileInput />
 
-            <button
-              mat-raised-button
-              class="fileButton"
-              [disabled]="!isFieldSelected('card')"
-              (click)="cardFileInput.click()"
-            >
+            <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('card')" (click)="cardFileInput.click()">
               Добавить изображение
             </button>
 
             <div class="offer_section__images">
-              <div
-                *ngFor="let file of getFiles(5)"
-                class="offer_section__images-image"
-              >
+              <div *ngFor="let file of getFiles(5)" class="offer_section__images-image">
                 <div class="offer_section__images-image-fileData">
-                  <a [href]="file.path" target="_blank">{{ file.name }}</a
-                  ><mat-icon
-                    color="warn"
-                    style="transform: scale(0.5); cursor: pointer"
-                    (click)="deleteFile(file.id)"
-                    >clear</mat-icon
-                  >
+                  <a [href]="file.path" target="_blank">{{ file.name }}</a>
+                  <mat-icon color="warn" style="transform: scale(0.5); cursor: pointer" (click)="deleteFile(file.id)">clear</mat-icon>
                 </div>
-                <img
-                  [src]="file.path"
-                  class="offer_section__images-image-src"
-                />
+                <img [src]="file.path" class="offer_section__images-image-src" />
               </div>
             </div>
           </div>
@@ -735,33 +387,20 @@
   </div>
 
   <!-- Отчёты о коммуникации с клиентом -->
-  <div class="row">
+  <div class="row" *ngIf="isEdit">
     <div class="col-12">
       <mat-card>
-        <mcrm-communication-reports-list
-          *ngIf="model.id && model.id > 0"
-          [type]="'offer'"
-          [id]="model.id"
-          [reports]="model.commonCommunicationReports"
-        ></mcrm-communication-reports-list>
+        <mcrm-communication-reports-list *ngIf="model.id && model.id > 0" [type]="'offer'" [id]="model.id" [reports]="model.commonCommunicationReports"></mcrm-communication-reports-list>
       </mat-card>
     </div>
   </div>
 
-  <div class="row" style="padding-top: 2em">
+  <div class="row" style="padding-top: 2em" *ngIf="isEdit">
     <div class="col-3">
       <mat-card>
         <mat-form-field class="client_form__field" appearance="outline">
           <mat-label>E-mail для отправки КП</mat-label>
-          <input
-            matInput
-            required
-            [errorStateMatcher]="errorStateMatcher"
-            type="email"
-            [(ngModel)]="model.email"
-            name="email"
-            #email="ngModel"
-          />
+          <input matInput required [errorStateMatcher]="errorStateMatcher" type="email" [(ngModel)]="model.email" name="email" #email="ngModel" />
         </mat-form-field>
       </mat-card>
     </div>
@@ -769,42 +408,21 @@
 
   <div class="row justify-content-end">
     <div class="col-8 offer__buttons">
-      <button
-        mat-raised-button
-        color="accent"
-        class="offer__buttons-button"
-        (click)="sendClick()"
-      >
+      <button mat-raised-button color="accent" class="offer__buttons-button" (click)="sendClick()" *ngIf="isEdit">
         Отправить КП клиенту
       </button>
     </div>
 
     <div class="col-4 offer__buttons">
-      <button
-        mat-raised-button
-        (click)="submit()"
-        color="primary"
-        *ngIf="!isEdit"
-      >
+      <button mat-raised-button (click)="submit()" color="primary" *ngIf="!isEdit" [disabled]="!canCreate">
         Создать
       </button>
 
       <div *ngIf="isEdit && !isLoading" class="offer__buttons-edit">
-        <button
-          mat-raised-button
-          color="primary"
-          class="offer__buttons-button"
-          [disabled]="!modelChanged"
-          (click)="update()"
-        >
+        <button mat-raised-button color="primary" class="offer__buttons-button" [disabled]="!modelChanged" (click)="update()">
           Обновить
         </button>
-        <button
-          mat-raised-button
-          color="warn"
-          class="offer__buttons-button"
-          (click)="delete()"
-        >
+        <button mat-raised-button color="warn" class="offer__buttons-button" (click)="delete()">
           Удалить
         </button>
       </div>
