@@ -28,6 +28,7 @@ import { OfferNewsbreakAddDto } from '../model/models';
 import { OfferNewsbreakDto } from '../model/models';
 import { OfferRuleCompleteDto } from '../model/models';
 import { OfferRuleDto } from '../model/models';
+import { OfferShortDto } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -707,9 +708,9 @@ export class OffersApiService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiOffersListGet(filter?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferDto>>;
-    public apiOffersListGet(filter?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferDto>>>;
-    public apiOffersListGet(filter?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferDto>>>;
+    public apiOffersListGet(filter?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<Array<OfferShortDto>>;
+    public apiOffersListGet(filter?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<Array<OfferShortDto>>>;
+    public apiOffersListGet(filter?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<Array<OfferShortDto>>>;
     public apiOffersListGet(filter?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -747,7 +748,7 @@ export class OffersApiService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<OfferDto>>(`${this.configuration.basePath}/api/Offers/list`,
+        return this.httpClient.get<Array<OfferShortDto>>(`${this.configuration.basePath}/api/Offers/list`,
             {
                 params: queryParameters,
                 responseType: <any>responseType_,

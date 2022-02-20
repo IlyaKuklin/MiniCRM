@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Hangfire;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -98,7 +99,7 @@ namespace MiniCRMCore.Areas.Offers
 			return dto;
 		}
 
-		public async Task<List<Offer.Dto>> GetListAsync(string filter, int currentUserId)
+		public async Task<List<Offer.ShortDto>> GetListAsync(string filter, int currentUserId)
 		{
 			var currentManager = await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == currentUserId);
 			if (currentManager == null)
@@ -126,7 +127,9 @@ namespace MiniCRMCore.Areas.Offers
 			if (!currentManager.AllowedToViewAllOffers)
 				offers = offers.Where(x => x.ManagerId == currentUserId);
 
-			var dto = _mapper.Map<List<Offer.Dto>>(offers);
+			var dto = _mapper.ProjectTo<Offer.ShortDto>(offers).ToList();
+
+			//var dto = _mapper.Map<List<Offer.Dto>>(offers);
 			return dto;
 		}
 

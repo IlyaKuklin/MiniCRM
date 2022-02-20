@@ -10,7 +10,7 @@ import {
   mergeMap,
   tap,
 } from 'rxjs/operators';
-import { OfferDto, OffersApiService } from 'src/api/rest/api';
+import { OfferDto, OffersApiService, OfferShortDto } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
@@ -26,9 +26,9 @@ export class OffersListComponent implements OnInit {
     private readonly dialogService: DialogService
   ) {}
 
-  model: OfferDto[] = [];
+  model: OfferShortDto[] = [];
   displayedColumns: string[] = ['id', 'number', 'clientName', 'created', 'del'];
-  dataSource!: MatTableDataSource<OfferDto>;
+  dataSource!: MatTableDataSource<OfferShortDto>;
   resultsLength: number = 0;
   isLoading = true;
 
@@ -40,7 +40,7 @@ export class OffersListComponent implements OnInit {
   ngOnInit(): void {
     this.offersApiService.apiOffersListGet().subscribe((response) => {
       this.model = response;
-      this.dataSource = new MatTableDataSource<OfferDto>(response);
+      this.dataSource = new MatTableDataSource<OfferShortDto>(response);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.isLoading = false;
@@ -60,7 +60,7 @@ export class OffersListComponent implements OnInit {
         )
       )
       .subscribe((response) => {
-        this.dataSource = new MatTableDataSource<OfferDto>(response);
+        this.dataSource = new MatTableDataSource<OfferShortDto>(response);
       });
   }
 
@@ -77,7 +77,7 @@ export class OffersListComponent implements OnInit {
             .apiOffersDeleteDelete(id)
             .subscribe((response) => {
               this.model = this.model.filter((x) => x.id !== id);
-              this.dataSource = new MatTableDataSource<OfferDto>(this.model);
+              this.dataSource = new MatTableDataSource<OfferShortDto>(this.model);
               this.isLoading = false;
             });
         }

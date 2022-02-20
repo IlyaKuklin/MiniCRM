@@ -300,6 +300,10 @@ namespace MiniCRMServer
     {
         public OffersMappingProfile()
         {
+            this.CreateProjection<Offer, Offer.ShortDto>()
+                .ForMember(x => x.ClientId, opt => opt.MapFrom(src => src.Client.Id))
+                .ForMember(x => x.ClientName, opt => opt.MapFrom(src => src.Client.Name));
+
             this.CreateMap<Offer, Offer.Dto>()
                 .ReverseMap()
                 .ForMember(x => x.Id, opt => opt.Ignore())
@@ -313,7 +317,6 @@ namespace MiniCRMServer
                 .ForMember(x => x.ClientLink, opt => opt.Ignore())
                 .ForMember(x => x.ManagerId, opt => opt.Ignore())
                 .ForMember(x => x.Manager, opt => opt.Ignore())
-                //.ForMember(x => x.ClientId, opt => opt.Ignore())
                 ;
             this.CreateMap<Offer.EditDto, Offer>()
                 .ForMember(x => x.Id, opt => opt.Ignore())
