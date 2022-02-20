@@ -10,12 +10,21 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		public string Data { get; set; }
 
-		public bool VisitedByClient { get; set; }
+        public bool SentToClient { get; set; }
+
+        public bool VisitedByClient { get; set; }
 
 		public Offer Offer { get; set; }
 		public int OfferId { get; set; }
 
 		public User Author { get; set; }
 		public int AuthorId { get; set; }
+
+		public class ShortDto
+        {
+			public int Number { get; set; }
+			public bool SentToClient { get; set; }
+			public bool VisitedByClient { get; set; }
+		}
 	}
 }

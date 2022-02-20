@@ -110,6 +110,7 @@ namespace MiniCRMCore.Areas.Offers
 			{
 				offers = _context.Offers
 					.Include(x => x.Client)
+					.Include(x => x.Versions)
 					.AsNoTracking();
 			}
 			else
@@ -120,6 +121,7 @@ namespace MiniCRMCore.Areas.Offers
 
 				offers = _context.Offers
 					.Include(x => x.Client)
+					.Include(x => x.Versions)
 					.Where(predicate)
 					.AsNoTracking();
 			}
@@ -127,13 +129,41 @@ namespace MiniCRMCore.Areas.Offers
 			if (!currentManager.AllowedToViewAllOffers)
 				offers = offers.Where(x => x.ManagerId == currentUserId);
 
-			var dto = _mapper.ProjectTo<Offer.ShortDto>(offers).ToList();
+			var dto = _mapper.ProjectTo<Offer.ShortDto>(offers)
+				.ToList();
+
+            foreach (var item in dto)
+            {
+				if (item.Versions.Count == 0) continue;
+				if (item.ClientVersionNumber == 0) item.Status = "Не отправлялось";
+
+                else
+                {
+					var firstClientVersion = item.Versions.OrderBy(x => x.Number).First(x => x.SentToClient);
+					var lastClientVersion = item.Versions.OrderBy(x => x.Number).Last(x => x.SentToClient);
+
+					if (firstClientVersion.Number == lastClientVersion.Number)
+						item.Status = firstClientVersion.VisitedByClient ? "Просмотрено" : "Не просмотрено";
+					else
+                    {
+						if (firstClientVersion.VisitedByClient && lastClientVersion.VisitedByClient)
+							item.Status = "Просмотрено / Просмотрено после изменений";
+						else if (firstClientVersion.VisitedByClient && !lastClientVersion.VisitedByClient)
+							item.Status = "Просмотрено / Не просмотрено после изменений";
+						else if (!firstClientVersion.VisitedByClient && !lastClientVersion.VisitedByClient)
+							item.Status = "Не просмотрено / Не просмотрено после изменений";
+						else if (!firstClientVersion.VisitedByClient && lastClientVersion.VisitedByClient)
+							item.Status = "Не просмотрено / Просмотрено после изменений";
+
+					}
+				}
+            }
 
 			//var dto = _mapper.Map<List<Offer.Dto>>(offers);
 			return dto;
 		}
 
-		public async Task<Offer.Dto> EditAsync(Offer.Dto dto, int currentUserId)
+		public async Task<Offer.Dto> EditAsync(Offer.Dto dto, bool sentToClient, int currentUserId)
 		{
 			Offer offer;
 			if (dto.Id > 0)
@@ -176,7 +206,8 @@ namespace MiniCRMCore.Areas.Offers
 			{
 				Data = jsonVersion,
 				Number = offer.CurrentVersionNumber,
-				AuthorId = currentUserId
+				AuthorId = currentUserId,
+				SentToClient = sentToClient
 			};
 			offer.Versions.Add(dbVersion);
 

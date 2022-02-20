@@ -27,6 +27,7 @@ model/offer-newsbreak-dto.ts
 model/offer-rule-complete-dto.ts
 model/offer-rule-dto.ts
 model/offer-short-dto.ts
+model/offer-version-short-dto.ts
 model/role.ts
 model/section-dto.ts
 model/user-auth-dto.ts

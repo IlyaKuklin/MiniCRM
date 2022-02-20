@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OfferVersionShortDto } from './offer-version-short-dto';
 
 
 export interface OfferShortDto { 
@@ -18,5 +19,9 @@ export interface OfferShortDto {
     number?: number;
     clientId?: number;
     clientName?: string | null;
+    currentVersionNumber?: number;
+    clientVersionNumber?: number;
+    status?: string | null;
+    versions?: Array<OfferVersionShortDto> | null;
 }
 

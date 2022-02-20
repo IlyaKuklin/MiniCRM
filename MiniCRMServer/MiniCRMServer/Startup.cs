@@ -302,7 +302,11 @@ namespace MiniCRMServer
         {
             this.CreateProjection<Offer, Offer.ShortDto>()
                 .ForMember(x => x.ClientId, opt => opt.MapFrom(src => src.Client.Id))
-                .ForMember(x => x.ClientName, opt => opt.MapFrom(src => src.Client.Name));
+                .ForMember(x => x.ClientName, opt => opt.MapFrom(src => src.Client.Name))
+                .ForMember(x => x.Status, opt => opt.Ignore())
+                ;
+
+            this.CreateProjection<OfferVersion, OfferVersion.ShortDto>();
 
             this.CreateMap<Offer, Offer.Dto>()
                 .ReverseMap()

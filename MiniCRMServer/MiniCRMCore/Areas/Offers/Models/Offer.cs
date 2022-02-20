@@ -73,11 +73,12 @@ namespace MiniCRMCore.Areas.Offers.Models
             public int ClientId { get; set; }
 
             public string ClientName { get; set; }
+			public int CurrentVersionNumber { get; set; }
+			public int ClientVersionNumber { get; set; }
 
-            //public Client.Dto Client { get; set; }
+            public string Status { get; set; }
 
-            //public int ClientId { get; set; }
-
+            public List<OfferVersion.ShortDto> Versions { get; set; }
         }
 
 		public class Dto : BaseDto

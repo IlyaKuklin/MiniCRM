@@ -346,16 +346,26 @@ export class OffersApiService {
     }
 
     /**
+     * @param forClient 
      * @param offerDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiOffersEditPost(offerDto: OfferDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<OfferDto>;
-    public apiOffersEditPost(offerDto: OfferDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<OfferDto>>;
-    public apiOffersEditPost(offerDto: OfferDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<OfferDto>>;
-    public apiOffersEditPost(offerDto: OfferDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+    public apiOffersEditPost(forClient: boolean, offerDto: OfferDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<OfferDto>;
+    public apiOffersEditPost(forClient: boolean, offerDto: OfferDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpResponse<OfferDto>>;
+    public apiOffersEditPost(forClient: boolean, offerDto: OfferDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<HttpEvent<OfferDto>>;
+    public apiOffersEditPost(forClient: boolean, offerDto: OfferDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json'}): Observable<any> {
+        if (forClient === null || forClient === undefined) {
+            throw new Error('Required parameter forClient was null or undefined when calling apiOffersEditPost.');
+        }
         if (offerDto === null || offerDto === undefined) {
             throw new Error('Required parameter offerDto was null or undefined when calling apiOffersEditPost.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (forClient !== undefined && forClient !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>forClient, 'forClient');
         }
 
         let headers = this.defaultHeaders;
@@ -402,6 +412,7 @@ export class OffersApiService {
         return this.httpClient.post<OfferDto>(`${this.configuration.basePath}/api/Offers/edit`,
             offerDto,
             {
+                params: queryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

@@ -14,6 +14,7 @@ export * from './offer-newsbreak-dto';
 export * from './offer-rule-complete-dto';
 export * from './offer-rule-dto';
 export * from './offer-short-dto';
+export * from './offer-version-short-dto';
 export * from './role';
 export * from './section-dto';
 export * from './user-auth-dto';

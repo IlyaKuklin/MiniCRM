@@ -27,7 +27,7 @@ export class OffersListComponent implements OnInit {
   ) {}
 
   model: OfferShortDto[] = [];
-  displayedColumns: string[] = ['id', 'number', 'clientName', 'created', 'del'];
+  displayedColumns: string[] = ['id', 'number', 'clientName', 'created', 'status', 'del'];
   dataSource!: MatTableDataSource<OfferShortDto>;
   resultsLength: number = 0;
   isLoading = true;

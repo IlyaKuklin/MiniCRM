@@ -122,7 +122,7 @@ export class EditOfferComponent implements OnInit {
     this.isLoading = true;
 
     this.offersApiService
-      .apiOffersEditPost(this.model)
+      .apiOffersEditPost(false, this.model)
       .subscribe((response) => {
         this.isLoading = false;
         this.snackbarService.show({
@@ -136,7 +136,7 @@ export class EditOfferComponent implements OnInit {
   update(): void {
     this.isLoading = true;
     this.offersApiService
-      .apiOffersEditPost(this.model)
+      .apiOffersEditPost(false, this.model)
       .subscribe((response) => {
         this.snackbarService.show({
           message: 'Данные обновлены',
@@ -275,7 +275,7 @@ export class EditOfferComponent implements OnInit {
         if (result) {
           this.isLoading = true;
           this.offersApiService
-            .apiOffersEditPost(this.model)
+            .apiOffersEditPost(true, this.model)
             .subscribe((response) => {
               this.offersApiService
                 .apiOffersClientOfferSendPost(this.model.id)
