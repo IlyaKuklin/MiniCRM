@@ -19,8 +19,10 @@ namespace MiniCRMCore.Areas.Offers.Models
         public class Dto : BaseDto
 		{
 			public int OfferId { get; set; }
-			
-			[Required]
+            public int OfferNumber { get; set; }
+            public string ClientName { get; set; }
+
+            [Required]
 			public bool Completed { get; set; }
 			public string Task { get; set; }
 			public string Report { get; set; }

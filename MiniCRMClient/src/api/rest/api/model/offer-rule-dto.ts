@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { OfferCheckStatus } from './offer-check-status';
 
 
 export interface OfferRuleDto { 
@@ -16,9 +17,13 @@ export interface OfferRuleDto {
     created?: string;
     changed?: string;
     offerId?: number;
+    offerNumber?: number;
+    clientName?: string | null;
     completed: boolean;
     task?: string | null;
     report?: string | null;
     deadline?: string;
+    checkStatus?: OfferCheckStatus;
+    checkRemark?: string | null;
 }
 

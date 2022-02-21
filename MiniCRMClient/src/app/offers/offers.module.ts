@@ -6,13 +6,15 @@ import { OffersListComponent } from './components/offers-list/offers-list.compon
 import { EditOfferComponent } from './components/edit-offer/edit-offer.component';
 import { SharedModule } from '../shared/shared.module';
 import { ClientOfferViewComponent } from './components/client-offer-view/client-offer-view.component';
+import { OffersCheckListComponent } from './components/offers-check-list/offers-check-list.component';
 
 
 @NgModule({
   declarations: [
     OffersListComponent,
     EditOfferComponent,
-    ClientOfferViewComponent
+    ClientOfferViewComponent,
+    OffersCheckListComponent
   ],
   imports: [
     CommonModule,

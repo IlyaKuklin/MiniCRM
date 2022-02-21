@@ -1,4 +1,6 @@
 using AutoMapper;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +18,7 @@ using MiniCRMCore.Areas.Auth.Models;
 using MiniCRMCore.Areas.Clients;
 using MiniCRMCore.Areas.Clients.Models;
 using MiniCRMCore.Areas.Common;
+using MiniCRMCore.Areas.Common.Interfaces;
 using MiniCRMCore.Areas.Email;
 using MiniCRMCore.Areas.Email.Models;
 using MiniCRMCore.Areas.Logs;
@@ -30,9 +33,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Hangfire;
-using Hangfire.PostgreSql;
-using MiniCRMCore.Areas.Common.Interfaces;
 
 namespace MiniCRMServer
 {
@@ -285,6 +285,10 @@ namespace MiniCRMServer
     {
         public ClientsMappingProfile()
         {
+            this.CreateProjection<Client, Client.Dto>()
+                .ForMember(x => x.Offers, opt => opt.MapFrom(src => src.Offers));
+
+
             this.CreateMap<Client, Client.Dto>()
                 .ForMember(x => x.Offers, opt => opt.MapFrom(src => src.Offers))
                 .ReverseMap()
@@ -307,6 +311,11 @@ namespace MiniCRMServer
                 ;
 
             this.CreateProjection<OfferVersion, OfferVersion.ShortDto>();
+
+            this.CreateProjection<OfferRule, OfferRule.Dto>()
+                .ForMember(x => x.OfferNumber, opt => opt.MapFrom(src => src.Offer.Number))
+                .ForMember(x => x.ClientName, opt => opt.MapFrom(src => src.Offer.Client.Name))
+                ;
 
             this.CreateMap<Offer, Offer.Dto>()
                 .ReverseMap()

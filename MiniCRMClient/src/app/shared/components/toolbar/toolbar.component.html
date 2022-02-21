@@ -16,6 +16,13 @@
         >Настройки email</span
       >
       <span
+        *ngIf="isAdmin"
+        class="routerItem clickable"
+        routerLink="/offers/checkRules"
+        routerLinkActive="routerItem_active"
+        >Проверка правил</span
+      >
+      <span
         class="routerItem clickable"
         routerLink="/clients"
         routerLinkActive="routerItem_active"
