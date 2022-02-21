@@ -116,7 +116,7 @@ namespace MiniCRMCore.Areas.Offers
 			else
 			{
 				Expression<Func<Offer, bool>> predicate = x =>
-					x.Client.Name.Contains(filter) ||
+					x.Client.Name.ToLower().Contains(filter.ToLower()) ||
 					x.Number.ToString().Contains(filter);
 
 				offers = _context.Offers

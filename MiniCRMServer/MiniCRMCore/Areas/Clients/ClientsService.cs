@@ -49,7 +49,7 @@ namespace MiniCRMCore.Areas.Clients
 			else
 			{
 				Expression<Func<Client, bool>> predicate = x =>
-					x.Name.ToLower().Contains(filter);
+					x.Name.ToLower().Contains(filter.ToLower());
 				//	||
 				//	x.DomainNames.ToLower().Contains(filter) ||
 				//	x.Contact.ToLower().Contains(filter) ||
