@@ -49,12 +49,13 @@ namespace MiniCRMCore.Areas.Clients
 			else
 			{
 				Expression<Func<Client, bool>> predicate = x =>
-					x.Name.Contains(filter) ||
-					x.DomainNames.Contains(filter) ||
-					x.Contact.Contains(filter) ||
-					x.Diagnostics.Contains(filter) ||
-					x.LegalEntitiesNames.Contains(filter)
-				;
+					x.Name.ToLower().Contains(filter.ToLower());
+				//	||
+				//	x.DomainNames.ToLower().Contains(filter) ||
+				//	x.Contact.ToLower().Contains(filter) ||
+				//	x.Diagnostics.ToLower().Contains(filter) ||
+				//	x.LegalEntitiesNames.ToLower().Contains(filter)
+				//;
 
 				clients = await _context.Clients
 					.Include(x => x.Offers)

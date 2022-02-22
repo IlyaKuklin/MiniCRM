@@ -116,7 +116,7 @@ namespace MiniCRMCore.Areas.Offers
 			else
 			{
 				Expression<Func<Offer, bool>> predicate = x =>
-					x.Client.Name.Contains(filter) ||
+					x.Client.Name.ToLower().Contains(filter.ToLower()) ||
 					x.Number.ToString().Contains(filter);
 
 				offers = _context.Offers
@@ -545,7 +545,8 @@ namespace MiniCRMCore.Areas.Offers
 				var version = await _context.OfferVersions
 					.Include(x => x.Author)
 					.FirstAsync(x => x.Id == clientVersion.Id);
-				_emailSenderService.NotifyManager(version.Author.Name, version.Author.Email, "Клиент перешёл по ссылке из письма", offer.Number, DateTime.Now);
+				if (!string.IsNullOrEmpty(version.Author.Email))
+					_emailSenderService.NotifyManager(version.Author.Name, version.Author.Email, "Клиент перешёл по ссылке из письма", offer.Number, DateTime.Now);
 				version.VisitedByClient = true;
 				await _context.SaveChangesAsync();
 			}
@@ -653,6 +654,7 @@ namespace MiniCRMCore.Areas.Offers
 				case "certificate": return "Сертификат";
 				case "coveringLetter": return "Сопроводительное письмо";
 				case "similarCases": return "Аналогичные кейсы";
+				case "otherDocumentation": return "Прочая документация";
 			}
 
 			return "NotImplementedException";
