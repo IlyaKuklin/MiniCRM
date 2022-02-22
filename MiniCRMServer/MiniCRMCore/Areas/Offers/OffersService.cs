@@ -646,6 +646,7 @@ namespace MiniCRMCore.Areas.Offers
 				case "certificate": return "Сертификат";
 				case "coveringLetter": return "Сопроводительное письмо";
 				case "similarCases": return "Аналогичные кейсы";
+				case "otherDocumentation": return "Прочая документация";
 			}
 
 			return "NotImplementedException";
