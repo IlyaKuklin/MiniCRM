@@ -7,6 +7,7 @@ import { forkJoin, pipe } from 'rxjs';
 import {
   ClientDto,
   ClientsApiService,
+  OfferCheckStatus,
   OfferDto,
   OfferFeedbackRequestDto,
   OfferFileDatumDto,
@@ -436,12 +437,6 @@ export class EditOfferComponent implements OnInit {
       });
   }
 
-  // changeState(rule: OfferRuleDto): void {
-  //   this.offersApiService
-  //     .apiOffersRulesChangeStatePost(rule.id)
-  //     .subscribe(() => {});
-  // }
-
   deleteRule(ruleId: number): void {
     const rule = this.model.rules.find((x) => x.id == ruleId);
     if (rule?.completed) return;
@@ -469,7 +464,22 @@ export class EditOfferComponent implements OnInit {
       });
   }
 
+  getRuleCheckStatus(ruleCheckStatus: OfferCheckStatus): string {
+    if (ruleCheckStatus == OfferCheckStatus.NUMBER_1) return "Принято";
+    if (ruleCheckStatus == OfferCheckStatus.NUMBER_2) return "Не принято";
+    return '';
+  }
+
+  showRuleRejectionReason(rule: OfferRuleDto): void {
+    if (!rule.checkRemark) return;
+
+    this.dialogService.infoDialog({
+      message: rule.checkRemark,
+      header: 'Причина отклонения',
+    })
+  }
   //#endregion
+
 
   private _filter(value: any): ClientDto[] {
     const isString = (value as ClientDto).id == undefined;

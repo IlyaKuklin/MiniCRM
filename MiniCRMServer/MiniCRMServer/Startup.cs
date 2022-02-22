@@ -315,7 +315,10 @@ namespace MiniCRMServer
             this.CreateProjection<OfferRule, OfferRule.Dto>()
                 .ForMember(x => x.OfferNumber, opt => opt.MapFrom(src => src.Offer.Number))
                 .ForMember(x => x.ClientName, opt => opt.MapFrom(src => src.Offer.Client.Name))
+                .ForMember(x => x.ClientId, opt => opt.MapFrom(src => src.Offer.ClientId))
                 ;
+
+            this.CreateProjection<Offer, Offer.Dto>();
 
             this.CreateMap<Offer, Offer.Dto>()
                 .ReverseMap()

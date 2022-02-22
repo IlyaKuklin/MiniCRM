@@ -21,8 +21,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public int OfferId { get; set; }
             public int OfferNumber { get; set; }
             public string ClientName { get; set; }
+            public int ClientId { get; set; }
 
-            [Required]
+			[Required]
 			public bool Completed { get; set; }
 			public string Task { get; set; }
 			public string Report { get; set; }

@@ -113,6 +113,7 @@
             <th>Отчёт</th>
             <th style="width: 10%">Срок</th>
             <th style="width: 10%"></th>
+            <th style="width: 10%">Статус проверки</th>
           </tr>
           <tr class="rules-table_body" *ngFor="let rule of model.rules">
             <td>
@@ -155,6 +156,17 @@
                 <button mat-stroked-button (click)="cancelRuleAdd(rule)">
                   Отмена
                 </button>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="rule.checkStatus == 0">
+                Не проверено
+              </div>
+              <div *ngIf="rule.checkStatus == 1" class="green">
+                Принято
+              </div>
+              <div *ngIf="rule.checkStatus == 2">
+                <b class="clickable red" (click)="showRuleRejectionReason(rule)">Не принято</b>
               </div>
             </td>
           </tr>

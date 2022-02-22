@@ -451,6 +451,8 @@ namespace MiniCRMCore.Areas.Offers
 
 			rule.Report = dto.Report;
 			rule.Completed = true;
+			rule.CheckStatus = OfferCheckStatus.NotSet;
+
 			await _context.SaveChangesAsync();
 		}
 
@@ -482,6 +484,7 @@ namespace MiniCRMCore.Areas.Offers
 				.FirstOrDefaultAsync(x => x.Id == dto.Id);
 			rule.CheckStatus = OfferCheckStatus.Rejected;
 			rule.CheckRemark = dto.Remarks;
+			rule.Completed = false;
 			await _context.SaveChangesAsync();
 		}
 
