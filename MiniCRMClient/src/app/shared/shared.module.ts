@@ -61,6 +61,7 @@ import { SelectOptionDialogComponent } from './components/select-option-dialog/s
 import { CommunicationReportsListComponent } from './components/communication-reports-list/communication-reports-list.component';
 import { AutosizeModule } from 'ngx-autosize';
 import { QuillModule } from 'ngx-quill';
+import { BooleanTextPipe } from './pipes/boolean-text/boolean-text.pipe';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { QuillModule } from 'ngx-quill';
     SelectOptionDialogComponent,
     ConfirmDialogComponent,
     InputDialogComponent,
-    CommunicationReportsListComponent
+    CommunicationReportsListComponent,
+    BooleanTextPipe
   ],
   imports: [
     CommonModule,
@@ -182,7 +184,8 @@ import { QuillModule } from 'ngx-quill';
 
     // Components
     ToolbarComponent,
-    CommunicationReportsListComponent
+    CommunicationReportsListComponent,
+    BooleanTextPipe
   ],
 
   providers: [
