@@ -148,7 +148,7 @@
           <ng-container *ngIf="section.type == 'description'">
             {{section.data}}
             <br>
-            <div *ngFor="let path of section.imagePaths">
+            <div *ngFor="let path of section.imagePaths" style="padding: 0.5em;">
               <img [src]="path" />
             </div>
           </ng-container>
@@ -168,7 +168,7 @@
 
           </ng-container>
           <ng-container *ngIf="section.type == 'img'">
-            <div *ngFor="let path of section.imagePaths">
+            <div *ngFor="let path of section.imagePaths" >
               <img [src]="path" />
             </div>
           </ng-container>

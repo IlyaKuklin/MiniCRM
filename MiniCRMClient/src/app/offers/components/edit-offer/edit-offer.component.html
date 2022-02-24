@@ -191,7 +191,7 @@
             </mat-form-field>
           </div>
           <div [ngClass]="{ 'faded-50': !isFieldSelected('description') }">
-            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(photoFileInput.files, 2, false)" #photoFileInput />
+            <input type="file" placeholder="Choose file" style="display: none" multiple accept="image/*" (change)="uploadFile(photoFileInput.files, 2, false)" #photoFileInput />
 
             <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('description')" (click)="photoFileInput.click()">
               Добавить фотографии
@@ -290,7 +290,7 @@
                         (change)="onFieldSelectChange($event)" name="techPassport"></mat-checkbox>
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }">Технический паспорт</mat-label>
           <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }">
-            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(techPassportFileInput.files, 4, true)" #techPassportFileInput />
+            <input type="file" multiple  placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(techPassportFileInput.files, 4, true)" #techPassportFileInput />
 
             <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('techPassport')" (click)="techPassportFileInput.click()">
               Добавить изображение
@@ -314,7 +314,7 @@
                         name="certificate"></mat-checkbox>
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }">Сертификаты</mat-label>
           <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('certificate') }">
-            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(certificateFileInput.files, 3, false)" #certificateFileInput />
+            <input type="file" multiple placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(certificateFileInput.files, 3, false)" #certificateFileInput />
 
             <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('certificate')" (click)="certificateFileInput.click()">
               Добавить изображения
@@ -377,7 +377,7 @@
           </mat-checkbox>
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('card') }">Визитка</mat-label>
           <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('card') }">
-            <input type="file" placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(cardFileInput.files, 5, true)" #cardFileInput />
+            <input type="file" multiple placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(cardFileInput.files, 5, true)" #cardFileInput />
 
             <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('card')" (click)="cardFileInput.click()">
               Добавить изображение
