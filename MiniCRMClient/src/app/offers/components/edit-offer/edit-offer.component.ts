@@ -465,8 +465,8 @@ export class EditOfferComponent implements OnInit {
   }
 
   getRuleCheckStatus(ruleCheckStatus: OfferCheckStatus): string {
-    if (ruleCheckStatus == OfferCheckStatus.NUMBER_1) return "Принято";
-    if (ruleCheckStatus == OfferCheckStatus.NUMBER_2) return "Не принято";
+    if (ruleCheckStatus == OfferCheckStatus.NUMBER_1) return 'Принято';
+    if (ruleCheckStatus == OfferCheckStatus.NUMBER_2) return 'Не принято';
     return '';
   }
 
@@ -476,10 +476,9 @@ export class EditOfferComponent implements OnInit {
     this.dialogService.infoDialog({
       message: rule.checkRemark,
       header: 'Причина отклонения',
-    })
+    });
   }
   //#endregion
-
 
   private _filter(value: any): ClientDto[] {
     const isString = (value as ClientDto).id == undefined;
