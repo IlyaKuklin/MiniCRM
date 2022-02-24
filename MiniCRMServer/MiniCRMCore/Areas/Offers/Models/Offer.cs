@@ -50,6 +50,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public virtual User Manager { get; set; }
         public int ManagerId { get; set; }
 
+        public bool IsArchived { get; set; }
+
         public class ClientViewDto
 		{
 			[Required]
@@ -79,7 +81,10 @@ namespace MiniCRMCore.Areas.Offers.Models
             public string Status { get; set; }
 
             public List<OfferVersion.ShortDto> Versions { get; set; }
-        }
+
+			[Required]
+			public bool IsArchived { get; set; }
+		}
 
 		public class Dto : BaseDto
 		{
@@ -174,6 +179,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 			public string Email { get; set; }
 
 			public User.Dto Manager { get; set; }
+
+			[Required]
+			public bool IsArchived { get; set; }
 		}
 
 		public class EditDto

@@ -1,6 +1,16 @@
 <div class="container container-custom">
   <h2>Список КП</h2>
 
+  <div class="row">
+    <div class="col">
+      <mat-radio-group [formControl]="archivedFilter" style="display: flex; flex-direction: column; gap: 0.5em">
+        <mat-radio-button value="1">Все</mat-radio-button>
+        <mat-radio-button value="2">Только активные</mat-radio-button>
+        <mat-radio-button value="3">Только архивные</mat-radio-button>
+      </mat-radio-group>
+    </div>
+  </div>
+
   <div class="row align-items-center">
     <div class="col-10">
       <button mat-raised-button color="primary" [routerLink]="['/offers/edit', '']">
@@ -61,6 +71,13 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Статус</th>
         <td mat-cell *matCellDef="let row" class="clickable" [routerLink]="['/offers/edit', row.id]">
           {{ row.status }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="archive">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>В архиве</th>
+        <td mat-cell *matCellDef="let row" class="clickable" [routerLink]="['/offers/edit', row.id]">
+          {{ row.isArchived | booleanText }}
         </td>
       </ng-container>
 

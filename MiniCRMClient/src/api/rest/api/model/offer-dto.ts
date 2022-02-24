@@ -46,5 +46,6 @@ export interface OfferDto {
     commonCommunicationReports: Array<CommunicationReportDto>;
     email?: string | null;
     manager?: UserDto;
+    isArchived: boolean;
 }
 

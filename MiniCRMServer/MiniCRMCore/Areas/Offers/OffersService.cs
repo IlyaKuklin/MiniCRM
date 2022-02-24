@@ -229,6 +229,28 @@ namespace MiniCRMCore.Areas.Offers
 			await _context.SaveChangesAsync();
 		}
 
+		public async Task MoveToArchiveAsync(int id, int currentUserId)
+        {
+			var offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == id);
+			if (offer == null)
+				throw new ApiException($"Не найдено КП с ID {id}");
+
+			offer.IsArchived = true;
+			await _context.SaveChangesAsync();
+		}
+
+		public async Task MoveFromArchiveAsync (int id, int currentUserId)
+        {
+			var offer = await _context.Offers.FirstOrDefaultAsync(x => x.Id == id);
+			if (offer == null)
+				throw new ApiException($"Не найдено КП с ID {id}");
+
+			await CheckUserAccessAsync(currentUserId, offer);
+
+			offer.IsArchived = false;
+			await _context.SaveChangesAsync();
+		}
+
 		#endregion Offers
 
 		#region Files

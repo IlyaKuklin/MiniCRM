@@ -110,6 +110,122 @@ export class OffersApiService {
     }
 
     /**
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersArchiveInPatch(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public apiOffersArchiveInPatch(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public apiOffersArchiveInPatch(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public apiOffersArchiveInPatch(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiOffersArchiveInPatch.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (id !== undefined && id !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>id, 'id');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.patch<any>(`${this.configuration.basePath}/api/Offers/archive_in`,
+            null,
+            {
+                params: queryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @param id 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiOffersArchiveOutPatch(id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public apiOffersArchiveOutPatch(id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public apiOffersArchiveOutPatch(id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public apiOffersArchiveOutPatch(id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiOffersArchiveOutPatch.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (id !== undefined && id !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>id, 'id');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let credential: string | undefined;
+        // authentication (Bearer) required
+        credential = this.configuration.lookupCredential('Bearer');
+        if (credential) {
+            headers = headers.set('Authorization', credential);
+        }
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType_: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType_ = 'text';
+        }
+
+        return this.httpClient.patch<any>(`${this.configuration.basePath}/api/Offers/archive_out`,
+            null,
+            {
+                params: queryParameters,
+                responseType: <any>responseType_,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * @param offerFeedbackRequestAnswerDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.

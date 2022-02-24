@@ -41,6 +41,7 @@ export class CommunicationReportsListComponent
   @Input('id') id!: number | undefined;
   @Input('reports') model: CommunicationReportDto[] = [];
   @Input('type') type: string = 'client';
+  @Input('disabled') disabled: boolean = false;
 
   displayedColumns: string[] = ['date', 'author', 'text', 'del'];
   dataSource!: MatTableDataSource<CommunicationReportDto>;

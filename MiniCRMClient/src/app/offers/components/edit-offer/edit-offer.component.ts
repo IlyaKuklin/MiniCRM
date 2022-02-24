@@ -15,12 +15,14 @@ import {
   OfferNewsbreakDto,
   OfferRuleDto,
   OffersApiService,
+  Role,
 } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { isDevMode } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, startWith } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
   selector: 'mcrm-edit-offer',
@@ -29,6 +31,7 @@ import { filter, map, startWith } from 'rxjs/operators';
 })
 export class EditOfferComponent implements OnInit {
   constructor(
+    private readonly authService: AuthService,
     private readonly route: ActivatedRoute,
     private readonly offersApiService: OffersApiService,
     private readonly clientsApiService: ClientsApiService,
@@ -44,12 +47,14 @@ export class EditOfferComponent implements OnInit {
     selectedSections: [],
     rules: [],
     commonCommunicationReports: [],
+    isArchived: false,
   };
   isEdit: boolean = false;
   originalModel: OfferDto = {
     selectedSections: [],
     rules: [],
     commonCommunicationReports: [],
+    isArchived: false,
   };
   clients: ClientDto[] = [];
 
@@ -75,9 +80,19 @@ export class EditOfferComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    console.log(isDevMode());
+  get status() {
+    return this.model.isArchived ? 'В архиве' : 'Активно';
+  }
 
+  get isAdmin(): boolean {
+    return this.authService.getUserData()?.role == 2;
+  }
+
+  get disabled(): boolean {
+    return this.model.isArchived;
+  }
+
+  ngOnInit(): void {
     this.filteredClients = this.clientSelectControl.valueChanges.pipe(
       startWith(''),
       map((value) => this._filter(value))
@@ -167,6 +182,40 @@ export class EditOfferComponent implements OnInit {
               this.router.navigate(['/offers']);
             });
         }
+      });
+  }
+
+  moveToArchive() {
+    if (!this.model || !this.model.id) return;
+
+    this.isLoading = true;
+
+    this.offersApiService
+      .apiOffersArchiveInPatch(this.model.id)
+      .subscribe((response) => {
+        this.snackbarService.show({
+          message: 'КП отправлено в архив',
+          duration: 2000,
+        });
+        this.model.isArchived = true;
+        this.isLoading = false;
+      });
+  }
+
+  moveFromArchive() {
+    if (!this.model || !this.model.id) return;
+
+    this.isLoading = true;
+
+    this.offersApiService
+      .apiOffersArchiveOutPatch(this.model.id)
+      .subscribe((response) => {
+        this.snackbarService.show({
+          message: 'КП переведено в активный статус',
+          duration: 2000,
+        });
+        this.model.isArchived = false;
+        this.isLoading = false;
       });
   }
 

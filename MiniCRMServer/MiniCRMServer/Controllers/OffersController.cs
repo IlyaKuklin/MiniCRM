@@ -63,6 +63,23 @@ namespace MiniCRMServer.Controllers
             return this.Ok(204);
         }
 
+        [HttpPatch("archive_in")]
+        [ProducesResponseType(201)]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> MoveToArchive([Required] int id)
+        {
+            await _offersService.MoveToArchiveAsync(id, this.CurrentUserId);
+            return this.Ok(201);
+        }
+
+        [HttpPatch("archive_out")]
+        [ProducesResponseType(201)]
+        public async Task<IActionResult> MoveFromArchive([Required] int id)
+        {
+            await _offersService.MoveFromArchiveAsync(id, this.CurrentUserId);
+            return this.Ok(201);
+        }
+
         [HttpPatch("files/upload")]
         [ProducesResponseType(typeof(List<OfferFileDatum.Dto>), 200)]
         public async Task<IActionResult> UploadFile([Required] List<IFormFile> files, [FromQuery][Required] int offerId, [FromQuery][Required] OfferFileType type, [FromQuery][Required] bool replace)
@@ -176,8 +193,5 @@ namespace MiniCRMServer.Controllers
             await _offersService.AnswerOnFeedbackRequestAsync(answerDto);
             return this.Ok();
         }
-
-       
-
     }
 }

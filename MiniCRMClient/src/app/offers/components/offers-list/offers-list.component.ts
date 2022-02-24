@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,14 +28,27 @@ export class OffersListComponent implements OnInit {
   ) {}
 
   model: OfferShortDto[] = [];
-  displayedColumns: string[] = ['id', 'number', 'clientName', 'created', 'status', 'del'];
+  displayedColumns: string[] = [
+    'id',
+    'number',
+    'clientName',
+    'created',
+    'status',
+    'archive',
+    'del',
+  ];
   dataSource!: MatTableDataSource<OfferShortDto>;
   resultsLength: number = 0;
   isLoading = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  
+
+  archivedFilter = new FormControl('');
+  filterValues = {
+    archived: '1',
+  };
+
   private searchText$ = new Subject<string>();
 
   ngOnInit(): void {
@@ -43,6 +57,8 @@ export class OffersListComponent implements OnInit {
       this.dataSource = new MatTableDataSource<OfferShortDto>(response);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
+      this.dataSource.filterPredicate = this.createFilter();
+      this.fieldListener();
       this.isLoading = false;
 
       console.log(response);
@@ -77,7 +93,9 @@ export class OffersListComponent implements OnInit {
             .apiOffersDeleteDelete(id)
             .subscribe((response) => {
               this.model = this.model.filter((x) => x.id !== id);
-              this.dataSource = new MatTableDataSource<OfferShortDto>(this.model);
+              this.dataSource = new MatTableDataSource<OfferShortDto>(
+                this.model
+              );
               this.isLoading = false;
             });
         }
@@ -87,5 +105,36 @@ export class OffersListComponent implements OnInit {
   applyFilter(event: KeyboardEvent) {
     const value = (event.target as HTMLInputElement).value;
     this.searchText$.next(value);
+  }
+
+  private fieldListener() {
+    this.archivedFilter.valueChanges.subscribe((data) => {
+      this.filterValues.archived = data;
+      this.dataSource.filter = JSON.stringify(this.filterValues);
+    });
+  }
+
+  private createFilter(): (offer: OfferShortDto, filter: string) => boolean {
+    let filterFunction = function (
+      offer: OfferShortDto,
+      filter: string
+    ): boolean {
+      let searchTerms = JSON.parse(filter);
+      if (searchTerms.archived) {
+        switch (searchTerms.archived) {
+          case '1':
+            return true;
+          case '2':
+            return !offer.isArchived;
+          case '3':
+            return offer.isArchived;
+        }
+
+        return true;
+      }
+      return true;
+    };
+
+    return filterFunction;
   }
 }

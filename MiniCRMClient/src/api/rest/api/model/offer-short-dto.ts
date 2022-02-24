@@ -23,5 +23,6 @@ export interface OfferShortDto {
     clientVersionNumber?: number;
     status?: string | null;
     versions?: Array<OfferVersionShortDto> | null;
+    isArchived: boolean;
 }
 

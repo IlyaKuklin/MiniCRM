@@ -19,6 +19,7 @@ export interface OfferRuleDto {
     offerId?: number;
     offerNumber?: number;
     clientName?: string | null;
+    clientId?: number;
     completed: boolean;
     task?: string | null;
     report?: string | null;
