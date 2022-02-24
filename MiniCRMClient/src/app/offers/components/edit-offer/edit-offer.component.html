@@ -252,16 +252,6 @@
           </div>
         </div>
 
-        <!-- Суть предложения -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }" [checked]="isFieldSelected('offerPoint')" (change)="onFieldSelectChange($event)"
-                        name="offerPoint"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }">Суть предложения</mat-label>
-          <div class="offer_section__wrapper" style="display: block; padding-top: 1em;">
-            <quill-editor [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint"></quill-editor>
-          </div>
-        </div>
-
         <div class="offer_section__wrapper">
 
         </div>
@@ -290,7 +280,7 @@
                         (change)="onFieldSelectChange($event)" name="techPassport"></mat-checkbox>
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }">Технический паспорт</mat-label>
           <div class="offer_fieldWrapper" [ngClass]="{ 'faded-50': !isFieldSelected('techPassport') }">
-            <input type="file" multiple  placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(techPassportFileInput.files, 4, true)" #techPassportFileInput />
+            <input type="file" multiple placeholder="Choose file" style="display: none" accept="image/*" (change)="uploadFile(techPassportFileInput.files, 4, true)" #techPassportFileInput />
 
             <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('techPassport')" (click)="techPassportFileInput.click()">
               Добавить изображение
@@ -396,7 +386,23 @@
         </div>
       </mat-card>
     </div>
+
+    <!-- Суть предложения -->
+    <div class="col pt-4">
+      <mat-card>
+        <div class="offer_section" style="height: 700px;">
+          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }" [checked]="isFieldSelected('offerPoint')" (change)="onFieldSelectChange($event)"
+                        name="offerPoint"></mat-checkbox>
+          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }">Суть предложения</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint" [placeholder]="''"></quill-editor>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
   </div>
+
 
   <!-- Отчёты о коммуникации с клиентом -->
   <div class="row" *ngIf="isEdit">
