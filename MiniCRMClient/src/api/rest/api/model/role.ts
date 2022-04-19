@@ -11,12 +11,12 @@
  */
 
 
-export type Role = 0 | 1 | 2 | 3;
+export type Role = 'Undefined' | 'NotSet' | 'Administrator' | 'Manager';
 
 export const Role = {
-    NUMBER_0: 0 as Role,
-    NUMBER_1: 1 as Role,
-    NUMBER_2: 2 as Role,
-    NUMBER_3: 3 as Role
+    Undefined: 'Undefined' as Role,
+    NotSet: 'NotSet' as Role,
+    Administrator: 'Administrator' as Role,
+    Manager: 'Manager' as Role
 };
 

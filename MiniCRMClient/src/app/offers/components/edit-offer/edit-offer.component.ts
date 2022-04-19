@@ -43,8 +43,12 @@ export class EditOfferComponent implements OnInit {
   @ViewChild('offerForm') offerForm!: NgForm;
   isLoading: boolean = false;
 
+  fileTypes = OfferFileType;
+  checkStatuses = OfferCheckStatus;
+
   model: OfferDto = {
     selectedSections: [],
+    selectedSections2:[],
     rules: [],
     commonCommunicationReports: [],
     isArchived: false,
@@ -52,6 +56,7 @@ export class EditOfferComponent implements OnInit {
   isEdit: boolean = false;
   originalModel: OfferDto = {
     selectedSections: [],
+    selectedSections2: [],
     rules: [],
     commonCommunicationReports: [],
     isArchived: false,
@@ -85,7 +90,7 @@ export class EditOfferComponent implements OnInit {
   }
 
   get isAdmin(): boolean {
-    return this.authService.getUserData()?.role == 2;
+    return this.authService.getUserData()?.role ==  Role.Administrator;
   }
 
   get disabled(): boolean {
@@ -514,8 +519,8 @@ export class EditOfferComponent implements OnInit {
   }
 
   getRuleCheckStatus(ruleCheckStatus: OfferCheckStatus): string {
-    if (ruleCheckStatus == OfferCheckStatus.NUMBER_1) return 'Принято';
-    if (ruleCheckStatus == OfferCheckStatus.NUMBER_2) return 'Не принято';
+    if (ruleCheckStatus == OfferCheckStatus.Approved) return 'Принято';
+    if (ruleCheckStatus == OfferCheckStatus.Rejected) return 'Не принято';
     return '';
   }
 

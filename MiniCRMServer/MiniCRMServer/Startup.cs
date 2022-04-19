@@ -27,12 +27,12 @@ using MiniCRMCore.Areas.Offers;
 using MiniCRMCore.Areas.Offers.Models;
 using MiniCRMCore.Utilities.Serialization;
 using MiniCRMServer.Middleware;
-using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MiniCRMServer
@@ -137,7 +137,18 @@ namespace MiniCRMServer
             services.AddScoped<DBLoggerService>();
 
             services.AddControllers()
-                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                    opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                    //opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                });
+            ;
+                //.AddNewtonsoftJson(x =>
+                //{
+                //    x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                //    x.SerializerSettings.Converters.Add(new StringEnumConverter());
+                //});
 
             services.AddSwaggerGen(SwaggerGenApiExtentions.Configure);
         }

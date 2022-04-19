@@ -30,8 +30,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 		public List<OfferFileDatum> FileData { get; set; }
 
 		public List<string> SelectedSections { get; set; }
+		public List<OfferSectionType> SelectedSections2 { get; set; }
 
-		public int CurrentVersionNumber { get; set; }
+        public int CurrentVersionNumber { get; set; }
 		public int ClientVersionNumber { get; set; }
 
 		public List<OfferVersion> Versions { get; set; }
@@ -152,6 +153,9 @@ namespace MiniCRMCore.Areas.Offers.Models
 			[Required]
 			public List<string> SelectedSections { get; set; }
 
+			[Required]
+            public List<OfferSectionType> SelectedSections2 { get; set; }
+
 			/// <summary>
 			/// Ссылка для клиента.
 			/// </summary>
@@ -166,11 +170,11 @@ namespace MiniCRMCore.Areas.Offers.Models
 			/// Заявки на обратную связь с клиентом.
 			/// </summary>
 			public List<OfferFeedbackRequest.Dto> FeedbackRequests { get; set; }
-
+            
+            /// <summary>
+            /// Правила работы с клиентом.
+            /// </summary>
 			[Required]
-			/// <summary>
-			/// Правила работы с клиентом.
-			/// </summary>
 			public List<OfferRule.Dto> Rules { get; set; }
 
 			[Required]
@@ -244,5 +248,8 @@ namespace MiniCRMCore.Areas.Offers.Models
 
 		[Required]
 		public string Type { get; set; }
+
+		[Required]
+		public OfferSectionType Type2 { get; set; }
 	}
 }

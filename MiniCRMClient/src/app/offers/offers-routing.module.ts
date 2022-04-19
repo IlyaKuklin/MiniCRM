@@ -12,13 +12,13 @@ const routes: Routes = [
     path: 'offers',
     component: OffersListComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
+    data: { roles: [Role.Administrator, Role.Manager] },
   },
   {
     path: 'offers/edit/:id',
     component: EditOfferComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2, Role.NUMBER_3] },
+    data: { roles: [Role.Administrator, Role.Manager] },
   },
   {
     path: 'offers/:clientOfferId/:key',
@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'offers/checkRules',
     component: OffersCheckListComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.NUMBER_2] },
+    data: { roles: [Role.Administrator] },
   },
 ];
 

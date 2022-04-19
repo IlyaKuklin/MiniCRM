@@ -28,6 +28,7 @@ model/offer-newsbreak-dto.ts
 model/offer-rule-complete-dto.ts
 model/offer-rule-dto.ts
 model/offer-rule-reject-dto.ts
+model/offer-section-type.ts
 model/offer-short-dto.ts
 model/offer-version-short-dto.ts
 model/role.ts

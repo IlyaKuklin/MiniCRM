@@ -15,6 +15,7 @@ export * from './offer-newsbreak-dto';
 export * from './offer-rule-complete-dto';
 export * from './offer-rule-dto';
 export * from './offer-rule-reject-dto';
+export * from './offer-section-type';
 export * from './offer-short-dto';
 export * from './offer-version-short-dto';
 export * from './role';
