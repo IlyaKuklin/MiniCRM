@@ -70,6 +70,7 @@ namespace MiniCRMCore.Areas.Offers
                 .Include(x => x.Rules)
                 .Include(x => x.Manager)
                 .AsNoTracking()
+                .TagWith("Task<Offer.Dto> GetAsync")
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (offer == null)
                 throw new ApiException($"Не найден клиент с ID {id}");

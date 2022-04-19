@@ -33,7 +33,7 @@ export class ClientOfferViewComponent implements OnInit {
 
   // TODO: to pipe (https://stackoverflow.com/questions/39857858/angular-2-domsanitizer-bypasssecuritytrusthtml-svg)
   get offerPoint() {
-    var s = this.model.sections.find(x => x.type == 'offerPoint');
+    var s = this.model.sections.find((x) => x.type == 'offerPoint');
 
     if (s) {
       var h = this.sanitizer.bypassSecurityTrustHtml(<string>s.data);
@@ -78,8 +78,7 @@ export class ClientOfferViewComponent implements OnInit {
     const feedbackRequests = <HTMLElement>(
       document.getElementById('feedbackRequests')
     );
-    if (feedbackRequests)
-      feedbackRequests.style.display = 'none';
+    if (feedbackRequests) feedbackRequests.style.display = 'none';
 
     var data = document.getElementById('offer'); //Id of the table
     if (data) {
@@ -99,9 +98,8 @@ export class ClientOfferViewComponent implements OnInit {
         pdf.save(`Коммерческое предложение №${this.model.number}.pdf`); // Generated PDF
 
         btn.style.display = 'block';
-        
-        if (feedbackRequests)
-          feedbackRequests.style.display = 'block';
+
+        if (feedbackRequests) feedbackRequests.style.display = 'block';
         this.isLoading = false;
       });
     }
@@ -122,5 +120,12 @@ export class ClientOfferViewComponent implements OnInit {
           (x) => x.id !== request.id
         );
       });
+  }
+
+  getIconPathByType(type: string) {
+    switch(type) {
+      case 'description' : return 'assets/static/NewspaperClipping.svg';
+      default: return '';
+    }
   }
 }

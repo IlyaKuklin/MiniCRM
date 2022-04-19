@@ -6,31 +6,31 @@
           <ul style="font-size: 0.9em" class="gr1">
             <li>
               <div>
-                <img src="assets/static/checks.png" class="gr1_checks" />
+                <img src="assets/static/Checks.svg" class="gr1_checks" />
                 <span>Производство промышленных сенсорных киосков</span>
               </div>
             </li>
             <li>
               <div>
-                <img src="assets/static/checks.png" class="gr1_checks" />
+                <img src="assets/static/Checks.svg" class="gr1_checks" />
                 <span>Производство интерактивного оборудования</span>
               </div>
             </li>
             <li>
               <div>
-                <img src="assets/static/checks.png" class="gr1_checks" />
+                <img src="assets/static/Checks.svg" class="gr1_checks" />
                 <span>Производство систем автоматических касс</span>
               </div>
             </li>
             <li>
               <div>
-                <img src="assets/static/checks.png" class="gr1_checks" />
+                <img src="assets/static/Checks.svg" class="gr1_checks" />
                 <span>Производство систем электронной очереди</span>
               </div>
             </li>
             <li>
               <div>
-                <img src="assets/static/checks.png" class="gr1_checks" />
+                <img src="assets/static/Checks.svg" class="gr1_checks" />
                 <span>Разработка технологических ИТ платформ</span>
               </div>
             </li>
@@ -138,6 +138,18 @@
       </div>
     </div>
 
+    <div class="offer_body__content">
+      <div *ngFor="let section of model.sections" class="section">
+        <div class="section_header">
+          <div class="section_header__inner">
+            <img [src]="getIconPathByType(section.type)" class="section_header__inner-img" />
+            <div class="section_header__inner-text">{{section.name}}</div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
     <div *ngFor="let section of model.sections">
       <div class="row" style="padding: 1em 0">
         <div class="col-3">
@@ -157,18 +169,13 @@
             {{ section.data }}
           </ng-container>
           <ng-container *ngIf="section.type == 'offerPoint'">
-            <!-- <quill-view-html
-              [content]="section.data"
-              theme="snow"
-            ></quill-view-html> -->
-
             <div class="ql-container ql-snow" style="border-width: 0">
               <div class="ql-editor" [innerHTML]="offerPoint"></div>
             </div>
 
           </ng-container>
           <ng-container *ngIf="section.type == 'img'">
-            <div *ngFor="let path of section.imagePaths" >
+            <div *ngFor="let path of section.imagePaths">
               <img [src]="path" />
             </div>
           </ng-container>

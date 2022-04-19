@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MiniCRMCore;
@@ -70,8 +71,18 @@ namespace MiniCRMServer
                 o.MemoryBufferThreshold = int.MaxValue;
             });
 
+            var contextLoggerFactory = LoggerFactory.Create(b => b
+                .AddConsole()
+                .AddFilter("", LogLevel.Information));
+
             var connectionString = this.Configuration.GetSection("ConnectionString").Value;
-            services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connectionString));
+            services.AddDbContext<ApplicationContext>(options =>
+            {
+                options
+                    .UseNpgsql(connectionString)
+                    .UseLoggerFactory(contextLoggerFactory)
+                    ;
+            });
 
             var hangfireConnectionString = this.Configuration.GetSection("HangfireConnectionString").Value;
             services.AddHangfire(options =>
