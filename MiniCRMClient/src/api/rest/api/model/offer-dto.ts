@@ -16,7 +16,6 @@ import { UserDto } from './user-dto';
 import { CommunicationReportDto } from './communication-report-dto';
 import { OfferNewsbreakDto } from './offer-newsbreak-dto';
 import { OfferFeedbackRequestDto } from './offer-feedback-request-dto';
-import { OfferSectionType } from './offer-section-type';
 
 
 export interface OfferDto { 
@@ -40,7 +39,6 @@ export interface OfferDto {
     clientId?: number;
     fileData?: Array<OfferFileDatumDto> | null;
     selectedSections: Array<string>;
-    selectedSections2: Array<OfferSectionType>;
     clientLink?: string;
     newsbreaks?: Array<OfferNewsbreakDto> | null;
     feedbackRequests?: Array<OfferFeedbackRequestDto> | null;

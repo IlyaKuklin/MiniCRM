@@ -11,11 +11,11 @@
  */
 
 
-export type OfferCheckStatus = 'NotSet' | 'Approved' | 'Rejected';
+export type OfferCheckStatus = 0 | 1 | 2;
 
 export const OfferCheckStatus = {
-    NotSet: 'NotSet' as OfferCheckStatus,
-    Approved: 'Approved' as OfferCheckStatus,
-    Rejected: 'Rejected' as OfferCheckStatus
+    NUMBER_0: 0 as OfferCheckStatus,
+    NUMBER_1: 1 as OfferCheckStatus,
+    NUMBER_2: 2 as OfferCheckStatus
 };
 

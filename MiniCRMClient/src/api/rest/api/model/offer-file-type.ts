@@ -11,14 +11,14 @@
  */
 
 
-export type OfferFileType = 'Undefined' | 'NotSet' | 'Photo' | 'Certificate' | 'TechPassport' | 'Card';
+export type OfferFileType = 0 | 1 | 2 | 3 | 4 | 5;
 
 export const OfferFileType = {
-    Undefined: 'Undefined' as OfferFileType,
-    NotSet: 'NotSet' as OfferFileType,
-    Photo: 'Photo' as OfferFileType,
-    Certificate: 'Certificate' as OfferFileType,
-    TechPassport: 'TechPassport' as OfferFileType,
-    Card: 'Card' as OfferFileType
+    NUMBER_0: 0 as OfferFileType,
+    NUMBER_1: 1 as OfferFileType,
+    NUMBER_2: 2 as OfferFileType,
+    NUMBER_3: 3 as OfferFileType,
+    NUMBER_4: 4 as OfferFileType,
+    NUMBER_5: 5 as OfferFileType
 };
 

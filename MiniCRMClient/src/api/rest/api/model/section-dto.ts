@@ -9,7 +9,6 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { OfferSectionType } from './offer-section-type';
 
 
 export interface SectionDto { 
@@ -17,6 +16,5 @@ export interface SectionDto {
     data: string;
     imagePaths: Array<string>;
     type: string;
-    type2: OfferSectionType;
 }
 

@@ -37,7 +37,6 @@ export class ClientsListComponent implements OnInit {
   ngOnInit(): void {
     this.clientsApiService.apiClientsListGet().subscribe((response) => {
       this.model = response;
-      console.log(response)
       this.dataSource = new MatTableDataSource<ClientDto>(response);
       this.dataSource.paginator = this.paginator;
       this.isLoading = false;

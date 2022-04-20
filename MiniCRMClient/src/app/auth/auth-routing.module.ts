@@ -17,25 +17,25 @@ const routes: Routes = [
     path: 'managers',
     component: ManagersListComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.Administrator] },
+    data: { roles: [Role.NUMBER_2] },
   },
   {
     path: 'managers/edit/:id',
     component: EditManagerComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.Administrator] },
+    data: { roles: [Role.NUMBER_2] },
   },
   {
     path: 'emailSettings',
     component: EmailSettingsComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.Administrator] },
+    data: { roles: [Role.NUMBER_2] },
   },
   {
     path: 'managers/edit/:id/password',
     component: EditPasswordComponent,
     canActivate: [RolesGuard],
-    data: { roles: [Role.Administrator] },
+    data: { roles: [Role.NUMBER_2] },
   },
 ];
 

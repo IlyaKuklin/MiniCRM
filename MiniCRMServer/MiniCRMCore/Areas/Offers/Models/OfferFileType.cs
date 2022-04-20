@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-
-namespace MiniCRMCore.Areas.Offers.Models
+﻿namespace MiniCRMCore.Areas.Offers.Models
 {
 	public enum OfferFileType
 	{
@@ -12,23 +9,5 @@ namespace MiniCRMCore.Areas.Offers.Models
 		Certificate,
 		TechPassport,
 		Card
-	}
-
-	public enum OfferSectionType
-    {
-        Undefined = 0,
-        NotSet = 1,
-
-		Description,
-		SystemType,
-		ShortDescription,
-		Case,
-		Recommendations,
-		SimilarCases,
-		RestDocuments,
-		CoveringLetter,
-		TechPassport,
-		Certificates,
-		BusinessCard
 	}
 }

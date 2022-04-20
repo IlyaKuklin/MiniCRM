@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniCRMCore;
-using MiniCRMCore.Areas.Offers.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MiniCRMCore.Migrations
@@ -287,9 +286,6 @@ namespace MiniCRMCore.Migrations
 
                     b.Property<List<string>>("SelectedSections")
                         .HasColumnType("text[]");
-
-                    b.Property<List<OfferSectionType>>("SelectedSections2")
-                        .HasColumnType("integer[]");
 
                     b.Property<string>("SimilarCases")
                         .HasColumnType("text");
