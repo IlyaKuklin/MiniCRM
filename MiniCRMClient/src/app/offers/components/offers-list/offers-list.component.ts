@@ -11,9 +11,8 @@ import {
   mergeMap,
   tap,
 } from 'rxjs/operators';
-import { OfferDto, OffersApiService, OfferShortDto } from 'src/api/rest/api';
+import { OffersApiService, OfferShortDto } from 'src/api/rest/api';
 import { DialogService } from 'src/app/shared/services/dialog.service';
-import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 
 @Component({
   selector: 'mcrm-offers-list',
@@ -23,7 +22,6 @@ import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 export class OffersListComponent implements OnInit {
   constructor(
     private readonly offersApiService: OffersApiService,
-    private readonly snackbarService: SnackbarService,
     private readonly dialogService: DialogService
   ) {}
 

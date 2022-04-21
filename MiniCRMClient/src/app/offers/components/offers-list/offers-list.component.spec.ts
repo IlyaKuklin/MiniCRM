@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { OffersApiService } from 'src/api/rest/api';
+import { DialogService } from 'src/app/shared/services/dialog.service';
 
 import { OffersListComponent } from './offers-list.component';
 
