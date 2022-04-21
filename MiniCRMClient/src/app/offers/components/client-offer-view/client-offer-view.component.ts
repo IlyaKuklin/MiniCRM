@@ -91,16 +91,26 @@ export class ClientOfferViewComponent implements OnInit {
       html2canvas(data, {
         useCORS: true,
       }).then((canvas) => {
-        // Few necessary setting options
-        let imgWidth = 210;
-        let pageHeight = 295;
-        let imgHeight = (canvas.height * imgWidth) / canvas.width;
-        let heightLeft = imgHeight;
+        // let w = 210;
+        // let h = (canvas.height * w) / canvas.width;
 
         const contentDataURL = canvas.toDataURL('image/png');
-        let pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-        let position = 0;
-        pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+        let pdf = new jsPDF('p', 'mm', [297, 210]); // A4 size page of PDF
+
+        let width = pdf.internal.pageSize.getWidth() + 50;
+        let height = pdf.internal.pageSize.getHeight();
+        let widthRatio = width / canvas.width;
+        let heightRatio = height / canvas.height;
+        let ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+
+        pdf.addImage(
+          contentDataURL,
+          'PNG',
+          0-25,
+          0,
+          canvas.width * ratio,
+          canvas.height * ratio
+        );
         pdf.save(`Коммерческое предложение №${this.model.number}.pdf`); // Generated PDF
 
         btn.style.display = 'block';
