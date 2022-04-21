@@ -142,11 +142,10 @@
       <div *ngFor="let section of model.sections" class="section">
         <div class="section_header">
           <div class="section_header__inner">
-            <img [src]="getIconPathByType(section.type)" class="section_header__inner-img" />
+            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img" />
             <div class="section_header__inner-text">{{section.name}}</div>
           </div>
         </div>
-        
       </div>
     </div>
 

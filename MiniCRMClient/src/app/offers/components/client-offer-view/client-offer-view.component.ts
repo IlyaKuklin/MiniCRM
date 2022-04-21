@@ -3,6 +3,7 @@ import {
   OfferClientViewDto,
   OfferFeedbackRequestDto,
   OffersApiService,
+  SectionDto,
 } from 'src/api/rest/api';
 import { isDevMode } from '@angular/core';
 import { jsPDF } from 'jspdf';
@@ -10,8 +11,8 @@ import html2canvas from 'html2canvas';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { HttpClient } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { OffersService } from '../../services/offers.service';
 
 @Component({
   selector: 'mcrm-client-offer-view',
@@ -22,9 +23,9 @@ export class ClientOfferViewComponent implements OnInit {
   constructor(
     private readonly offersApiService: OffersApiService,
     private readonly route: ActivatedRoute,
-    private readonly http: HttpClient,
     private readonly snackbarService: SnackbarService,
     private readonly dialogService: DialogService,
+    private readonly offersService: OffersService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -61,7 +62,12 @@ export class ClientOfferViewComponent implements OnInit {
 
           this.model = response;
           this.isLoading = false;
-          console.log(response);
+
+          this.model.sections = this.offersService.sortByName(
+            this.model.sections
+          );
+
+          console.log(this.model.sections);
         });
     });
   }
@@ -122,10 +128,7 @@ export class ClientOfferViewComponent implements OnInit {
       });
   }
 
-  getIconPathByType(type: string) {
-    switch(type) {
-      case 'description' : return 'assets/static/NewspaperClipping.svg';
-      default: return '';
-    }
+  getIconPathByName(name: string): string {
+    return this.offersService.getPathByName(name);
   }
 }
