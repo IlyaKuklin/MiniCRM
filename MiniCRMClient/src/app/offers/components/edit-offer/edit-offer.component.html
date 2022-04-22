@@ -358,12 +358,15 @@
           <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }" [checked]="isFieldSelected('similarCases')"
                         (change)="onFieldSelectChange($event)" name="similarCases" [disabled]="disabled"></mat-checkbox>
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }">Аналогичные кейсы</mat-label>
-          <div class="offer_section__wrapper">
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('similarCases')" [(ngModel)]="model.similarCases" [placeholder]="''" [disabled]="disabled"></quill-editor>
+          </div>
+          <!-- <div class="offer_section__wrapper">
             <mat-form-field class="offer_section__wrapper__field">
               <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('similarCases')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
                         [(ngModel)]="model.similarCases" name="similarCases" #similarCases="ngModel" [disabled]="disabled"></textarea>
             </mat-form-field>
-          </div>
+          </div> -->
         </div>
 
         <!-- Визитка -->
@@ -401,7 +404,7 @@
                         name="offerPoint" [disabled]="disabled"></mat-checkbox>
           <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerPoint') }">Суть предложения</mat-label>
           <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
-            <quill-editor [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint" [placeholder]="''" [disabled]="disabled"></quill-editor>
+            <quill-editor [disabled]="!isFieldSelected('offerPoint')" [(ngModel)]="model.offerPoint" [placeholder]="''"></quill-editor>
           </div>
         </div>
       </mat-card>
