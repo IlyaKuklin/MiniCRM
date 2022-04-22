@@ -32,21 +32,6 @@ export class ClientOfferViewComponent implements OnInit {
   model!: OfferClientViewDto;
   isLoading: boolean = false;
 
-  // TODO: to pipe (https://stackoverflow.com/questions/39857858/angular-2-domsanitizer-bypasssecuritytrusthtml-svg)
-  get offerPoint() {
-    var s = this.model.sections.find((x) => x.type == 'offerPoint');
-
-    if (s) {
-      var h = this.sanitizer.bypassSecurityTrustHtml(<string>s.data);
-      return h;
-    }
-    return '';
-  }
-
-  getSanitizedData(data: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(<string>data);
-  }
-
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.isLoading = true;
@@ -110,7 +95,7 @@ export class ClientOfferViewComponent implements OnInit {
         pdf.addImage(
           contentDataURL,
           'PNG',
-          0-25,
+          0 - 25,
           0,
           canvas.width * ratio,
           canvas.height * ratio
@@ -144,5 +129,10 @@ export class ClientOfferViewComponent implements OnInit {
 
   getIconPathByName(name: string): string {
     return this.offersService.getPathByName(name);
+  }
+
+  // TODO: to pipe (https://stackoverflow.com/questions/39857858/angular-2-domsanitizer-bypasssecuritytrusthtml-svg)
+  getSanitizedData(data: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(<string>data);
   }
 }
