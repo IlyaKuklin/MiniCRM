@@ -72,7 +72,7 @@ import { BooleanTextPipe } from './pipes/boolean-text/boolean-text.pipe';
     ConfirmDialogComponent,
     InputDialogComponent,
     CommunicationReportsListComponent,
-    BooleanTextPipe
+    BooleanTextPipe,
   ],
   imports: [
     CommonModule,
@@ -127,7 +127,19 @@ import { BooleanTextPipe } from './pipes/boolean-text/boolean-text.pipe';
     ReactiveFormsModule,
     HttpClientModule,
 
-    QuillModule.forRoot()
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link'],
+          [{ size: ['small', false, 'large', 'huge'] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          [{ color: [] }, { background: [] }],
+        ],
+      },
+    }),
   ],
   exports: [
     A11yModule,
@@ -185,7 +197,7 @@ import { BooleanTextPipe } from './pipes/boolean-text/boolean-text.pipe';
     // Components
     ToolbarComponent,
     CommunicationReportsListComponent,
-    BooleanTextPipe
+    BooleanTextPipe,
   ],
 
   providers: [

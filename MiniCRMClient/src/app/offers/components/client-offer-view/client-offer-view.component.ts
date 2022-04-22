@@ -11,7 +11,7 @@ import html2canvas from 'html2canvas';
 import { ActivatedRoute } from '@angular/router';
 import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { OffersService } from '../../services/offers.service';
 
 @Component({
@@ -41,6 +41,10 @@ export class ClientOfferViewComponent implements OnInit {
       return h;
     }
     return '';
+  }
+
+  getSanitizedData(data: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(<string>data);
   }
 
   ngOnInit(): void {

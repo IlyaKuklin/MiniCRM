@@ -184,17 +184,14 @@
     <div class="col-6">
       <mat-card class="offer_card">
         <!-- Фотографии и описание товара -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('description') }" [checked]="isFieldSelected('description')" (change)="onFieldSelectChange($event)"
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('description') }">
+          <mat-checkbox class="offer_section_cb"  [checked]="isFieldSelected('description')" (change)="onFieldSelectChange($event)"
                         name="description" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('description') }">Фотографии и описание товара</mat-label>
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" [disabled]="!isFieldSelected('description')" rows="4" matInput [errorStateMatcher]="errorStateMatcher" type="text"
-                        [(ngModel)]="model.description" name="description" #description="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
+          <mat-label >Фотографии и описание товара</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('description')" [(ngModel)]="model.description" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
-          <div [ngClass]="{ 'faded-50': !isFieldSelected('description') }">
+          <div >
             <input type="file" placeholder="Choose file" style="display: none" multiple accept="image/*" (change)="uploadFile(photoFileInput.files, 2, false)" #photoFileInput />
 
             <button mat-raised-button class="fileButton" [disabled]="!isFieldSelected('description')" (click)="photoFileInput.click()" [disabled]="disabled">
@@ -215,61 +212,43 @@
         </div>
 
         <!-- Тип системы/продукта -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }" [checked]="isFieldSelected('productSystemType')"
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('productSystemType')"
                         (change)="onFieldSelectChange($event)" name="productSystemType" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('productSystemType') }">Тип системы/продукта</mat-label>
-          <div>
-            <mat-form-field class="offer_section__wrapper__field">
-              <input matInput [disabled]="!isFieldSelected('productSystemType')" [errorStateMatcher]="errorStateMatcher" type="text" [(ngModel)]="model.productSystemType"
-                     name="productSystemType" #productSystemType="ngModel" [disabled]="disabled" />
-            </mat-form-field>
+          <mat-label >Тип системы/продукта</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('productSystemType')" [(ngModel)]="model.productSystemType" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
         </div>
 
         <!-- Краткое описание отрасли клиента -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{
-              'faded-50': !isFieldSelected('briefIndustryDescription')
-            }" [checked]="isFieldSelected('briefIndustryDescription')" (change)="onFieldSelectChange($event)" name="briefIndustryDescription" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{
-              'faded-50': !isFieldSelected('briefIndustryDescription')
-            }">Краткое описание отрасли клиента</mat-label>
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('briefIndustryDescription')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
-                        [(ngModel)]="model.briefIndustryDescription" name="briefIndustryDescription" #briefIndustryDescription="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
+        <div class="offer_section" [ngClass]="{
+          'faded-50': !isFieldSelected('briefIndustryDescription')
+        }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('briefIndustryDescription')" (change)="onFieldSelectChange($event)" name="briefIndustryDescription"
+                        [disabled]="disabled"></mat-checkbox>
+          <mat-label>Краткое описание отрасли клиента</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('briefIndustryDescription')" [(ngModel)]="model.briefIndustryDescription" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
         </div>
 
         <!-- Кейс -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }" [checked]="isFieldSelected('offerCase')" (change)="onFieldSelectChange($event)"
-                        name="offerCase" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }">Кейс</mat-label>
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('offerCase')" matInput [errorStateMatcher]="errorStateMatcher" type="text" [(ngModel)]="model.offerCase"
-                        name="offerCase" #offerCase="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('offerCase') }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('offerCase')" (change)="onFieldSelectChange($event)" name="offerCase" [disabled]="disabled"></mat-checkbox>
+          <mat-label>Кейс</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('offerCase')" [(ngModel)]="model.offerCase" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
         </div>
 
-        <div class="offer_section__wrapper">
-
-        </div>
-
         <!-- Рекомендации клиенту -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }" [checked]="isFieldSelected('recommendations')"
-                        (change)="onFieldSelectChange($event)" name="recommendations" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }">Рекомендации клиенту</mat-label>
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('recommendations')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
-                        [(ngModel)]="model.recommendations" name="recommendations" #recommendations="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('recommendations') }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('recommendations')" (change)="onFieldSelectChange($event)" name="recommendations" [disabled]="disabled">
+          </mat-checkbox>
+          <mat-label>Рекомендации клиенту</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('recommendations')" [(ngModel)]="model.recommendations" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
         </div>
       </mat-card>
@@ -328,45 +307,32 @@
         </div>
 
         <!-- Прочая документация -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }" [checked]="isFieldSelected('otherDocumentation')"
-                        (change)="onFieldSelectChange($event)" name="otherDocumentation" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }">Прочая документация</mat-label>
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('otherDocumentation')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
-                        [(ngModel)]="model.otherDocumentation" name="otherDocumentation" #otherDocumentation="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('otherDocumentation') }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('otherDocumentation')" (change)="onFieldSelectChange($event)" name="otherDocumentation" [disabled]="disabled">
+          </mat-checkbox>
+          <mat-label>Прочая документация</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('otherDocumentation')" [(ngModel)]="model.otherDocumentation" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
         </div>
 
         <!-- Сопроводительное письмо -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }" [checked]="isFieldSelected('coveringLetter')"
-                        (change)="onFieldSelectChange($event)" name="coveringLetter" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }">Сопроводительное письмо</mat-label>
-          <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('coveringLetter')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
-                        [(ngModel)]="model.coveringLetter" name="coveringLetter" #coveringLetter="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('coveringLetter') }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('coveringLetter')" (change)="onFieldSelectChange($event)" name="coveringLetter" [disabled]="disabled">
+          </mat-checkbox>
+          <mat-label>Сопроводительное письмо</mat-label>
+          <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
+            <quill-editor [disabled]="!isFieldSelected('coveringLetter')" [(ngModel)]="model.coveringLetter" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
         </div>
 
         <!-- Аналогичные кейсы -->
-        <div class="offer_section">
-          <mat-checkbox class="offer_section_cb" [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }" [checked]="isFieldSelected('similarCases')"
-                        (change)="onFieldSelectChange($event)" name="similarCases" [disabled]="disabled"></mat-checkbox>
-          <mat-label [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }">Аналогичные кейсы</mat-label>
+        <div class="offer_section" [ngClass]="{ 'faded-50': !isFieldSelected('similarCases') }">
+          <mat-checkbox class="offer_section_cb" [checked]="isFieldSelected('similarCases')" (change)="onFieldSelectChange($event)" name="similarCases" [disabled]="disabled"></mat-checkbox>
+          <mat-label>Аналогичные кейсы</mat-label>
           <div class="offer_section__wrapper" style="display: block; padding-top: 1em; height: 90%;">
             <quill-editor [disabled]="!isFieldSelected('similarCases')" [(ngModel)]="model.similarCases" [placeholder]="''" [disabled]="disabled"></quill-editor>
           </div>
-          <!-- <div class="offer_section__wrapper">
-            <mat-form-field class="offer_section__wrapper__field">
-              <textarea style="resize: none" rows="4" [disabled]="!isFieldSelected('similarCases')" matInput [errorStateMatcher]="errorStateMatcher" type="text"
-                        [(ngModel)]="model.similarCases" name="similarCases" #similarCases="ngModel" [disabled]="disabled"></textarea>
-            </mat-form-field>
-          </div> -->
         </div>
 
         <!-- Визитка -->
@@ -416,7 +382,8 @@
   <div class="row" *ngIf="isEdit">
     <div class="col-12">
       <mat-card>
-        <mcrm-communication-reports-list *ngIf="model.id && model.id > 0" [type]="'offer'" [id]="model.id" [reports]="model.commonCommunicationReports" [disabled]="disabled"></mcrm-communication-reports-list>
+        <mcrm-communication-reports-list *ngIf="model.id && model.id > 0" [type]="'offer'" [id]="model.id" [reports]="model.commonCommunicationReports" [disabled]="disabled">
+        </mcrm-communication-reports-list>
       </mat-card>
     </div>
   </div>

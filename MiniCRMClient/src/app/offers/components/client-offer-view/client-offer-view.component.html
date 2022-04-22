@@ -142,34 +142,30 @@
       <div *ngFor="let section of model.sections" class="section">
         <div class="section_header">
           <div class="section_header__inner">
-            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img" style="max-width: 540px; max-height: 358px;"/>
+            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img" style="max-width: 400px; max-height: 358px;" />
             <div class="section_header__inner-text">{{section.name}}</div>
           </div>
         </div>
         <div class="section_body">
 
           <ng-container *ngIf="section.type == 'description'">
-            <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1em;">
-              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" style="max-width: 540px; max-height: 358px;">
+            <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1em; padding-bottom: 1em;">
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" style="max-width: 400px; max-height: 358px;">
             </div>
-            <div>
-              {{section.data}}
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="section.type == 'text'">
-            {{ section.data }}
-          </ng-container>
-
-          <ng-container *ngIf="section.type == 'offerPoint'">
             <div class="ql-container ql-snow" style="border-width: 0">
-              <div class="ql-editor" [innerHTML]="offerPoint"></div>
+              <div class="ql-editor" [innerHTML]="getSanitizedData(section.data)"></div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="section.type == 'offerPoint' || section.type == 'text'">
+            <div class="ql-container ql-snow" style="border-width: 0">
+              <div class="ql-editor" [innerHTML]="getSanitizedData(section.data)"></div>
             </div>
           </ng-container>
 
           <ng-container *ngIf="section.type == 'img'">
             <div>
-              <img [src]="path" *ngFor="let path of section.imagePaths" style="max-width: 540px; max-height: 358px;" />
+              <img [src]="path" *ngFor="let path of section.imagePaths" style="max-width: 400px; max-height: 358px;" />
             </div>
           </ng-container>
 
