@@ -629,6 +629,12 @@ namespace MiniCRMCore.Areas.Offers
 						section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.Certificate).Select(x => x.FileDatum.Path).ToList();
 						dto.Sections.Add(section);
 					}
+                    if (sectionName == "card")
+                    {
+                        section.Type = "img";
+                        section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.Card).Select(x => x.FileDatum.Path).ToList();
+                        dto.Sections.Add(section);
+                    }
 				}
 			}
 
@@ -666,26 +672,26 @@ namespace MiniCRMCore.Areas.Offers
         }
 
 		private static string GetReadablePropertyName(string name)
-		{
-			switch (name)
-			{
-				case "productSystemType": return "Тип товара/системы";
+        {
+            return name switch
+            {
+                "productSystemType" => "Тип товара/системы",
+                "card" => "Визитка",
+                "description" => "Фотографии и описание товара",
+                "briefIndustryDescription" => "Краткое описание отрасли",
+                "offerCase" => "Кейс",
+                "offerPoint" => "Суть предложения",
+                "recommendations" => "Рекомендации",
+                "techPassport" => "Технический паспорт",
+                "certificate" => "Сертификат",
+                "coveringLetter" => "Сопроводительное письмо",
+                "similarCases" => "Аналогичные кейсы",
+                "otherDocumentation" => "Прочая документация",
+                _ => "NotImplementedException"
+            };
 
-				case "description": return "Фотографии и описание товара";
-				case "briefIndustryDescription": return "Краткое описание отрасли";
-				case "offerCase": return "Кейс";
-				case "offerPoint": return "Суть предложения";
-				case "recommendations": return "Рекомендации";
-				case "techPassport": return "Технический паспорт";
-				case "certificate": return "Сертификат";
-				case "coveringLetter": return "Сопроводительное письмо";
-				case "similarCases": return "Аналогичные кейсы";
-				case "otherDocumentation": return "Прочая документация";
-			}
-
-			return "NotImplementedException";
-			//throw new NotImplementedException();
-		}
+            //throw new NotImplementedException();
+        }
 
 		#endregion Client
 

@@ -142,15 +142,15 @@
       <div *ngFor="let section of model.sections" class="section">
         <div class="section_header">
           <div class="section_header__inner">
-            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img" />
+            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img" style="max-width: 540px; max-height: 358px;"/>
             <div class="section_header__inner-text">{{section.name}}</div>
           </div>
         </div>
         <div class="section_body">
 
           <ng-container *ngIf="section.type == 'description'">
-            <div>
-              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath">
+            <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1em;">
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" style="max-width: 540px; max-height: 358px;">
             </div>
             <div>
               {{section.data}}
@@ -167,47 +167,21 @@
             </div>
           </ng-container>
 
+          <ng-container *ngIf="section.type == 'img'">
+            <div>
+              <img [src]="path" *ngFor="let path of section.imagePaths" style="max-width: 540px; max-height: 358px;" />
+            </div>
+          </ng-container>
+
         </div>
       </div>
     </div>
 
-    <!-- <div *ngFor="let section of model.sections">
-      <div class="row" style="padding: 1em 0">
-        <div class="col-3">
-          <strong> {{ section.name }}</strong>
-        </div>
-        <div class="col-9">
-
-          <ng-container *ngIf="section.type == 'description'">
-            {{section.data}}
-            <br>
-            <div *ngFor="let path of section.imagePaths" style="padding: 0.5em;">
-              <img [src]="path" />
-            </div>
-          </ng-container>
-
-          <ng-container *ngIf="section.type == 'text'">
-            {{ section.data }}
-          </ng-container>
-          <ng-container *ngIf="section.type == 'offerPoint'">
-            <div class="ql-container ql-snow" style="border-width: 0">
-              <div class="ql-editor" [innerHTML]="offerPoint"></div>
-            </div>
-
-          </ng-container>
-          <ng-container *ngIf="section.type == 'img'">
-            <div *ngFor="let path of section.imagePaths">
-              <img [src]="path" />
-            </div>
-          </ng-container>
-        </div>
-        <mat-divider></mat-divider>
-      </div>
-    </div> -->
-
-    <button mat-raised-button id="download_btn" (click)="download()">
-      Скачать
-    </button>
+    <div style="display: flex; justify-content: center;">
+      <button mat-button id="download_btn" (click)="download()" style="background-color: #FF9000; color: #fff; width: 300px;">
+        Скачать
+      </button>
+    </div>
   </div>
 </div>
 
