@@ -142,7 +142,7 @@
       <div *ngFor="let section of model.sections" class="section">
         <div class="section_header">
           <div class="section_header__inner">
-            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img"/>
+            <img [src]="getIconPathByName(section.name)" class="section_header__inner-img" />
             <div class="section_header__inner-text">{{section.name}}</div>
           </div>
         </div>
@@ -165,7 +165,7 @@
 
           <ng-container *ngIf="section.type == 'img'">
             <div>
-              <img [src]="path" *ngFor="let path of section.imagePaths" style="max-width: 400px; max-height: 358px;" />
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" style="max-width: 400px; max-height: 358px;" />
             </div>
           </ng-container>
 
