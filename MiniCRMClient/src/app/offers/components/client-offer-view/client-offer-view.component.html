@@ -150,7 +150,7 @@
 
           <ng-container *ngIf="section.type == 'description'">
             <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1em; padding-bottom: 1em;">
-              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" style="max-width: 400px; max-height: 358px;">
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" class="section_body__image" (click)="goToPage(imgPath)">
             </div>
             <div class="ql-container ql-snow" style="border-width: 0">
               <div class="ql-editor" [innerHTML]="getSanitizedData(section.data)"></div>
@@ -165,7 +165,7 @@
 
           <ng-container *ngIf="section.type == 'img'">
             <div>
-              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" style="max-width: 400px; max-height: 358px;" />
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" class="section_body__image" (click)="goToPage(imgPath)" />
             </div>
           </ng-container>
 

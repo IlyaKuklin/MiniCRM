@@ -135,4 +135,8 @@ export class ClientOfferViewComponent implements OnInit {
   getSanitizedData(data: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(<string>data);
   }
+
+  goToPage(url: string) {
+    window.open(url, '_blank');
+  }
 }
