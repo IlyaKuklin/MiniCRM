@@ -1,5 +1,6 @@
 <div class="offer" id="offer" style="min-height: calc(100vh - 50px)">
-  <header class="offer_header">
+  <!-- header desktop -->
+  <header class="offer_header d-none d-lg-block d-xl-block">
     <div class="container offer_header-container">
       <div class="row">
         <div class="col-4">
@@ -69,6 +70,28 @@
       </div>
     </div>
   </header>
+  <!-- header mobile -->
+  <header class="offer_header d-block d-md-none">
+    <div class="container offer_header-container">
+      <div style="display: flex; justify-content: center;">
+        <img src="assets/static/logo_new.png" style="max-width: 300px" />
+      </div>
+      <div style="display: flex; justify-content: center; text-align: center; padding: 1em 0">
+        <span style="max-width: 60%;">191040, Санкт-Петербург Лиговский пр-т д.50, корп. 15</span>
+      </div>
+      <div class="gr3_phone" style="display: flex; justify-content: center;">
+        <a href="tel:8 (800) 100-47-78 ">8 (800) 100-47-78 </a>
+      </div>
+      <div class="gr3_phone" style="display: flex; justify-content: center; padding-top: 0.25em;">
+        <a href="tel:+7 (812) 309-02-36">+7 (812) 309-02-36</a>
+      </div>
+      <div class="gr3_email" style="display: flex; justify-content: center; padding-top: 1em;">
+        <img src="assets/static/envelope.png" style="width: 15px; height: 15px; margin-right: 0.5em" />
+        <a href="mailto:sales@automat-service.ru">sales@automat-service.ru</a>
+      </div>
+    </div>
+  </header>
+
 
   <div *ngIf="model" class="offer_body container" id="offer-container">
     <!-- Заявки на обр. связь -->
@@ -151,7 +174,8 @@
 
           <ng-container *ngIf="section.type == 'description'">
             <div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1em; padding-bottom: 1em;">
-              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" class="section_body__image" (click)="goToPage(imgPath)">
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" class="section_body__image"
+                (click)="goToPage(imgPath)">
             </div>
             <div class="ql-container ql-snow" style="border-width: 0">
               <div class="ql-editor" [innerHTML]="getSanitizedData(section.data)"></div>
@@ -166,7 +190,8 @@
 
           <ng-container *ngIf="section.type == 'img'">
             <div>
-              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" class="section_body__image" (click)="goToPage(imgPath)" />
+              <img *ngFor="let imgPath of section.imagePaths" [src]="imgPath" class="section_body__image"
+                (click)="goToPage(imgPath)" />
             </div>
           </ng-container>
 
@@ -175,7 +200,8 @@
     </div>
 
     <div style="display: flex; justify-content: center;">
-      <button mat-button id="download_btn" (click)="download()" style="background-color: #FF9000; color: #fff; width: 300px;">
+      <button mat-button id="download_btn" (click)="download()"
+        style="background-color: #FF9000; color: #fff; width: 300px;">
         Скачать
       </button>
     </div>
