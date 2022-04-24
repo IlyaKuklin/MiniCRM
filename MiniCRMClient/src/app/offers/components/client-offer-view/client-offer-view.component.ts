@@ -13,6 +13,7 @@ import { DialogService } from 'src/app/shared/services/dialog.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { OffersService } from '../../services/offers.service';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'mcrm-client-offer-view',
@@ -33,32 +34,32 @@ export class ClientOfferViewComponent implements OnInit {
   isLoading: boolean = false;
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.isLoading = true;
-
-      this.offersApiService
-        .apiOffersClientOfferGet(params.clientOfferId, params.key)
-        .subscribe((response: OfferClientViewDto) => {
-          if (isDevMode()) {
-            response.sections.forEach((x) => {
-              if (x.type === 'img' || x.type === 'description') {
-                x.imagePaths = x.imagePaths.map(
-                  (p) => `http:\\\\localhost:5000\\${p}`
-                );
-              }
-            });
+    this.route.params.pipe(
+      tap(() => this.isLoading = true),
+      switchMap((params) => 
+        this.offersApiService.apiOffersClientOfferGet(params.clientOfferId, params.key)
+      ),
+    ).subscribe(response => {
+      if (isDevMode()) {
+        response.sections.forEach((x) => {
+          if (x.type === 'img' || x.type === 'description') {
+            x.imagePaths = x.imagePaths.map(
+              (p) => `http:\\\\localhost:5000\\${p}`
+            );
           }
-
-          this.model = response;
-          this.isLoading = false;
-
-          this.model.sections = this.offersService.sortByName(
-            this.model.sections
-          );
-
-          console.log(this.model.sections);
         });
-    });
+      }
+
+      this.model = response;
+      this.isLoading = false;
+
+      this.model.sections = this.offersService.sortByName(
+        this.model.sections
+      );
+
+      console.log(this.model.sections);
+    })
+
   }
 
   get managerEmailLink(): string {

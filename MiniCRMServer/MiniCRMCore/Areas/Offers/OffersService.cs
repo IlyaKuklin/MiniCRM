@@ -604,6 +604,14 @@ namespace MiniCRMCore.Areas.Offers
 					continue;
 				}
 
+                if (sectionName == "otherDocumentation")
+                {
+                    section.Type = "otherDocumentation";
+                    section.Data = textProperty == null ? "" : textProperty.GetValue(versionToDisplay)?.ToString();
+                    dto.Sections.Add(section);
+                    continue;
+				}
+
 				if (textProperty != null)
 				{
 					var value = textProperty.GetValue(versionToDisplay);
@@ -631,7 +639,7 @@ namespace MiniCRMCore.Areas.Offers
 					}
                     if (sectionName == "card")
                     {
-                        section.Type = "img";
+                        section.Type = "img_card";
                         section.ImagePaths = versionToDisplay.FileData.Where(x => x.Type == OfferFileType.Card).Select(x => x.FileDatum.Path).ToList();
                         dto.Sections.Add(section);
                     }
