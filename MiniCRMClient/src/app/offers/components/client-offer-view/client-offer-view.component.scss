@@ -151,6 +151,11 @@ li {
       max-width: 400px;
       max-height: 358px;
       cursor: pointer;
+
+      @media screen and (max-width: 720px) {
+        max-width: 150px;
+        max-height: 150px;
+      }
     }
   }
 }

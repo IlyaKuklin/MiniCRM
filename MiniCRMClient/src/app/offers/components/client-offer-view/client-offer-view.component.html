@@ -86,7 +86,7 @@
         <a href="tel:+7 (812) 309-02-36">+7 (812) 309-02-36</a>
       </div>
       <div class="gr3_email" style="display: flex; justify-content: center; padding-top: 1em;">
-        <img src="assets/static/envelope.png" style="width: 15px; height: 15px; margin-right: 0.5em" />
+        <img src="assets/static/envelope.png" style="height: 15px; margin-right: 0.5em" />
         <a href="mailto:sales@automat-service.ru">sales@automat-service.ru</a>
       </div>
     </div>
@@ -141,10 +141,10 @@
       </div>
     </div>
 
+    <!-- header -->
     <div class="offer_body__header">
-      <div class="offer_body__header-h">
-        <strong>КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</strong> № {{ model.number }} от
-        {{ model.changed | date: "dd.MM.YYYY" }}
+      <div class="offer_body__header-h" style="line-height: 1.6em;">
+        <div><strong>КОММЕРЧЕСКОЕ ПРЕДЛОЖЕНИЕ</strong></div> № {{ model.number }} от {{ model.changed | date: "dd.MM.YYYY" }}
       </div>
 
       <div class="offer_body__header-b">
@@ -161,6 +161,7 @@
       </div>
     </div>
 
+    <!-- body -->
     <div class="offer_body__content">
       <div *ngFor="let section of model.sections" class="section">
         <div class="section_header">
